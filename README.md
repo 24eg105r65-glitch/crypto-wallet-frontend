@@ -1,6 +1,7 @@
 # CryptoVault — Frontend Architecture
 
 **Author:** Adabala Pushkaran (`24EG105R65`)  
+**Repository:** [https://github.com/24eg105r65-glitch/crypto-wallet-frontend](https://github.com/24eg105r65-glitch/crypto-wallet-frontend)  
 **Design Philosophy:** Server-Side Rendered (SSR) HTML5 with Vanilla CSS 3 Design System & High-Performance Vanilla JS Micro-Interactions.
 
 ---
