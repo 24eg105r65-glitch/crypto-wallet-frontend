@@ -150,11 +150,11 @@
     <div id="vault-toast-container" class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-2 pointer-events-none"></div>
 
     <!-- Fixed Left Lateral Navigation Drawer -->
-    <aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest z-50 flex flex-col justify-between py-space-xl px-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.4)] border-r border-surface-container-high/40">
-        <div class="flex flex-col gap-space-xl">
+    <aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest z-50 flex flex-col justify-between py-space-md px-space-md shadow-[0_1px_8px_rgba(0,0,0,0.4)] border-r border-surface-container-high/40 overflow-y-auto overflow-x-hidden">
+        <div class="flex flex-col gap-space-lg">
             <!-- Brand Crest -->
             <div class="flex flex-col gap-space-xs">
-                <a href="/" class="flex items-center gap-2.5 group">
+                <a href="index.html" class="flex items-center gap-2.5 group">
                     <div class="w-9 h-9 rounded-xl bg-primary/10 border border-primary/25 flex items-center justify-center text-primary shadow-[0_0_15px_rgba(121,230,160,0.15)] group-hover:scale-105 transition-transform">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#79E6A0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/>
@@ -169,7 +169,7 @@
                         <span class="font-label-sm text-[10px] text-on-surface-variant tracking-wider uppercase font-mono">WEALTH & RESERVE</span>
                     </div>
                 </a>
-                <a href="/" class="text-[11px] text-outline hover:text-primary transition-colors flex items-center gap-1 mt-1 pl-1">
+                <a href="index.html" class="text-[11px] text-outline hover:text-primary transition-colors flex items-center gap-1 mt-1 pl-1">
                     <i class="fas fa-arrow-left text-[9px]"></i>
                     <span>Back to Landing Page</span>
                 </a>
@@ -177,28 +177,28 @@
 
             <!-- Vault Section Navigation -->
             <nav class="flex flex-col gap-space-xs" id="nav-tabs">
-                <button type="button" onclick="switchTab('reserve')" id="tab-btn-reserve" class="nav-tab-btn px-space-md py-space-sm rounded-lg transition-all bg-surface-container-high text-primary font-bold flex items-center justify-between text-left w-full">
+                <button type="button" onclick="switchTab('reserve')" id="tab-btn-reserve" class="nav-tab-btn px-space-md py-space-sm rounded-lg transition-all bg-surface-container-high text-primary font-bold flex items-center justify-between text-left w-full cursor-pointer">
                     <span class="flex items-center gap-space-sm">
                         <span class="material-symbols-outlined text-[18px]">account_balance</span>
                         <span>Private Reserve</span>
                     </span>
                     <span class="w-1.5 h-1.5 rounded-full bg-primary" id="dot-reserve"></span>
                 </button>
-                <button type="button" onclick="switchTab('timelock')" id="tab-btn-timelock" class="nav-tab-btn px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-all flex items-center justify-between text-left w-full">
+                <button type="button" onclick="switchTab('timelock')" id="tab-btn-timelock" class="nav-tab-btn px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-all flex items-center justify-between text-left w-full cursor-pointer">
                     <span class="flex items-center gap-space-sm">
                         <span class="material-symbols-outlined text-[18px]">timelapse</span>
                         <span>Time-Lock Depository</span>
                     </span>
                     <span class="text-xs text-outline font-mono">14D</span>
                 </button>
-                <button type="button" onclick="switchTab('multisig')" id="tab-btn-multisig" class="nav-tab-btn px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-all flex items-center justify-between text-left w-full">
+                <button type="button" onclick="switchTab('multisig')" id="tab-btn-multisig" class="nav-tab-btn px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-all flex items-center justify-between text-left w-full cursor-pointer">
                     <span class="flex items-center gap-space-sm">
                         <span class="material-symbols-outlined text-[18px]">group_work</span>
                         <span>Multi-Sig Quorum</span>
                     </span>
                     <span class="text-xs text-tertiary font-mono">4/7</span>
                 </button>
-                <button type="button" onclick="switchTab('audit')" id="tab-btn-audit" class="nav-tab-btn px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-all flex items-center justify-between text-left w-full">
+                <button type="button" onclick="switchTab('audit')" id="tab-btn-audit" class="nav-tab-btn px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-all flex items-center justify-between text-left w-full cursor-pointer">
                     <span class="flex items-center gap-space-sm">
                         <span class="material-symbols-outlined text-[18px]">verified</span>
                         <span>Institutional Audit</span>
@@ -208,62 +208,71 @@
             </nav>
 
             <!-- Working Quick Action Palette -->
-            <div class="flex flex-col gap-space-xs pt-space-sm border-t border-surface-container-high/40">
-                <button type="button" onclick="openSendModal()" class="w-full bg-primary-container text-on-primary-container hover:bg-primary font-label-md py-2 px-space-md rounded-lg flex items-center justify-center gap-space-xs transition-all font-semibold shadow-sm active:translate-y-px">
+            <div class="flex flex-col gap-space-xs pt-space-xs border-t border-surface-container-high/40">
+                <button type="button" onclick="openSendModal()" class="w-full bg-primary-container text-on-primary-container hover:bg-primary font-label-md py-2 px-space-md rounded-lg flex items-center justify-center gap-space-xs transition-all font-semibold shadow-sm active:translate-y-px cursor-pointer">
                     <span class="material-symbols-outlined text-[16px]">send</span>
                     <span>Send / Dispatch</span>
                 </button>
-                <button type="button" onclick="openReceiveModal()" class="w-full bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md py-2 px-space-md rounded-lg flex items-center justify-center gap-space-xs transition-all font-semibold">
+                <button type="button" onclick="openReceiveModal()" class="w-full bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md py-2 px-space-md rounded-lg flex items-center justify-center gap-space-xs transition-all font-semibold cursor-pointer">
                     <span class="material-symbols-outlined text-[16px]">qr_code</span>
                     <span>Receive / QR Code</span>
                 </button>
-                <button type="button" onclick="openFaucetModal()" class="w-full bg-surface-container hover:bg-surface-container-high text-tertiary font-label-md py-2 px-space-md rounded-lg flex items-center justify-center gap-space-xs transition-all font-semibold border border-tertiary/20">
+                <button type="button" onclick="openFaucetModal()" class="w-full bg-surface-container hover:bg-surface-container-high text-tertiary font-label-md py-2 px-space-md rounded-lg flex items-center justify-center gap-space-xs transition-all font-semibold border border-tertiary/20 cursor-pointer">
                     <span class="material-symbols-outlined text-[16px]">water_drop</span>
                     <span>Claim Testnet Faucet</span>
                 </button>
             </div>
 
-            <!-- Server Navigation Links -->
+            <!-- Operational Navigation Links & Logout -->
             <div class="flex flex-col gap-space-xs pt-space-xs border-t border-surface-container-high/40">
-                <a th:href="@{/wallets}" href="#reserve" class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-body-sm transition-colors flex items-center justify-between">
+                <button type="button" onclick="switchTab('reserve')" class="px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-body-sm transition-colors flex items-center justify-between cursor-pointer w-full text-left">
                     <span class="flex items-center gap-space-sm">
                         <i class="fas fa-wallet text-[14px]"></i>
                         <span>Manage Wallets</span>
                     </span>
-                    <span class="text-[10px] bg-surface-container px-1 rounded text-outline font-mono" th:text="${summary != null ? summary.walletCount : 5}">5</span>
-                </a>
-                <a th:href="@{/transactions}" href="#audit" class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-body-sm transition-colors flex items-center justify-between">
+                    <span class="text-[10px] bg-surface-container px-1.5 py-0.5 rounded text-outline font-mono">5 Units</span>
+                </button>
+                <button type="button" onclick="switchTab('audit')" class="px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-body-sm transition-colors flex items-center justify-between cursor-pointer w-full text-left">
                     <span class="flex items-center gap-space-sm">
                         <i class="fas fa-list-check text-[14px]"></i>
                         <span>Transactions Ledger</span>
                     </span>
-                    <span class="text-[10px] bg-surface-container px-1 rounded text-outline font-mono">Live</span>
-                </a>
-                <a th:href="@{/admin}" sec:authorize="hasRole('ADMIN')" class="px-space-md py-1.5 rounded-lg text-primary hover:bg-surface-container font-body-sm transition-colors flex items-center justify-between">
+                    <span class="text-[10px] bg-surface-container px-1.5 py-0.5 rounded text-outline font-mono">Live</span>
+                </button>
+                <button type="button" onclick="openAdminModal()" class="px-space-md py-2 rounded-lg text-primary hover:bg-surface-container font-body-sm transition-colors flex items-center justify-between cursor-pointer w-full text-left">
                     <span class="flex items-center gap-space-sm">
                         <i class="fas fa-shield-halved text-[14px]"></i>
                         <span>Admin Citadel</span>
                     </span>
-                    <span class="text-[10px] bg-primary/20 text-primary px-1 rounded font-mono">ROOT</span>
-                </a>
-                <button type="button" onclick="resetDemoState()" class="px-space-md py-1 text-left rounded-lg text-error hover:bg-error/10 font-body-sm transition-colors flex items-center gap-space-sm">
-                    <span class="material-symbols-outlined text-[14px]">restart_alt</span>
+                    <span class="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded font-mono font-bold">ROOT</span>
+                </button>
+                <button type="button" onclick="resetDemoState()" class="px-space-md py-2 text-left rounded-lg text-outline hover:text-on-surface hover:bg-surface-container font-body-sm transition-colors flex items-center gap-space-sm cursor-pointer w-full">
+                    <span class="material-symbols-outlined text-[15px]">restart_alt</span>
                     <span>Reset Vault State</span>
                 </button>
+
+                <!-- Prominent Sidebar Logout Button -->
+                <a href="logout.html" onclick="performLogout(event)" id="sidebar-logout-btn" class="px-space-md py-2.5 rounded-lg bg-error/15 hover:bg-error/25 text-error font-body-sm transition-all flex items-center justify-between border border-error/30 cursor-pointer mt-1 group shadow-sm active:translate-y-px" title="Secure Exit / Logout">
+                    <span class="flex items-center gap-space-sm font-semibold">
+                        <span class="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 transition-transform">logout</span>
+                        <span>Sign Out / Log Out</span>
+                    </span>
+                    <span class="text-[10px] bg-error/20 text-error px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">EXIT</span>
+                </a>
             </div>
         </div>
 
         <!-- Enclave Hardware Health Strip -->
-        <div class="flex flex-col gap-space-sm bg-surface-container-low p-space-md rounded-lg border border-surface-container-high/40">
+        <div class="flex flex-col gap-space-xs bg-surface-container-low p-space-sm rounded-lg border border-surface-container-high/40 mt-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-space-xs">
                     <span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
-                    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-mono">Enclave Status</span>
+                    <span class="font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider font-mono">Enclave Status</span>
                 </div>
                 <span class="text-[10px] text-tertiary font-mono bg-surface-container px-1 rounded">LIVE</span>
             </div>
-            <p class="font-body-sm text-body-sm text-on-surface">Alpine Fort Knox Node VII Active</p>
-            <div class="flex items-center justify-between font-label-sm text-label-sm text-outline font-mono">
+            <p class="font-body-sm text-xs text-on-surface">Alpine Fort Knox Node VII Active</p>
+            <div class="flex items-center justify-between font-label-sm text-[11px] text-outline font-mono">
                 <span>Attestation: Hex-982F</span>
                 <span class="text-tertiary">FIPS 140-3</span>
             </div>
@@ -286,21 +295,56 @@
             </div>
 
             <!-- Aggregated Valuation & User Profile Action -->
-            <div class="flex items-center gap-space-xl">
-                <div class="flex items-baseline gap-space-xs text-right">
+            <div class="flex items-center gap-space-md">
+                <div class="hidden sm:flex items-baseline gap-space-xs text-right mr-2">
                     <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Aggregated Valuation:</span>
                     <span class="font-headline-sm text-headline-sm text-on-surface tabular-nums font-mono font-semibold" id="header-val-chf" th:text="${summary != null ? 'CHF ' + #numbers.formatDecimal(summary.totalBalanceUsd * 0.895, 1, 'COMMA', 2, 'POINT') : 'CHF 4,378,546.80'}">CHF 4,378,546.80</span>
                 </div>
-                <div class="flex items-center gap-space-sm">
-                    <a th:href="@{/profile}" href="#profile" onclick="showToast('Lead Engineer: Adabala Pushkaran (24EG105R65) — Session Active')" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xs shadow-md cursor-pointer hover:scale-105 transition-transform" title="Account Settings">
-                        <span id="user-display-initials" th:text="${user != null ? #strings.substring(user.fullName, 0, 1) : 'AP'}">AP</span>
-                    </a>
-                    <div class="flex flex-col text-left">
-                        <span id="user-display-name" class="font-label-sm text-on-surface font-semibold leading-tight" th:text="${user != null ? user.fullName : 'Pushkaran'}">Pushkaran</span>
-                        <span id="user-display-role" class="text-[10px] text-outline font-mono">24EG105R65</span>
+
+                <!-- User Profile & Sign Out Button Group -->
+                <div class="flex items-center gap-2">
+                    <div class="relative" id="user-profile-menu">
+                        <button type="button" onclick="toggleUserDropdown()" id="user-profile-trigger" class="flex items-center gap-2 bg-surface-container-low hover:bg-surface-container py-1.5 px-2.5 rounded-lg border border-surface-container-high/60 cursor-pointer transition-colors" title="User Profile">
+                            <div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xs shadow-md">
+                                <span id="user-display-initials" th:text="${user != null ? #strings.substring(user.fullName, 0, 1) : 'AP'}">AP</span>
+                            </div>
+                            <div class="flex flex-col text-left">
+                                <span id="user-display-name" class="font-label-sm text-on-surface font-semibold text-xs leading-tight" th:text="${user != null ? user.fullName : 'Pushkaran'}">Pushkaran</span>
+                                <span id="user-display-role" class="text-[9px] text-outline font-mono">24EG105R65</span>
+                            </div>
+                            <span class="material-symbols-outlined text-[16px] text-outline">expand_more</span>
+                        </button>
+
+                        <!-- User Profile Dropdown -->
+                        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-surface-container border border-surface-container-high rounded-xl shadow-2xl p-2 z-50 flex-col gap-1 font-body-sm">
+                            <div class="px-3 py-2 border-b border-surface-container-high/60 mb-1">
+                                <p class="text-xs font-semibold text-on-surface" id="dropdown-full-name">Adabala Pushkaran</p>
+                                <p class="text-[10px] text-outline font-mono">ID: 24EG105R65 • Tier 1 Client</p>
+                            </div>
+                            <button type="button" onclick="switchTab('reserve'); closeUserDropdown();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-surface-container-high text-xs text-on-surface-variant hover:text-on-surface flex items-center gap-2 cursor-pointer">
+                                <span class="material-symbols-outlined text-[16px]">account_balance</span>
+                                <span>Private Reserve</span>
+                            </button>
+                            <button type="button" onclick="switchTab('audit'); closeUserDropdown();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-surface-container-high text-xs text-on-surface-variant hover:text-on-surface flex items-center gap-2 cursor-pointer">
+                                <span class="material-symbols-outlined text-[16px]">verified</span>
+                                <span>Audit Ledger</span>
+                            </button>
+                            <button type="button" onclick="openAdminModal(); closeUserDropdown();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-surface-container-high text-xs text-primary flex items-center gap-2 cursor-pointer">
+                                <span class="material-symbols-outlined text-[16px]">shield</span>
+                                <span>Admin Citadel</span>
+                            </button>
+                            <div class="border-t border-surface-container-high/60 my-1"></div>
+                            <a href="logout.html" onclick="performLogout(event)" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-error/15 text-xs text-error flex items-center gap-2 cursor-pointer font-semibold">
+                                <span class="material-symbols-outlined text-[16px]">logout</span>
+                                <span>Sign Out / Disconnect</span>
+                            </a>
+                        </div>
                     </div>
-                    <a href="javascript:void(0)" onclick="performLogout()" class="text-outline hover:text-error p-1 transition-colors ml-2 cursor-pointer" title="Secure Logout">
-                        <span class="material-symbols-outlined text-[20px]">logout</span>
+
+                    <!-- Header Direct Logout Button -->
+                    <a href="logout.html" onclick="performLogout(event)" id="header-logout-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-error/15 hover:bg-error/25 text-error border border-error/30 transition-all font-mono text-xs font-bold cursor-pointer shadow-sm active:translate-y-px" title="Secure Exit / Logout">
+                        <span class="material-symbols-outlined text-[16px]">logout</span>
+                        <span class="hidden sm:inline">Log Out</span>
                     </a>
                 </div>
             </div>
@@ -546,7 +590,7 @@
                 </section>
 
                 <!-- TAB 2: TIME-LOCK DEPOSITORY -->
-                <section id="view-timelock" class="tab-pane hidden flex-col w-full pb-space-xl">
+                <section id="view-timelock" class="tab-pane hidden flex flex-col w-full pb-space-xl">
                     <div class="flex flex-col gap-space-xs pb-space-lg">
                         <span class="font-label-sm text-outline uppercase tracking-widest font-mono">CRYPTOGRAPHIC TIMELOCK CONTRACTS</span>
                         <h2 class="font-headline-md text-on-surface font-serif">Subterranean Time-Lock Depository</h2>
@@ -623,7 +667,7 @@
                                 </div>
                             </div>
                             <div class="pt-6">
-                                <button type="button" onclick="showToast('Epoch transition manifest validated for Gotthard Node VII.')" class="w-full bg-surface-container-high hover:bg-surface-variant text-on-surface py-2 rounded-lg font-mono text-xs uppercase tracking-wider cursor-pointer">
+                                <button type="button" onclick="openEpochModal()" class="w-full bg-surface-container-high hover:bg-surface-variant text-on-surface py-2 rounded-lg font-mono text-xs uppercase tracking-wider cursor-pointer">
                                     Inspect Epoch Manifest
                                 </button>
                             </div>
@@ -632,7 +676,7 @@
                 </section>
 
                 <!-- TAB 3: MULTI-SIG QUORUM -->
-                <section id="view-multisig" class="tab-pane hidden flex-col w-full pb-space-xl">
+                <section id="view-multisig" class="tab-pane hidden flex flex-col w-full pb-space-xl">
                     <div class="flex flex-col gap-space-xs pb-space-lg">
                         <span class="font-label-sm text-outline uppercase tracking-widest font-mono">CRYPTOGRAPHIC TRUSTEE COUNCIL</span>
                         <h2 class="font-headline-md text-on-surface font-serif">Multi-Sig Trustee Quorum (4 of 7 Threshold)</h2>
@@ -699,7 +743,7 @@
                 </section>
 
                 <!-- TAB 4: INSTITUTIONAL AUDIT -->
-                <section id="view-audit" class="tab-pane hidden flex-col w-full pb-space-xl">
+                <section id="view-audit" class="tab-pane hidden flex flex-col w-full pb-space-xl">
                     <div class="flex flex-col gap-space-xs pb-space-lg">
                         <span class="font-label-sm text-outline uppercase tracking-widest font-mono">REGULATORY COMPLIANCE LEDGER</span>
                         <h2 class="font-headline-md text-on-surface font-serif">Institutional Audit &amp; Merkle Verification</h2>
@@ -917,6 +961,97 @@
                         </div>
                     </div>
                     <button type="button" onclick="closeMerkleModal()" class="w-full bg-primary-container text-on-primary-container font-title-md py-2 rounded-lg hover:bg-primary font-semibold cursor-pointer">Verify &amp; Dismiss</button>
+                </div>
+            </div>
+
+            <!-- MODAL 6: ADMIN CITADEL ROOT CONTROLS -->
+            <div class="fixed inset-0 z-50 bg-surface-container-lowest/85 backdrop-blur-md hidden items-center justify-center p-space-md" id="admin-modal">
+                <div class="bg-surface-container max-w-lg w-full p-space-xl rounded-xl shadow-2xl flex flex-col gap-space-md relative border border-primary/30">
+                    <div class="flex items-center justify-between border-b border-surface-container-high/50 pb-space-sm">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-[24px]">shield_person</span>
+                            <div>
+                                <h3 class="font-headline-sm text-on-surface font-serif text-base font-bold">Citadel Root Authority Console</h3>
+                                <p class="text-[11px] text-outline font-mono">Lead Engineer: Adabala Pushkaran (24EG105R65)</p>
+                            </div>
+                        </div>
+                        <button type="button" class="text-outline hover:text-on-surface cursor-pointer" onclick="closeAdminModal()"><span class="material-symbols-outlined text-[20px]">close</span></button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                        <div class="bg-surface-container-low p-2.5 rounded-lg border border-surface-container-high/50 flex flex-col gap-1">
+                            <span class="text-outline text-[10px]">HSM SECURITY ENCLAVE</span>
+                            <span class="text-primary font-bold">FIPS 140-3 LEVEL 4</span>
+                            <span class="text-[10px] text-tertiary">Tamper Envelope Armed</span>
+                        </div>
+                        <div class="bg-surface-container-low p-2.5 rounded-lg border border-surface-container-high/50 flex flex-col gap-1">
+                            <span class="text-outline text-[10px]">ATTESTATION STATUS</span>
+                            <span class="text-on-surface font-bold">GEN-IV HARDWARE PASS</span>
+                            <span class="text-[10px] text-primary">Zurich-Vaduz-Geneva</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2 font-mono text-xs">
+                        <div class="flex items-center justify-between bg-surface-container-low p-3 rounded-lg border border-surface-container-high">
+                            <div>
+                                <div class="text-on-surface font-bold">Emergency Shard Isolation Lock</div>
+                                <div class="text-[11px] text-outline">Halts automated outgoing transfers immediately</div>
+                            </div>
+                            <button type="button" id="admin-freeze-btn" onclick="toggleEmergencyFreeze()" class="px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer bg-error/20 text-error border border-error/30 hover:bg-error/30">
+                                ARM FREEZE
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-between bg-surface-container-low p-3 rounded-lg border border-surface-container-high">
+                            <div>
+                                <div class="text-on-surface font-bold">Re-Sync Optical Interconnects</div>
+                                <div class="text-[11px] text-outline">Ping Gotthard, Vaduz, and Geneva signer nodes</div>
+                            </div>
+                            <button type="button" onclick="simulateNodeSync()" class="px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer bg-primary-container text-on-primary-container hover:bg-primary">
+                                PING NODES
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2 pt-1">
+                        <button type="button" onclick="exportCsvManifest(); closeAdminModal();" class="w-full bg-surface-container-high hover:bg-surface-variant text-on-surface font-title-md py-2 rounded-lg text-xs font-mono uppercase tracking-wider cursor-pointer">
+                            Export Citadel Manifest (.CSV)
+                        </button>
+                        <button type="button" onclick="closeAdminModal()" class="w-full bg-primary-container text-on-primary-container font-title-md py-2 rounded-lg hover:bg-primary font-semibold text-xs font-mono uppercase tracking-wider cursor-pointer">
+                            Close Console
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL 7: EPOCH MANIFEST -->
+            <div class="fixed inset-0 z-50 bg-surface-container-lowest/85 backdrop-blur-md hidden items-center justify-center p-space-md" id="epoch-modal">
+                <div class="bg-surface-container max-w-md w-full p-space-xl rounded-xl shadow-2xl flex flex-col gap-space-md relative border border-surface-container-high">
+                    <div class="flex items-center justify-between border-b border-surface-container-high/50 pb-space-sm">
+                        <h3 class="font-headline-sm text-on-surface font-serif text-base font-bold">Solana Epoch 692 Transition Manifest</h3>
+                        <button type="button" class="text-outline hover:text-on-surface cursor-pointer" onclick="closeEpochModal()"><span class="material-symbols-outlined text-[20px]">close</span></button>
+                    </div>
+                    <div class="space-y-2 font-mono text-xs">
+                        <div class="bg-surface-container-low p-2.5 rounded-lg border border-surface-container-high flex justify-between">
+                            <span class="text-outline">Current Slot:</span>
+                            <span class="text-primary font-bold">298,419,012</span>
+                        </div>
+                        <div class="bg-surface-container-low p-2.5 rounded-lg border border-surface-container-high flex justify-between">
+                            <span class="text-outline">Epoch Progress:</span>
+                            <span class="text-tertiary font-bold">87.4% (3d 4h remaining)</span>
+                        </div>
+                        <div class="bg-surface-container-low p-2.5 rounded-lg border border-surface-container-high flex justify-between">
+                            <span class="text-outline">Validator Staked:</span>
+                            <span class="text-on-surface font-bold">2,285.00000000 SOL</span>
+                        </div>
+                        <div class="bg-surface-container-low p-2.5 rounded-lg border border-surface-container-high flex justify-between">
+                            <span class="text-outline">Accrued Staking Reward:</span>
+                            <span class="text-primary font-bold">+153.64 SOL (Compounded)</span>
+                        </div>
+                    </div>
+                    <button type="button" onclick="closeEpochModal()" class="w-full bg-primary-container text-on-primary-container font-title-md py-2 rounded-lg hover:bg-primary font-semibold text-xs font-mono uppercase tracking-wider cursor-pointer">
+                        Dismiss Manifest
+                    </button>
                 </div>
             </div>
 
@@ -1214,6 +1349,17 @@
             const asset = appState.balances[code];
             if (asset) {
                 document.getElementById('send-max-available').innerText = `Available: ${formatNumber(asset.balance, 6)} ${asset.code}`;
+                const feeEl = document.getElementById('send-fee');
+                if (feeEl) {
+                    const fees = {
+                        BTC: '0.00012 BTC ($7.92)',
+                        ETH: '0.0018 stETH ($6.30)',
+                        SOL: '0.00005 SOL ($0.01)',
+                        USDT: '1.50 USDT ($1.50)',
+                        XRP: '0.02 XRP ($0.01)'
+                    };
+                    feeEl.innerText = fees[code] || ('0.0001 ' + code);
+                }
             }
         }
 
@@ -1232,6 +1378,10 @@
 
         function handleSendSubmit(e) {
             e.preventDefault();
+            if (emergencyFreezeActive) {
+                showToast("ALERT: Transfer rejected. Citadel Emergency Shard Isolation is engaged!", "gold");
+                return;
+            }
             const code = document.getElementById('send-asset').value;
             const recipient = document.getElementById('send-recipient').value;
             const amount = parseFloat(document.getElementById('send-amount').value);
@@ -1400,8 +1550,15 @@
             document.getElementById('merkle-modal').classList.remove('flex');
         }
 
+        let simulatedSignCount = 4;
         function simulateTrusteeSign() {
-            showToast("Quorum active: 4 of 7 Trustees satisfied (Gotthard, Vaduz, Geneva) ✓", "teal");
+            if (simulatedSignCount < 7) {
+                simulatedSignCount++;
+                showToast(`Trustee Quorum updated: ${simulatedSignCount} of 7 Trustees satisfied (Gotthard, Vaduz, Geneva) ✓`, "teal");
+            } else {
+                simulatedSignCount = 4;
+                showToast("Quorum reset to baseline 4 of 7 Trustees.", "gold");
+            }
         }
 
         function exportCsvManifest() {
@@ -1439,13 +1596,125 @@
             showToast("Downloaded auravault_audit_manifest.csv", "teal");
         }
 
-        function performLogout() {
-            localStorage.removeItem('cryptowallet_session');
-            showToast("Session invalidated securely. Redirecting to sign in...", "teal");
+        function performLogout(e) {
+            if (e && e.preventDefault) {
+                e.preventDefault();
+            }
+            try {
+                localStorage.removeItem('cryptowallet_session');
+                sessionStorage.clear();
+            } catch(err) {
+                console.error(err);
+            }
+            showToast("Session cleared securely. Redirecting to sign in...", "teal");
             setTimeout(() => {
                 window.location.href = 'logout.html';
-            }, 600);
+            }, 250);
         }
+
+        function toggleUserDropdown() {
+            const d = document.getElementById('user-dropdown');
+            if (d) {
+                if (d.classList.contains('hidden')) {
+                    d.classList.remove('hidden');
+                    d.classList.add('flex');
+                } else {
+                    d.classList.add('hidden');
+                    d.classList.remove('flex');
+                }
+            }
+        }
+
+        function closeUserDropdown() {
+            const d = document.getElementById('user-dropdown');
+            if (d) {
+                d.classList.add('hidden');
+                d.classList.remove('flex');
+            }
+        }
+
+        function openAdminModal() {
+            const m = document.getElementById('admin-modal');
+            if (m) {
+                m.classList.remove('hidden');
+                m.classList.add('flex');
+            }
+        }
+
+        function closeAdminModal() {
+            const m = document.getElementById('admin-modal');
+            if (m) {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            }
+        }
+
+        let emergencyFreezeActive = false;
+        function toggleEmergencyFreeze() {
+            emergencyFreezeActive = !emergencyFreezeActive;
+            const btn = document.getElementById('admin-freeze-btn');
+            if (btn) {
+                if (emergencyFreezeActive) {
+                    btn.innerText = 'DISARM FREEZE';
+                    btn.className = 'px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer bg-red-600 text-white shadow-lg animate-pulse';
+                    showToast('CRITICAL: Emergency Shard Isolation Engaged. All transfers locked.', 'gold');
+                } else {
+                    btn.innerText = 'ARM FREEZE';
+                    btn.className = 'px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer bg-error/20 text-error border border-error/30 hover:bg-error/30';
+                    showToast('Emergency Isolation lifted. Normal quorum rules restored.', 'teal');
+                }
+            }
+        }
+
+        function simulateNodeSync() {
+            showToast('Pinging Gotthard ZUR-04 (1.2ms), Vaduz VD-03 (2.4ms), Geneva GN-02 (1.8ms)... All HSM enclaves 100% synchronized ✓', 'teal');
+        }
+
+        function openEpochModal() {
+            const m = document.getElementById('epoch-modal');
+            if (m) {
+                m.classList.remove('hidden');
+                m.classList.add('flex');
+            }
+        }
+
+        function closeEpochModal() {
+            const m = document.getElementById('epoch-modal');
+            if (m) {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            }
+        }
+
+        // Global Modal Backdrop Dismiss & Escape Key Listener
+        window.addEventListener('click', (e) => {
+            const modalIds = ['modal-container', 'send-modal', 'receive-modal', 'faucet-modal', 'merkle-modal', 'admin-modal', 'epoch-modal'];
+            modalIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && e.target === el) {
+                    el.classList.add('hidden');
+                    el.classList.remove('flex');
+                }
+            });
+
+            const profileMenu = document.getElementById('user-profile-menu');
+            if (profileMenu && !profileMenu.contains(e.target)) {
+                closeUserDropdown();
+            }
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                ['modal-container', 'send-modal', 'receive-modal', 'faucet-modal', 'merkle-modal', 'admin-modal', 'epoch-modal'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.classList.add('hidden');
+                        el.classList.remove('flex');
+                    }
+                });
+                closeUserDropdown();
+            }
+        });
 
         // Auto initialize on load
         window.addEventListener('DOMContentLoaded', () => {
@@ -1460,7 +1729,9 @@
                     const nameEl = document.getElementById('user-display-name');
                     const roleEl = document.getElementById('user-display-role');
                     const initialsEl = document.getElementById('user-display-initials');
+                    const dropNameEl = document.getElementById('dropdown-full-name');
                     if (nameEl && session.fullName) nameEl.innerText = session.fullName;
+                    if (dropNameEl && session.fullName) dropNameEl.innerText = session.fullName;
                     if (roleEl && session.role) roleEl.innerText = session.role === 'ROLE_ADMIN' ? 'CITADEL ROOT' : 'CLIENT TIER 1';
                     if (initialsEl && session.fullName) {
                         const parts = session.fullName.trim().split(' ');

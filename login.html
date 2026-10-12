@@ -250,6 +250,7 @@
         }
 
         function handleLoginSubmit(e) {
+            if (e && e.preventDefault) e.preventDefault();
             const user = document.getElementById('usernameInput').value.trim();
             const pass = document.getElementById('passwordInput').value;
             const btn = document.getElementById('submit-btn');

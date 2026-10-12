@@ -222,6 +222,7 @@
         }
 
         function handleRegisterSubmit(e) {
+            if (e && e.preventDefault) e.preventDefault();
             const fullName = document.getElementById('fullNameInput').value.trim();
             const username = document.getElementById('usernameInput').value.trim();
             const email = document.getElementById('emailInput').value.trim();
@@ -230,7 +231,6 @@
             const btn = document.getElementById('submit-btn');
 
             if (pass !== confirmPass) {
-                e.preventDefault();
                 showAlert('Passwords do not match. Please verify both entries.', 'error');
                 return;
             }
