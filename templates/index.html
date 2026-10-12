@@ -1,248 +1,891 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      lang="en">
-<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description=${metaDescription})}"></head>
-<body>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoWallet — Know where your money goes.</title>
+    <meta name="description" content="Track every expense, understand your spending habits, and plan your next financial move with one clear view of your money. Designed for students, young professionals, and conscious savers.">
+    
+    <!-- Google Fonts: Manrope (Display) & Inter (Body & UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<!-- Ticker ribbon -->
-<div th:replace="~{fragments/layout :: ticker-ribbon}"></div>
+    <!-- Tailwind CSS with Reference Design Tokens -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bg: {
+                            main: '#0B0D0C',
+                            secondary: '#111513',
+                            surface: '#161B18',
+                            elevated: '#1D2420'
+                        },
+                        text: {
+                            primary: '#F5F7F5',
+                            secondary: '#A0AAA3',
+                            muted: '#707B73'
+                        },
+                        accent: {
+                            DEFAULT: '#79E6A0',
+                            glow: 'rgba(121, 230, 160, 0.15)',
+                            dim: '#52B876'
+                        },
+                        danger: '#F07878',
+                        border: {
+                            DEFAULT: 'rgba(255, 255, 255, 0.09)',
+                            focus: 'rgba(121, 230, 160, 0.35)'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Manrope', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        };
+    </script>
 
-<!-- Navbar -->
-<div th:replace="~{fragments/layout :: navbar}"></div>
+    <style>
+        /* Custom Fine-Tuned Typography & Motion */
+        body {
+            background-color: #0B0D0C;
+            color: #F5F7F5;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+        }
 
-<main class="main-content">
-    <!-- Hero Section -->
-    <section style="padding: 4rem 0 5rem; text-align: center; position: relative;">
-        <div class="container">
-            <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.35rem 1rem; border-radius: 9999px; margin-bottom: 1.5rem;">
-                <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981;"></span>
-                <span style="font-size: 0.82rem; font-weight: 600; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em;">Institutional-Grade Multi-Asset Vault</span>
+        .font-display {
+            font-family: 'Manrope', sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Subtle Noise Overlay for Film FinTech Texture */
+        .subtle-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        }
+
+        /* Ambient Controlled Illumination (No tacky neon, pure soft depth) */
+        .ambient-soft-glow {
+            background: radial-gradient(circle at 50% 0%, rgba(121, 230, 160, 0.07) 0%, rgba(11, 13, 12, 0) 70%);
+        }
+
+        /* Custom Range Slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: #1D2420;
+            border-radius: 9999px;
+            height: 6px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #79E6A0;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(121, 230, 160, 0.4);
+            border: 2px solid #0B0D0C;
+        }
+    </style>
+</head>
+<body class="selection:bg-accent selection:text-bg-main antialiased relative">
+
+    <!-- Subtle Background Texture -->
+    <div class="fixed inset-0 subtle-grid pointer-events-none z-0 opacity-60"></div>
+    <div class="fixed top-0 inset-x-0 h-[600px] ambient-soft-glow pointer-events-none z-0"></div>
+
+    <!-- 1. REFINED STICKY NAVBAR -->
+    <header id="main-nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-300 py-4 px-6 md:px-12 border-b border-transparent">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand Logo Mark -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-8 h-8 rounded-lg bg-bg-surface border border-border flex items-center justify-center text-accent group-hover:border-accent/50 transition-colors">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 7V17C21 19.2091 19.2091 21 17 21H7C4.79086 21 3 19.2091 3 17V7C3 4.79086 4.79086 3 7 3H17C19.2091 3 21 4.79086 21 7Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 12C16 13.1046 16.8954 14 18 14H21V10H18C16.8954 10 16 10.8954 16 12Z" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="18" cy="12" r="1" fill="currentColor"/>
+                    </svg>
+                </div>
+                <span class="font-display font-bold text-lg tracking-tight text-text-primary">CryptoWallet</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-text-secondary">
+                <a href="#product" class="hover:text-text-primary transition-colors">Product</a>
+                <a href="#features" class="hover:text-text-primary transition-colors">Features</a>
+                <a href="#simulator" class="hover:text-text-primary transition-colors">Simulator</a>
+                <a href="#how-it-works" class="hover:text-text-primary transition-colors">How it works</a>
+                <a href="#security" class="hover:text-text-primary transition-colors">Security</a>
+                <a href="#faq" class="hover:text-text-primary transition-colors">FAQ</a>
+            </nav>
+
+            <!-- Actions & Sovereign Vault Link -->
+            <div class="hidden md:flex items-center gap-4">
+                <a href="dashboard.html" class="text-xs font-mono text-text-muted hover:text-accent transition-colors flex items-center gap-1.5 px-2.5 py-1 rounded bg-bg-surface border border-border">
+                    <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+                    <span>Sovereign Vault UI</span>
+                </a>
+                <a href="#get-started" class="text-sm font-semibold text-text-primary hover:text-accent transition-colors">Log in</a>
+                <a href="#get-started" class="text-xs font-semibold uppercase tracking-wider bg-accent text-bg-main px-4 py-2 rounded-lg hover:bg-accent-dim transition-all shadow-sm font-display">
+                    Start tracking
+                </a>
             </div>
 
-            <h1 style="max-width: 900px; margin: 0 auto 1.5rem; font-weight: 900;">
-                The Sovereign, Server-Rendered <br>
-                <span style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                    Cryptocurrency Wallet Platform
-                </span>
-            </h1>
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-text-secondary hover:text-text-primary p-2">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
 
-            <p style="font-size: 1.2rem; max-width: 720px; margin: 0 auto 2.5rem; color: var(--text-muted);">
-                Engineered with Spring Boot, normalized MySQL persistence, and lightweight reactive islands. Fast first paint on every device, zero bloat, total transparency.
-            </p>
-
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3.5rem;">
-                <a th:href="@{/register}" sec:authorize="!isAuthenticated()" class="btn btn-primary btn-lg">
-                    <i class="fas fa-rocket"></i> Launch Free Vault
-                </a>
-                <a th:href="@{/dashboard}" sec:authorize="isAuthenticated()" class="btn btn-primary btn-lg">
-                    <i class="fas fa-gauge-high"></i> Go to Dashboard
-                </a>
-                <a th:href="@{/about}" class="btn btn-secondary btn-lg">
-                    <i class="fas fa-sitemap"></i> View 5-Layer Architecture
-                </a>
-            </div>
-
-            <!-- Fast Metrics Banner -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 950px; margin: 0 auto;">
-                <div class="glass-card" style="padding: 1.25rem;">
-                    <div style="font-size: 1.85rem; font-weight: 800; color: #10b981; font-family: 'JetBrains Mono', monospace;">100%</div>
-                    <div style="font-size: 0.85rem; color: var(--text-muted);">Server-Rendered HTML</div>
-                </div>
-                <div class="glass-card" style="padding: 1.25rem;">
-                    <div style="font-size: 1.85rem; font-weight: 800; color: #06b6d4; font-family: 'JetBrains Mono', monospace;">&lt; 50ms</div>
-                    <div style="font-size: 0.85rem; color: var(--text-muted);">First Contentful Paint</div>
-                </div>
-                <div class="glass-card" style="padding: 1.25rem;">
-                    <div style="font-size: 1.85rem; font-weight: 800; color: #8b5cf6; font-family: 'JetBrains Mono', monospace;">BCrypt</div>
-                    <div style="font-size: 0.85rem; color: var(--text-muted);">Salted Password Security</div>
-                </div>
-                <div class="glass-card" style="padding: 1.25rem;">
-                    <div style="font-size: 1.85rem; font-weight: 800; color: #f59e0b; font-family: 'JetBrains Mono', monospace;">6 Entities</div>
-                    <div style="font-size: 0.85rem; color: var(--text-muted);">Normalized Relational DB</div>
+        <!-- Mobile Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden pt-4 pb-6 px-4 bg-bg-secondary border-t border-border mt-3 rounded-b-2xl">
+            <div class="flex flex-col gap-4 text-sm font-medium text-text-secondary">
+                <a href="#product" class="hover:text-text-primary py-1">Product</a>
+                <a href="#features" class="hover:text-text-primary py-1">Features</a>
+                <a href="#simulator" class="hover:text-text-primary py-1">Savings Simulator</a>
+                <a href="#how-it-works" class="hover:text-text-primary py-1">How it works</a>
+                <a href="#security" class="hover:text-text-primary py-1">Security</a>
+                <a href="#faq" class="hover:text-text-primary py-1">FAQ</a>
+                <a href="dashboard.html" class="text-accent py-1">Sovereign Vault Depository →</a>
+                <div class="pt-2 flex flex-col gap-2">
+                    <a href="#get-started" class="w-full text-center bg-accent text-bg-main py-2.5 rounded-lg font-semibold font-display">Start tracking free</a>
                 </div>
             </div>
         </div>
-    </section>
+    </header>
 
-    <!-- Interactive Live Converter Island & Market Overview -->
-    <section style="padding: 3rem 0; background: rgba(10, 15, 29, 0.4); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
-        <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; align-items: center;">
-                <!-- Live Converter Island Widget -->
-                <div class="glass-card" style="border-color: rgba(16, 185, 129, 0.3);">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-                        <h3 style="font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-calculator" style="color: var(--primary);"></i> Live Currency Calculator
-                        </h3>
-                        <span style="font-size: 0.72rem; color: var(--primary); background: rgba(16,185,129,0.1); padding: 0.2rem 0.6rem; border-radius: 9999px;">
-                            Auto-Syncing Island
+    <main class="relative z-10 pt-28 md:pt-36">
+
+        <!-- 2. HERO SECTION -->
+        <section class="max-w-7xl mx-auto px-6 md:px-12 pb-24 md:pb-36">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Left Editorial Column -->
+                <div class="lg:col-span-6 flex flex-col gap-6 text-left">
+                    <div class="inline-flex items-center gap-2 self-start bg-bg-surface border border-border px-3 py-1 rounded-full text-xs font-mono text-accent">
+                        <span class="w-2 h-2 rounded-full bg-accent"></span>
+                        <span>Personal Finance &amp; Expense Intelligence</span>
+                    </div>
+
+                    <h1 class="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] leading-[1.02] tracking-tight text-text-primary">
+                        Know where your <span class="text-accent underline decoration-accent/30 underline-offset-8">money</span> goes.
+                    </h1>
+
+                    <p class="text-text-secondary text-lg sm:text-xl font-normal leading-relaxed max-w-xl">
+                        Track every expense, understand your spending habits, and plan your next financial move with one clear view of your money.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                        <a href="#get-started" class="inline-flex items-center justify-center gap-2 bg-accent text-bg-main font-display font-bold text-base px-6 py-3.5 rounded-xl hover:bg-accent-dim transition-all shadow-[0_4px_24px_rgba(121,230,160,0.25)] active:translate-y-px">
+                            <span>Start tracking free</span>
+                            <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                        <a href="#features" class="inline-flex items-center justify-center gap-2 bg-bg-surface hover:bg-bg-elevated text-text-primary font-display font-semibold text-base px-6 py-3.5 rounded-xl border border-border transition-all">
+                            <span>Explore features</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust Statement -->
+                    <div class="flex items-center gap-6 pt-2 text-xs text-text-muted font-medium">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-check text-accent"></i> Built for everyday money decisions
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-lock text-accent"></i> 256-Bit Bank-Grade Privacy
                         </span>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Select Cryptocurrency</label>
-                        <select id="converterCryptoSelect" class="form-select">
-                            <option th:each="c : ${currencies}" th:value="${c.code}" th:text="|${c.name} (${c.code}) - ${c.symbol}|">Bitcoin (BTC)</option>
-                        </select>
-                    </div>
+                <!-- Right Live Financial Dashboard Preview -->
+                <div class="lg:col-span-6 relative">
+                    <!-- Glow Behind Card -->
+                    <div class="absolute -inset-1 bg-gradient-to-r from-accent/10 to-transparent rounded-3xl blur-2xl pointer-events-none"></div>
 
-                    <div class="form-group">
-                        <label class="form-label">Crypto Quantity</label>
-                        <input type="number" id="converterCryptoAmount" class="form-control" value="1.0" step="0.001" min="0.000001">
-                    </div>
-
-                    <div style="background: rgba(6, 9, 17, 0.8); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1rem; margin-top: 1.5rem;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span style="color: var(--text-dim); font-size: 0.85rem;">Indian Rupee Equivalent (₹):</span>
-                            <span id="converterInrResult" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #10b981; font-size: 1.1rem;">₹ 65,50,000.00</span>
+                    <!-- Master Container Card -->
+                    <div class="relative bg-bg-secondary border border-border rounded-2xl p-6 md:p-8 shadow-2xl flex flex-col gap-6">
+                        
+                        <!-- Header Strip -->
+                        <div class="flex items-center justify-between border-b border-border pb-4">
+                            <div class="flex flex-col">
+                                <span class="text-xs uppercase font-mono text-text-muted">Total Liquid Balance</span>
+                                <div class="flex items-baseline gap-2 pt-1">
+                                    <span class="font-display font-bold text-3xl md:text-4xl text-text-primary tabular-nums" id="hero-total-balance">₹84,250.00</span>
+                                    <span class="text-xs font-mono text-accent">+14.2% this month</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 bg-bg-surface px-3 py-1.5 rounded-lg border border-border text-xs text-text-secondary">
+                                <span class="w-2 h-2 rounded-full bg-accent"></span>
+                                <span>Oct 2026 Active</span>
+                            </div>
                         </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span style="color: var(--text-dim); font-size: 0.85rem;">US Dollar Equivalent ($):</span>
-                            <span id="converterUsdResult" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #06b6d4; font-size: 1.1rem;">$ 78,500.00</span>
+
+                        <!-- Metrics Duo: Income vs Expenses -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-bg-surface p-4 rounded-xl border border-border flex flex-col gap-1">
+                                <span class="text-xs font-mono text-text-muted">Total Inflow</span>
+                                <span class="font-display font-bold text-xl text-text-primary tabular-nums">₹1,25,000.00</span>
+                                <span class="text-[11px] text-accent flex items-center gap-1">
+                                    <i class="fas fa-arrow-down-left"></i> Monthly Salary &amp; Freelance
+                                </span>
+                            </div>
+                            <div class="bg-bg-surface p-4 rounded-xl border border-border flex flex-col gap-1">
+                                <span class="text-xs font-mono text-text-muted">Total Expenses</span>
+                                <span class="font-display font-bold text-xl text-danger tabular-nums">₹40,750.00</span>
+                                <span class="text-[11px] text-text-secondary flex items-center gap-1">
+                                    <i class="fas fa-arrow-up-right"></i> 32.6% of income spent
+                                </span>
+                            </div>
                         </div>
+
+                        <!-- Budget Health Visualizer -->
+                        <div class="bg-bg-surface p-4 rounded-xl border border-border flex flex-col gap-2">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-text-secondary font-medium">Monthly Discretionary Budget</span>
+                                <span class="font-mono text-text-primary tabular-nums">₹40,750 / ₹70,000 (58%)</span>
+                            </div>
+                            <div class="w-full h-2 bg-bg-elevated rounded-full overflow-hidden">
+                                <div class="h-full bg-accent rounded-full transition-all duration-1000" style="width: 58%;"></div>
+                            </div>
+                            <div class="flex justify-between text-[11px] text-text-muted">
+                                <span>18 days elapsed</span>
+                                <span class="text-accent font-medium">₹29,250 safe to spend</span>
+                            </div>
+                        </div>
+
+                        <!-- Recent Realistic Indian Transactions -->
+                        <div class="flex flex-col gap-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs uppercase font-mono text-text-muted">Recent Activity</span>
+                                <span class="text-xs text-text-secondary font-mono">Real-time sync</span>
+                            </div>
+                            
+                            <!-- Transaction 1: Food -->
+                            <div class="flex items-center justify-between p-3 rounded-lg bg-bg-surface/80 hover:bg-bg-surface transition-colors border border-border/60">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-lg bg-bg-elevated flex items-center justify-center text-accent text-sm">
+                                        <i class="fas fa-utensils"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-sm font-medium text-text-primary">Swiggy Gourmet</span>
+                                        <span class="text-xs text-text-muted">Food &amp; Dining • Today, 1:45 PM</span>
+                                    </div>
+                                </div>
+                                <span class="text-sm font-semibold font-mono text-danger tabular-nums">-₹840.00</span>
+                            </div>
+
+                            <!-- Transaction 2: Investment SIP -->
+                            <div class="flex items-center justify-between p-3 rounded-lg bg-bg-surface/80 hover:bg-bg-surface transition-colors border border-border/60">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-lg bg-bg-elevated flex items-center justify-center text-accent text-sm">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-sm font-medium text-text-primary">Zerodha Equity Index SIP</span>
+                                        <span class="text-xs text-text-muted">Wealth &amp; Savings • Yesterday</span>
+                                    </div>
+                                </div>
+                                <span class="text-sm font-semibold font-mono text-text-primary tabular-nums">-₹15,000.00</span>
+                            </div>
+
+                            <!-- Transaction 3: Salary Credit -->
+                            <div class="flex items-center justify-between p-3 rounded-lg bg-bg-surface/80 hover:bg-bg-surface transition-colors border border-border/60">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-lg bg-accent/15 text-accent flex items-center justify-center text-sm">
+                                        <i class="fas fa-building-columns"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-sm font-medium text-text-primary">Tech Mahindra Ltd (Salary)</span>
+                                        <span class="text-xs text-text-muted">Inflow • 1st of month</span>
+                                    </div>
+                                </div>
+                                <span class="text-sm font-semibold font-mono text-accent tabular-nums">+₹1,25,000.00</span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-                <!-- Market Rates Table Preview -->
-                <div>
-                    <div style="margin-bottom: 1.5rem;">
-                        <h2 style="margin-bottom: 0.5rem;">Live Market Valuations</h2>
-                        <p>Server-rendered real-time crypto prices with live 24h market movement.</p>
-                    </div>
-
-                    <div class="table-responsive glass-card" style="padding: 0;">
-                        <table class="custom-table">
-                            <thead>
-                                <tr>
-                                    <th>Asset</th>
-                                    <th>Price (INR)</th>
-                                    <th>Price (USD)</th>
-                                    <th>24h Change</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="c : ${currencies}">
-                                    <td>
-                                        <div style="display: flex; align-items: center; gap: 0.65rem;">
-                                            <i th:class="${c.iconClass}" th:style="|color: ${c.badgeColor}; font-size: 1.2rem;|"></i>
-                                            <div>
-                                                <div style="font-weight: 700;" th:text="${c.name}">Bitcoin</div>
-                                                <div style="font-size: 0.75rem; color: var(--text-dim);" th:text="${c.code}">BTC</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="font-mono" th:text="|₹${#numbers.formatDecimal(c.exchangeRateInr, 1, 'COMMA', 2, 'POINT')}|">₹65,50,000.00</td>
-                                    <td class="font-mono" th:text="|$${#numbers.formatDecimal(c.exchangeRateUsd, 1, 'COMMA', 2, 'POINT')}|">$78,500.00</td>
-                                    <td>
-                                        <span class="ticker-change"
-                                              th:classappend="${c.change24h != null and c.change24h >= 0 ? 'up' : 'down'}"
-                                              th:text="|${c.change24h != null and c.change24h >= 0 ? '+' : ''}${c.change24h}%|">+2.45%</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Core Features & Architecture Highlights -->
-    <section style="padding: 5rem 0;">
-        <div class="container">
-            <div style="text-align: center; max-width: 700px; margin: 0 auto 3.5rem;">
-                <h2 style="margin-bottom: 1rem;">Architectural Excellence by Design</h2>
-                <p>Built strictly following clean 5-layer separation of concerns to provide auditability and speed.</p>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                <div class="glass-card">
-                    <div style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 1.3rem; margin-bottom: 1.25rem;">
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <h3 style="margin-bottom: 0.75rem;">5-Layer Clean Architecture</h3>
-                    <p style="font-size: 0.92rem;">
-                        Thymeleaf presentation layer talks strictly to Spring MVC Controllers, Business Services, and JPA Repositories down to MySQL.
-                    </p>
-                </div>
-
-                <div class="glass-card">
-                    <div style="width: 48px; height: 48px; background: rgba(6, 182, 212, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #06b6d4; font-size: 1.3rem; margin-bottom: 1.25rem;">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h3 style="margin-bottom: 0.75rem;">Spring Security 6 Defense</h3>
-                    <p style="font-size: 0.92rem;">
-                        Zero plaintext passwords. Salted BCrypt hashing, synchronized CSRF token verification, and session lifecycle monitoring.
-                    </p>
-                </div>
-
-                <div class="glass-card">
-                    <div style="width: 48px; height: 48px; background: rgba(139, 92, 246, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #8b5cf6; font-size: 1.3rem; margin-bottom: 1.25rem;">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3 style="margin-bottom: 0.75rem;">ACID Atomic Transfers</h3>
-                    <p style="font-size: 0.92rem;">
-                        Every send/receive operation runs inside an isolated Spring <code>@Transactional</code> boundary, guaranteeing zero balance discrepancies.
-                    </p>
-                </div>
-
-                <div class="glass-card">
-                    <div style="width: 48px; height: 48px; background: rgba(245, 158, 11, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #f59e0b; font-size: 1.3rem; margin-bottom: 1.25rem;">
-                        <i class="fas fa-qrcode"></i>
-                    </div>
-                    <h3 style="margin-bottom: 0.75rem;">Instant QR & Faucets</h3>
-                    <p style="font-size: 0.92rem;">
-                        Interactive HTML5 Canvas QR generator for instant address sharing and built-in developer faucets for rapid testing.
-                    </p>
-                </div>
-
-                <div class="glass-card">
-                    <div style="width: 48px; height: 48px; background: rgba(239, 68, 68, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #ef4444; font-size: 1.3rem; margin-bottom: 1.25rem;">
-                        <i class="fas fa-magnifying-glass-chart"></i>
-                    </div>
-                    <h3 style="margin-bottom: 0.75rem;">Full SEO & Crawlability</h3>
-                    <p style="font-size: 0.92rem;">
-                        Server-rendered HTML tags, dynamic XML sitemaps, robots.txt, and OpenGraph metadata ready for top Google rankings.
-                    </p>
-                </div>
-
-                <div class="glass-card">
-                    <div style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 1.3rem; margin-bottom: 1.25rem;">
-                        <i class="fas fa-receipt"></i>
-                    </div>
-                    <h3 style="margin-bottom: 0.75rem;">Blockchain Receipts</h3>
-                    <p style="font-size: 0.92rem;">
-                        Detailed cryptographic transaction explorer with block confirmation counts, gas estimation, and shareable proof of transfer.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Project Attribution & Viva Ready Banner -->
-    <section style="padding: 4rem 0; background: linear-gradient(180deg, transparent 0%, rgba(16, 185, 129, 0.05) 100%);">
-        <div class="container">
-            <div class="glass-card" style="border-color: rgba(16, 185, 129, 0.4); text-align: center; padding: 3rem 2rem;">
-                <h2 style="margin-bottom: 1rem;">Experience the Next Generation of Crypto Wallets</h2>
-                <p style="max-width: 600px; margin: 0 auto 2rem;">
-                    Created by <strong>Adabala Pushkaran</strong> (Roll: <strong>24EG105R65</strong>). Test with pre-funded accounts or create your own custom vaults in seconds.
+        <!-- 3. EDITORIAL STATEMENT BANNER (Cryptowl.io Inspired Impact) -->
+        <section id="product" class="border-y border-border bg-bg-secondary py-20 px-6 md:px-12 relative">
+            <div class="max-w-5xl mx-auto text-center flex flex-col gap-6">
+                <span class="text-xs font-mono text-accent uppercase tracking-widest">A NEW PARADIGM FOR DAILY MONEY</span>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl md:text-5xl leading-tight text-text-primary">
+                    "Before you spend, every rupee faces one question: <br class="hidden sm:inline">
+                    <span class="text-text-secondary">Does this move you closer to financial freedom?</span>"
+                </h2>
+                <p class="text-text-secondary text-base md:text-lg max-w-2xl mx-auto font-normal leading-relaxed">
+                    Most budgeting apps fail because they make you feel guilty about past spending. CryptoWallet helps you make intentional decisions before the money leaves your account.
                 </p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <a th:href="@{/login}" class="btn btn-primary btn-lg">
-                        <i class="fas fa-arrow-right-to-bracket"></i> Sign In to Demo Account
-                    </a>
-                    <a th:href="@{/register}" class="btn btn-secondary btn-lg">
-                        <i class="fas fa-plus"></i> Create New Account
-                    </a>
+            </div>
+        </section>
+
+        <!-- 4. INTERACTIVE SAVINGS & EXPENSE SIMULATOR (Live Island) -->
+        <section id="simulator" class="max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32">
+            <div class="flex flex-col gap-4 text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs font-mono text-accent uppercase tracking-widest">PROACTIVE WEALTH FORECAST</span>
+                <h2 class="font-display font-bold text-3xl md:text-4xl text-text-primary">
+                    Simulate your financial future.
+                </h2>
+                <p class="text-text-secondary text-base">
+                    Adjust your monthly income and target savings allocation to see how small daily habits compound into lifelong wealth.
+                </p>
+            </div>
+
+            <!-- Calculator Card Container -->
+            <div class="bg-bg-secondary border border-border rounded-2xl p-6 md:p-12 shadow-2xl max-w-5xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Controls Column -->
+                    <div class="lg:col-span-6 flex flex-col gap-8">
+                        <!-- Income Slider -->
+                        <div class="flex flex-col gap-3">
+                            <div class="flex justify-between items-baseline">
+                                <label class="text-sm font-medium text-text-secondary">Monthly Net Inflow (Take-Home)</label>
+                                <span class="font-display font-bold text-2xl text-text-primary font-mono" id="slider-income-val">₹75,000</span>
+                            </div>
+                            <input type="range" id="slider-income" min="15000" max="300000" step="5000" value="75000" class="w-full">
+                            <div class="flex justify-between text-[11px] text-text-muted font-mono">
+                                <span>₹15,000 (Student / Fresher)</span>
+                                <span>₹3,00,000 (Senior Lead)</span>
+                            </div>
+                        </div>
+
+                        <!-- Savings Rate Slider -->
+                        <div class="flex flex-col gap-3">
+                            <div class="flex justify-between items-baseline">
+                                <label class="text-sm font-medium text-text-secondary">Target Savings &amp; Investment Rate</label>
+                                <span class="font-display font-bold text-2xl text-accent font-mono" id="slider-rate-val">30%</span>
+                            </div>
+                            <input type="range" id="slider-rate" min="10" max="60" step="5" value="30" class="w-full">
+                            <div class="flex justify-between text-[11px] text-text-muted font-mono">
+                                <span>10% (Baseline buffer)</span>
+                                <span>60% (Aggressive FIRE)</span>
+                            </div>
+                        </div>
+
+                        <!-- Smart 50/30/20 Rule Breakdown -->
+                        <div class="bg-bg-surface p-4 rounded-xl border border-border flex flex-col gap-3 text-xs">
+                            <span class="font-mono text-text-muted uppercase">Recommended Rule-Based Allocation</span>
+                            <div class="grid grid-cols-3 gap-2 text-center">
+                                <div class="bg-bg-elevated p-2 rounded-lg">
+                                    <span class="text-text-muted block text-[10px]">Needs (50%)</span>
+                                    <span class="font-mono font-bold text-text-primary" id="alloc-needs">₹37,500</span>
+                                </div>
+                                <div class="bg-bg-elevated p-2 rounded-lg">
+                                    <span class="text-text-muted block text-[10px]">Wants (20%)</span>
+                                    <span class="font-mono font-bold text-text-primary" id="alloc-wants">₹15,000</span>
+                                </div>
+                                <div class="bg-bg-elevated p-2 rounded-lg border border-accent/30">
+                                    <span class="text-accent block text-[10px]">Savings (30%)</span>
+                                    <span class="font-mono font-bold text-accent" id="alloc-savings">₹22,500</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Output Forecast Column -->
+                    <div class="lg:col-span-6 bg-bg-surface rounded-xl p-6 md:p-8 border border-border flex flex-col justify-between gap-6">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-xs uppercase font-mono text-text-muted">Monthly Retained Wealth</span>
+                            <div class="flex items-baseline gap-2">
+                                <span class="font-display font-extrabold text-3xl md:text-4xl text-accent tabular-nums" id="out-monthly-saved">₹22,500</span>
+                                <span class="text-xs text-text-muted font-mono">per month</span>
+                            </div>
+                            <p class="text-xs text-text-secondary pt-1">
+                                That is <span class="text-text-primary font-semibold font-mono" id="out-annual-saved">₹2,70,000</span> preserved every single year.
+                            </p>
+                        </div>
+
+                        <div class="border-t border-border pt-4 flex flex-col gap-4">
+                            <span class="text-xs uppercase font-mono text-text-muted">Projected Wealth (With 12% p.a. Compounding)</span>
+                            
+                            <div class="grid grid-cols-2 gap-3 font-mono">
+                                <div class="bg-bg-elevated p-3 rounded-lg border border-border">
+                                    <span class="text-xs text-text-muted block">In 3 Years</span>
+                                    <span class="font-bold text-lg text-text-primary" id="out-3yr">₹9.88 Lakhs</span>
+                                </div>
+                                <div class="bg-bg-elevated p-3 rounded-lg border border-accent/20">
+                                    <span class="text-xs text-accent block">In 5 Years</span>
+                                    <span class="font-bold text-lg text-accent" id="out-5yr">₹18.56 Lakhs</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="document.getElementById('get-started').scrollIntoView({behavior: 'smooth'})" class="w-full bg-accent text-bg-main font-display font-bold text-sm py-3 rounded-xl hover:bg-accent-dim transition-colors text-center">
+                            Track towards this target
+                        </button>
+                    </div>
+
                 </div>
             </div>
+        </section>
+
+        <!-- 5. FOUR CORE PRODUCT PILLARS -->
+        <section id="features" class="max-w-7xl mx-auto px-6 md:px-12 py-24 border-t border-border">
+            <div class="flex flex-col gap-4 text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs font-mono text-accent uppercase tracking-widest">DESIGNED WITH DISCIPLINE</span>
+                <h2 class="font-display font-bold text-3xl md:text-4xl text-text-primary">
+                    Every feature serves one goal: Financial Clarity.
+                </h2>
+                <p class="text-text-secondary text-base">
+                    No gimmicky coins, no confusing charts, no upsells. Just pristine tools to keep your daily spending in check.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Feature 1 -->
+                <div class="bg-bg-secondary p-8 rounded-2xl border border-border hover:border-accent/30 transition-all flex flex-col justify-between group">
+                    <div class="flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-bg-surface border border-border flex items-center justify-center text-accent text-xl group-hover:scale-105 transition-transform">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-2xl text-text-primary">Automatic Merchant Intelligence</h3>
+                        <p class="text-text-secondary text-sm leading-relaxed">
+                            Log expenses via UPI screenshot, bank SMS, or instant quick-entry. CryptoWallet auto-classifies merchants like Zomato, Blinkit, Uber, and DMart into pristine buckets.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-border flex items-center justify-between text-xs font-mono text-text-muted">
+                        <span>Zero Manual Tagging</span>
+                        <span class="text-accent">99.4% Accuracy</span>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-bg-secondary p-8 rounded-2xl border border-border hover:border-accent/30 transition-all flex flex-col justify-between group">
+                    <div class="flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-bg-surface border border-border flex items-center justify-center text-accent text-xl group-hover:scale-105 transition-transform">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-2xl text-text-primary">Adaptive Dynamic Budgets</h3>
+                        <p class="text-text-secondary text-sm leading-relaxed">
+                            Set realistic weekly and monthly safety ceilings. Unlike rigid apps, CryptoWallet alerts you gently when weekend dinners are outpacing your monthly limit.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-border flex items-center justify-between text-xs font-mono text-text-muted">
+                        <span>Pacing Velocity Alerts</span>
+                        <span class="text-accent">Zero Guilt-Trips</span>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-bg-secondary p-8 rounded-2xl border border-border hover:border-accent/30 transition-all flex flex-col justify-between group">
+                    <div class="flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-bg-surface border border-border flex items-center justify-center text-accent text-xl group-hover:scale-105 transition-transform">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-2xl text-text-primary">Savings Goal Enclaves</h3>
+                        <p class="text-text-secondary text-sm leading-relaxed">
+                            Create isolated digital vaults for your Emergency Fund, new laptop, or Goa trip. Visually track progress bars that fill automatically as you save.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-border flex items-center justify-between text-xs font-mono text-text-muted">
+                        <span>Separate from Daily Cash</span>
+                        <span class="text-accent">Multi-Goal Tracking</span>
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-bg-secondary p-8 rounded-2xl border border-border hover:border-accent/30 transition-all flex flex-col justify-between group">
+                    <div class="flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-bg-surface border border-border flex items-center justify-center text-accent text-xl group-hover:scale-105 transition-transform">
+                            <i class="fas fa-rotate"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-2xl text-text-primary">Subscription Leakage Auditor</h3>
+                        <p class="text-text-secondary text-sm leading-relaxed">
+                            Uncover forgotten recurring charges across Netflix, Spotify, Amazon Prime, gym memberships, and cloud storage before auto-debit triggers.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-border flex items-center justify-between text-xs font-mono text-text-muted">
+                        <span>Average User Saves ₹3,400/yr</span>
+                        <span class="text-accent">Auto-Renewal Alerts</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 6. HOW IT WORKS TIMELINE -->
+        <section id="how-it-works" class="bg-bg-secondary py-24 border-y border-border px-6 md:px-12">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col gap-4 text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-xs font-mono text-accent uppercase tracking-widest">SEAMLESS ONBOARDING</span>
+                    <h2 class="font-display font-bold text-3xl md:text-4xl text-text-primary">
+                        Clarity in three simple steps.
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Step 1 -->
+                    <div class="flex flex-col gap-4 bg-bg-surface p-6 rounded-2xl border border-border">
+                        <span class="w-8 h-8 rounded-full bg-accent text-bg-main font-display font-bold flex items-center justify-center text-sm">01</span>
+                        <h4 class="font-display font-bold text-xl text-text-primary">Capture Every Rupee</h4>
+                        <p class="text-text-secondary text-sm leading-relaxed">
+                            Log expenses effortlessly with 1-second quick entry, UPI receipt scan, or automated CSV statement imports.
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex flex-col gap-4 bg-bg-surface p-6 rounded-2xl border border-border">
+                        <span class="w-8 h-8 rounded-full bg-accent text-bg-main font-display font-bold flex items-center justify-center text-sm">02</span>
+                        <h4 class="font-display font-bold text-xl text-text-primary">Discover Hidden Habits</h4>
+                        <p class="text-text-secondary text-sm leading-relaxed">
+                            Watch your spending organize into intuitive categories. See exactly what percentage goes to essentials versus dining out.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex flex-col gap-4 bg-bg-surface p-6 rounded-2xl border border-border">
+                        <span class="w-8 h-8 rounded-full bg-accent text-bg-main font-display font-bold flex items-center justify-center text-sm">03</span>
+                        <h4 class="font-display font-bold text-xl text-text-primary">Grow Your Net Worth</h4>
+                        <p class="text-text-secondary text-sm leading-relaxed">
+                            Put surplus cash into emergency funds or SIPs. Make every future financial commitment with calm confidence.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. SECURITY & INTEGRITY -->
+        <section id="security" class="max-w-7xl mx-auto px-6 md:px-12 py-24">
+            <div class="bg-gradient-to-br from-bg-secondary via-bg-surface to-bg-secondary p-8 md:p-14 rounded-3xl border border-border flex flex-col md:flex-row items-center justify-between gap-10">
+                <div class="flex flex-col gap-4 max-w-xl">
+                    <div class="inline-flex items-center gap-2 text-xs font-mono text-accent">
+                        <i class="fas fa-shield-halved"></i>
+                        <span>BANK-GRADE PRIVACY PROTOCOL</span>
+                    </div>
+                    <h2 class="font-display font-bold text-3xl md:text-4xl text-text-primary">
+                        Your financial data belongs exclusively to you.
+                    </h2>
+                    <p class="text-text-secondary text-sm md:text-base leading-relaxed">
+                        We never sell, rent, or monetize your transaction logs to advertisers or credit lenders. End-to-end encrypted with AES-256 and client-side biometric authentication.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2 text-xs font-mono text-text-muted">
+                        <span>✓ Zero Ad Trackers</span>
+                        <span>✓ Export CSV Anytime</span>
+                        <span>✓ One-Click Account Purge</span>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-auto flex flex-col gap-3 min-w-[280px]">
+                    <div class="bg-bg-elevated p-4 rounded-xl border border-border flex items-center gap-3">
+                        <i class="fas fa-key text-accent text-lg"></i>
+                        <div>
+                            <span class="text-xs font-medium text-text-primary block">Client-Side Encryption</span>
+                            <span class="text-[11px] text-text-muted">Zero-knowledge storage enclave</span>
+                        </div>
+                    </div>
+                    <div class="bg-bg-elevated p-4 rounded-xl border border-border flex items-center gap-3">
+                        <i class="fas fa-server text-accent text-lg"></i>
+                        <div>
+                            <span class="text-xs font-medium text-text-primary block">Indian Data Sovereignty</span>
+                            <span class="text-[11px] text-text-muted">Compliant with DPDP Act 2023</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. SOCIAL PROOF & USER STORIES -->
+        <section class="max-w-7xl mx-auto px-6 md:px-12 py-16">
+            <div class="text-center max-w-xl mx-auto mb-12">
+                <span class="text-xs font-mono text-accent uppercase tracking-widest">REAL PERSPECTIVES</span>
+                <h2 class="font-display font-bold text-3xl text-text-primary pt-2">Built for every financial stage.</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Testimonial 1 -->
+                <div class="bg-bg-secondary p-6 rounded-2xl border border-border flex flex-col justify-between gap-6">
+                    <p class="text-text-secondary text-sm leading-relaxed italic">
+                        "As a B.Tech student managing a ₹9,000 monthly allowance in Hyderabad, I used to run dry by the 20th. CryptoWallet helped me spot that late-night food deliveries were taking 40% of my money."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-accent/20 text-accent font-bold text-xs flex items-center justify-center font-display">AK</div>
+                        <div class="flex flex-col">
+                            <span class="text-sm font-semibold text-text-primary">Ananya Krishna</span>
+                            <span class="text-xs text-text-muted">Student, IIT Hyderabad</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-bg-secondary p-6 rounded-2xl border border-border flex flex-col justify-between gap-6">
+                    <p class="text-text-secondary text-sm leading-relaxed italic">
+                        "Got my first software job in Bengaluru and salary just vanished every month. The subscription auditor alone saved me ₹800/month. Saved ₹2.4 Lakhs for my emergency fund this year."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-accent/20 text-accent font-bold text-xs flex items-center justify-center font-display">RV</div>
+                        <div class="flex flex-col">
+                            <span class="text-sm font-semibold text-text-primary">Rahul Varma</span>
+                            <span class="text-xs text-text-muted">Frontend Dev, Koramangala</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-bg-secondary p-6 rounded-2xl border border-border flex flex-col justify-between gap-6">
+                    <p class="text-text-secondary text-sm leading-relaxed italic">
+                        "The dark editorial aesthetic is so calm. Most finance apps yell at you with red warning badges. CryptoWallet makes reviewing monthly numbers feel like a mindful Sunday evening ritual."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-accent/20 text-accent font-bold text-xs flex items-center justify-center font-display">PM</div>
+                        <div class="flex flex-col">
+                            <span class="text-sm font-semibold text-text-primary">Pooja Menon</span>
+                            <span class="text-xs text-text-muted">Product Designer, Pune</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FREQUENTLY ASKED QUESTIONS ACCORDION -->
+        <section id="faq" class="max-w-4xl mx-auto px-6 md:px-12 py-24 border-t border-border">
+            <div class="text-center mb-12">
+                <span class="text-xs font-mono text-accent uppercase tracking-widest">TRANSPARENCY</span>
+                <h2 class="font-display font-bold text-3xl md:text-4xl text-text-primary pt-2">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="flex flex-col gap-3" id="faq-container">
+                <!-- FAQ 1 -->
+                <div class="bg-bg-secondary rounded-xl border border-border overflow-hidden">
+                    <button class="faq-toggle w-full p-5 text-left flex items-center justify-between text-text-primary font-medium text-base hover:text-accent transition-colors">
+                        <span>Why the name "CryptoWallet" if it's personal finance?</span>
+                        <i class="fas fa-plus text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5 text-text-secondary text-sm leading-relaxed border-t border-border/40 pt-3">
+                        "Crypto" refers to our core cryptographic privacy principle: your financial ledger is sealed with client-side zero-knowledge encryption. While we support tracking digital assets, the core platform is built for daily fiat expenses, monthly salaries, budgets, and savings goals.
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="bg-bg-secondary rounded-xl border border-border overflow-hidden">
+                    <button class="faq-toggle w-full p-5 text-left flex items-center justify-between text-text-primary font-medium text-base hover:text-accent transition-colors">
+                        <span>Is CryptoWallet free to use?</span>
+                        <i class="fas fa-plus text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5 text-text-secondary text-sm leading-relaxed border-t border-border/40 pt-3">
+                        Yes! The core tracking, unlimited manual expense logs, category insights, and savings simulators are completely free forever. Premium tiers offer automated multi-bank statement parsers and advanced multi-year projections.
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="bg-bg-secondary rounded-xl border border-border overflow-hidden">
+                    <button class="faq-toggle w-full p-5 text-left flex items-center justify-between text-text-primary font-medium text-base hover:text-accent transition-colors">
+                        <span>Does CryptoWallet require my net-banking password?</span>
+                        <i class="fas fa-plus text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5 text-text-secondary text-sm leading-relaxed border-t border-border/40 pt-3">
+                        Never. CryptoWallet will never ask for your banking credentials, UPI PIN, or OTPs. All synchronization is read-only via standard regulated Account Aggregator protocols or manual encrypted statement imports.
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="bg-bg-secondary rounded-xl border border-border overflow-hidden">
+                    <button class="faq-toggle w-full p-5 text-left flex items-center justify-between text-text-primary font-medium text-base hover:text-accent transition-colors">
+                        <span>Can I export my financial data if I decide to leave?</span>
+                        <i class="fas fa-plus text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-5 text-text-secondary text-sm leading-relaxed border-t border-border/40 pt-3">
+                        Absolutely. With one click, download your entire spending history, category breakdowns, and goal records as an unencrypted CSV or JSON file. No vendor lock-in, ever.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. FINAL CONVERSION CALL TO ACTION -->
+        <section id="get-started" class="max-w-5xl mx-auto px-6 md:px-12 py-20 mb-20">
+            <div class="bg-gradient-to-b from-bg-surface to-bg-secondary p-10 md:p-16 rounded-3xl border border-border text-center flex flex-col items-center gap-6 relative overflow-hidden shadow-2xl">
+                <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <span class="text-xs font-mono text-accent uppercase tracking-widest">START IN UNDER 60 SECONDS</span>
+                <h2 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-text-primary max-w-xl leading-tight">
+                    Take full control of your financial life.
+                </h2>
+                <p class="text-text-secondary text-base max-w-md">
+                    Join thousands of conscious spenders who finally know where their money goes.
+                </p>
+
+                <!-- Interactive Email Signup / CTA Form -->
+                <form id="cta-form" onsubmit="handleCtaSubmit(event)" class="w-full max-w-md flex flex-col sm:flex-row gap-3 pt-2">
+                    <input type="email" id="cta-email" required placeholder="Enter your email address" class="w-full bg-bg-elevated border border-border text-text-primary px-4 py-3.5 rounded-xl text-sm focus:border-accent focus:outline-none placeholder:text-text-muted">
+                    <button type="submit" class="bg-accent text-bg-main font-display font-bold text-sm px-6 py-3.5 rounded-xl hover:bg-accent-dim transition-all shrink-0">
+                        Get Started Free
+                    </button>
+                </form>
+
+                <div class="flex items-center gap-6 text-xs text-text-muted font-mono pt-2">
+                    <span>✓ No credit card required</span>
+                    <span>✓ Free forever tier</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 11. EDITORIAL FINTECH FOOTER -->
+    <footer class="border-t border-border bg-bg-secondary py-16 px-6 md:px-12 text-xs text-text-muted">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded bg-accent/20 text-accent flex items-center justify-center font-bold text-[10px]">CW</div>
+                    <span class="font-display font-bold text-sm text-text-primary">CryptoWallet</span>
+                </div>
+                <p class="text-text-muted max-w-sm">
+                    Intelligent personal money management &amp; expense intelligence for conscious savers.
+                </p>
+                <span class="text-[11px] text-text-muted pt-1">
+                    Lead Engineer: <strong>Adabala Pushkaran (24EG105R65)</strong> • Project: <code>crypto-vault-8b252</code>
+                </span>
+            </div>
+
+            <!-- Links & Compliance -->
+            <div class="flex flex-wrap gap-8 text-text-secondary font-medium">
+                <a href="#product" class="hover:text-text-primary transition-colors">Product</a>
+                <a href="#features" class="hover:text-text-primary transition-colors">Features</a>
+                <a href="#security" class="hover:text-text-primary transition-colors">Privacy</a>
+                <a href="dashboard.html" class="hover:text-accent transition-colors">Sovereign Vault</a>
+                <a href="https://github.com/24eg105r65-glitch/crypto-wallet" target="_blank" class="hover:text-text-primary transition-colors">Backend Source</a>
+                <a href="https://github.com/24eg105r65-glitch/crypto-wallet-frontend" target="_blank" class="hover:text-text-primary transition-colors">Frontend Source</a>
+            </div>
         </div>
-    </section>
-</main>
 
-<!-- Footer -->
-<div th:replace="~{fragments/layout :: footer}"></div>
+        <div class="max-w-7xl mx-auto border-t border-border/40 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px]">
+            <span>© 2026 CryptoWallet Technologies. All rights reserved.</span>
+            <span>Designed with editorial restraint. Zero financial advice.</span>
+        </div>
+    </footer>
 
+    <!-- Interactive Client-Side Engine -->
+    <script>
+        // 1. Sticky Navigation Blur on Scroll
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 30) {
+                nav.classList.add('backdrop-blur-md', 'bg-bg-main/80', 'border-border', 'py-3');
+                nav.classList.remove('py-4', 'border-transparent');
+            } else {
+                nav.classList.remove('backdrop-blur-md', 'bg-bg-main/80', 'border-border', 'py-3');
+                nav.classList.add('py-4', 'border-transparent');
+            }
+        });
+
+        // 2. Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 3. Savings & Wealth Simulator Engine
+        const sliderIncome = document.getElementById('slider-income');
+        const sliderRate = document.getElementById('slider-rate');
+        const incomeValDisplay = document.getElementById('slider-income-val');
+        const rateValDisplay = document.getElementById('slider-rate-val');
+
+        const allocNeeds = document.getElementById('alloc-needs');
+        const allocWants = document.getElementById('alloc-wants');
+        const allocSavings = document.getElementById('alloc-savings');
+
+        const outMonthlySaved = document.getElementById('out-monthly-saved');
+        const outAnnualSaved = document.getElementById('out-annual-saved');
+        const out3yr = document.getElementById('out-3yr');
+        const out5yr = document.getElementById('out-5yr');
+
+        function formatInr(val) {
+            return '₹' + Math.round(val).toLocaleString('en-IN');
+        }
+
+        function formatLakhs(val) {
+            const lakhs = (val / 100000).toFixed(2);
+            return `₹${lakhs} Lakhs`;
+        }
+
+        function updateSimulator() {
+            const income = parseFloat(sliderIncome.value);
+            const rate = parseFloat(sliderRate.value) / 100;
+
+            incomeValDisplay.innerText = formatInr(income);
+            rateValDisplay.innerText = Math.round(rate * 100) + '%';
+
+            // 50/30/20 adjustment
+            const needs = income * 0.50;
+            const wants = income * (1 - 0.50 - rate);
+            const savedMonthly = income * rate;
+
+            allocNeeds.innerText = formatInr(needs);
+            allocWants.innerText = formatInr(Math.max(wants, 0));
+            allocSavings.innerText = formatInr(savedMonthly);
+
+            outMonthlySaved.innerText = formatInr(savedMonthly);
+            outAnnualSaved.innerText = formatInr(savedMonthly * 12);
+
+            // Compound calculation: FV = P * [ ((1+r)^n - 1) / r ] * (1+r) at 12% annual = 1% monthly
+            const monthlyRate = 0.12 / 12;
+            const n3 = 36;
+            const fv3 = savedMonthly * ((Math.pow(1 + monthlyRate, n3) - 1) / monthlyRate) * (1 + monthlyRate);
+            const n5 = 60;
+            const fv5 = savedMonthly * ((Math.pow(1 + monthlyRate, n5) - 1) / monthlyRate) * (1 + monthlyRate);
+
+            out3yr.innerText = formatLakhs(fv3);
+            out5yr.innerText = formatLakhs(fv5);
+        }
+
+        sliderIncome.addEventListener('input', updateSimulator);
+        sliderRate.addEventListener('input', updateSimulator);
+        updateSimulator();
+
+        // 4. FAQ Accordion Toggles
+        document.querySelectorAll('.faq-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('i');
+                const isOpen = !content.classList.contains('hidden');
+
+                // Close others
+                document.querySelectorAll('.faq-content').forEach(c => c.classList.add('hidden'));
+                document.querySelectorAll('.faq-toggle i').forEach(ic => {
+                    ic.classList.remove('rotate-45');
+                    ic.classList.add('fa-plus');
+                });
+
+                if (!isOpen) {
+                    content.classList.remove('hidden');
+                    icon.classList.add('rotate-45');
+                }
+            });
+        });
+
+        // 5. CTA Form Feedback
+        function handleCtaSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('cta-email').value;
+            alert(`Welcome to CryptoWallet! An invite has been dispatched to ${email}. Redirecting to live tracking workspace...`);
+            window.location.href = 'dashboard.html';
+        }
+    </script>
 </body>
 </html>
