@@ -37,12 +37,12 @@
             </div>
 
             <div th:each="n : ${notifications}" class="glass-card"
-                 th:style="${!n.read ? 'border-left: 4px solid var(--primary); background: rgba(20, 30, 55, 0.85);' : ''}"
+                 th:style="${!n.read ? 'border-left: 3px solid var(--primary); background: #19201c;' : ''}"
                  style="padding: 1.25rem 1.5rem;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
                     <div style="display: flex; gap: 1rem; align-items: flex-start;">
                         <div style="width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;"
-                             th:style="${n.type.name() == 'TX_SUCCESS' || n.type.name() == 'TX_RECEIVED' || n.type.name() == 'DEPOSIT_CONFIRMED' ? 'background: rgba(16,185,129,0.15); color: #10b981;' : (n.type.name() == 'SECURITY_ALERT' ? 'background: rgba(239,68,68,0.15); color: #ef4444;' : 'background: rgba(6,182,212,0.15); color: #06b6d4;')}">
+                             th:style="${n.type.name() == 'TX_SUCCESS' || n.type.name() == 'TX_RECEIVED' || n.type.name() == 'DEPOSIT_CONFIRMED' ? 'background: rgba(121,230,160,0.15); color: #79E6A0;' : (n.type.name() == 'SECURITY_ALERT' ? 'background: rgba(240,120,120,0.15); color: #F07878;' : 'background: rgba(255,255,255,0.06); color: #A0AAA3;')}">
                             <i th:class="${n.type.name() == 'TX_SUCCESS' || n.type.name() == 'TX_RECEIVED' || n.type.name() == 'DEPOSIT_CONFIRMED' ? 'fas fa-arrow-down-to-bracket' : (n.type.name() == 'SECURITY_ALERT' ? 'fas fa-shield-halved' : 'fas fa-info-circle')}"></i>
                         </div>
                         <div>

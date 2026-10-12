@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       lang="en">
-<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description=${metaDescription})}"></head>
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle != null ? pageTitle : 'FAQ — CryptoWallet'}, description='Frequently asked questions about CryptoWallet personal money management and wealth custody')}"></head>
 <body>
 
 <div th:replace="~{fragments/layout :: navbar}"></div>
@@ -9,36 +9,39 @@
 <main class="main-content">
     <div class="container" style="max-width: 860px;">
         <div style="margin-bottom: 2.5rem; text-align: center;">
-            <h1>Frequently Asked Questions</h1>
-            <p>Everything you need to know about CryptoVault's security, wallets, and transfers.</p>
+            <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(121, 230, 160, 0.1); border: 1px solid rgba(121, 230, 160, 0.25); padding: 0.35rem 1rem; border-radius: 9999px; margin-bottom: 1rem;">
+                <span style="font-size: 0.75rem; font-weight: 700; color: #79E6A0; text-transform: uppercase; letter-spacing: 0.05em;">Help & Knowledge Center</span>
+            </div>
+            <h1 style="font-size: 2.2rem; font-family: 'Manrope', sans-serif;">Frequently Asked Questions</h1>
+            <p style="color: var(--text-muted); font-size: 1rem;">Everything you need to know about CryptoWallet's tracking, security, enclaves, and personal finance features.</p>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div style="display: flex; flex-direction: column; gap: 1.25rem;">
             <div class="glass-card">
-                <h3 style="margin-bottom: 0.5rem; color: #10b981;">How are crypto balances stored and verified?</h3>
+                <h3 style="margin-bottom: 0.5rem; color: #79E6A0; font-family: 'Manrope', sans-serif;">How does CryptoWallet track my spending and calculate savings?</h3>
                 <p>
-                    Every wallet balance is denominated in a specific cryptocurrency and tracked with high precision (8 decimal places) in the relational MySQL schema. When a user sends funds, an atomic database transaction deducts the sender's balance and credits the receiver's balance simultaneously.
+                    Every expense, recurring bill, and allowance is categorized in real time. The platform calculates your 50/30/20 budget envelope (Needs, Wants, Savings) and projects your compound growth at 12% p.a., keeping you in control of every rupee.
                 </p>
             </div>
 
             <div class="glass-card">
-                <h3 style="margin-bottom: 0.5rem; color: #06b6d4;">What are the network fees for transactions?</h3>
+                <h3 style="margin-bottom: 0.5rem; color: #79E6A0; font-family: 'Manrope', sans-serif;">How are digital asset and cryptocurrency balances secured?</h3>
                 <p>
-                    Network fees are calculated based on the respective blockchain network rules (e.g. 0.00005 BTC, 0.0008 ETH, 0.00002 SOL). The fee is clearly displayed and deducted at confirmation time.
+                    CryptoWallet balances are denominated in both fiat (INR ₹) and digital assets (BTC, ETH, SOL, USDT) with precision arithmetic (8 decimal places) in the relational schema. All transfers are executed atomically to eliminate double-spend risks.
                 </p>
             </div>
 
             <div class="glass-card">
-                <h3 style="margin-bottom: 0.5rem; color: #8b5cf6;">Can I claim free testnet cryptocurrency?</h3>
+                <h3 style="margin-bottom: 0.5rem; color: #79E6A0; font-family: 'Manrope', sans-serif;">Is my personal and financial data private?</h3>
                 <p>
-                    Yes! Each wallet has a built-in Developer Faucet button. Simply visit your wallet details page and click <strong>Claim Faucet Airdrop</strong> to receive instant testnet crypto for testing transfers.
+                    Yes. CryptoWallet complies with DPDP Act 2023 standards. Passwords are never stored in plaintext and are salted with BCrypt. We never sell your transaction history or share telemetry with third-party advertisers.
                 </p>
             </div>
 
             <div class="glass-card">
-                <h3 style="margin-bottom: 0.5rem; color: #f59e0b;">How is user authentication secured?</h3>
+                <h3 style="margin-bottom: 0.5rem; color: #79E6A0; font-family: 'Manrope', sans-serif;">Can I claim free testnet funds for experimentation?</h3>
                 <p>
-                    Passwords are never stored in plaintext. They are salted and hashed using BCrypt at write time. Spring Security filter chains validate every protected route and enforce CSRF token verification on all form submissions.
+                    Yes! Each asset enclave features an instant testnet faucet. Simply visit your wallet details page or use the quick action menu on the Private Reserve dashboard to claim test funds.
                 </p>
             </div>
         </div>

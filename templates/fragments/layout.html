@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      lang="en">
+      lang="en" class="scroll-smooth">
 <head th:fragment="html-head(title, description)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:text="${title != null ? title : 'CryptoVault — Next-Gen Server-Rendered Wallet Platform'}">CryptoVault</title>
-    <meta name="description" th:content="${description != null ? description : 'CryptoVault is an auditable, high-performance cryptocurrency wallet platform by Adabala Pushkaran (24EG105R65).'}">
+    <title th:text="${title != null ? title : 'CryptoWallet — Know where your money goes.'}">CryptoWallet — Know where your money goes.</title>
+    <meta name="description" th:content="${description != null ? description : 'CryptoWallet is an intelligent personal money management and wealth custody platform by Adabala Pushkaran (24EG105R65).'}">
     <meta name="author" content="Adabala Pushkaran (24EG105R65)">
     <meta name="robots" content="index, follow">
 
     <!-- OpenGraph SEO Tags -->
-    <meta property="og:title" th:content="${title != null ? title : 'CryptoVault — Cryptocurrency Platform'}">
-    <meta property="og:description" th:content="${description != null ? description : 'Server-rendered high-performance cryptocurrency wallet.'}">
+    <meta property="og:title" th:content="${title != null ? title : 'CryptoWallet — Personal Finance & Wealth Vault'}">
+    <meta property="og:description" th:content="${description != null ? description : 'Track every rupee, understand spending habits, and secure your digital assets.'}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cryptovault.io/">
+
+    <!-- Google Fonts: Manrope (Display) & Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Main Stylesheet -->
+    <!-- Main Stylesheet with CryptoWallet Design Tokens -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
@@ -51,52 +56,63 @@
 <!-- Top Navigation Bar -->
 <header class="navbar" th:fragment="navbar">
     <div class="container nav-container">
-        <a th:href="@{/}" class="brand-logo">
-            <div class="brand-icon"><i class="fas fa-shield-halved"></i></div>
-            <span>CryptoVault</span>
-            <span class="brand-badge">V1.0</span>
+        <!-- Brand Wordmark + Geometric Logo Mark -->
+        <a th:href="@{/}" href="/" class="brand-logo">
+            <div class="brand-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#79E6A0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/>
+                    <circle cx="17" cy="14" r="1" fill="#79E6A0"/>
+                </svg>
+            </div>
+            <span>CryptoWallet</span>
+            <span class="brand-badge">PRO</span>
         </a>
 
         <!-- Public / Guest Nav -->
         <ul class="nav-links" sec:authorize="!isAuthenticated()">
-            <li><a th:href="@{/}" class="nav-link">Home</a></li>
-            <li><a th:href="@{/about}" class="nav-link">Architecture & Specs</a></li>
-            <li><a th:href="@{/faq}" class="nav-link">FAQ</a></li>
+            <li><a th:href="@{/}" href="/" class="nav-link">Overview</a></li>
+            <li><a th:href="@{/#features}" href="/#features" class="nav-link">Features</a></li>
+            <li><a th:href="@{/#how-it-works}" href="/#how-it-works" class="nav-link">How It Works</a></li>
+            <li><a th:href="@{/dashboard}" href="/dashboard.html" class="nav-link" style="color: #79E6A0;">
+                <i class="fas fa-vault" style="font-size: 0.8rem; margin-right: 0.25rem;"></i> Private Reserve
+            </a></li>
+            <li><a th:href="@{/faq}" href="/faq.html" class="nav-link">FAQ</a></li>
+            <li><a th:href="@{/about}" href="/about.html" class="nav-link">Architecture</a></li>
         </ul>
 
         <!-- Authenticated User Nav -->
         <ul class="nav-links" sec:authorize="isAuthenticated()">
-            <li><a th:href="@{/dashboard}" class="nav-link"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
-            <li><a th:href="@{/wallets}" class="nav-link"><i class="fas fa-wallet"></i> Wallets</a></li>
-            <li><a th:href="@{/transactions}" class="nav-link"><i class="fas fa-arrow-right-arrow-left"></i> Transactions</a></li>
-            <li><a th:href="@{/transactions/send}" class="nav-link"><i class="fas fa-paper-plane"></i> Send</a></li>
-            <li><a th:href="@{/transactions/receive}" class="nav-link"><i class="fas fa-qrcode"></i> Receive</a></li>
+            <li><a th:href="@{/dashboard}" href="/dashboard.html" class="nav-link"><i class="fas fa-chart-pie" style="color: #79E6A0;"></i> Dashboard</a></li>
+            <li><a th:href="@{/wallets}" href="/wallets" class="nav-link"><i class="fas fa-wallet"></i> Enclaves</a></li>
+            <li><a th:href="@{/transactions}" href="/transactions" class="nav-link"><i class="fas fa-arrow-right-arrow-left"></i> Ledger</a></li>
+            <li><a th:href="@{/transactions/send}" href="/transactions/send" class="nav-link"><i class="fas fa-paper-plane"></i> Send</a></li>
+            <li><a th:href="@{/transactions/receive}" href="/transactions/receive" class="nav-link"><i class="fas fa-qrcode"></i> Receive</a></li>
             <li sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/admin}" class="nav-link" style="color: #06b6d4;"><i class="fas fa-user-shield"></i> Admin</a>
+                <a th:href="@{/admin}" href="/admin" class="nav-link" style="color: #79E6A0;"><i class="fas fa-shield-halved"></i> Admin</a>
             </li>
         </ul>
 
         <!-- Action Items -->
         <div class="nav-actions">
             <!-- Guest buttons -->
-            <div sec:authorize="!isAuthenticated()" style="display: flex; gap: 0.75rem;">
-                <a th:href="@{/login}" class="btn btn-secondary btn-sm"><i class="fas fa-right-to-bracket"></i> Sign In</a>
-                <a th:href="@{/register}" class="btn btn-primary btn-sm"><i class="fas fa-user-plus"></i> Open Vault</a>
+            <div sec:authorize="!isAuthenticated()" style="display: flex; align-items: center; gap: 0.75rem;">
+                <a th:href="@{/login}" href="/login" class="btn btn-secondary btn-sm"><i class="fas fa-right-to-bracket"></i> Sign In</a>
+                <a th:href="@{/register}" href="/register" class="btn btn-primary btn-sm"><i class="fas fa-arrow-right"></i> Open Account</a>
             </div>
 
             <!-- Authenticated Actions -->
             <div sec:authorize="isAuthenticated()" style="display: flex; align-items: center; gap: 1rem;">
                 <!-- Notification Bell -->
-                <a th:href="@{/notifications}" style="position: relative; color: var(--text-muted); font-size: 1.2rem;" title="Notifications">
+                <a th:href="@{/notifications}" href="/notifications" style="position: relative; color: var(--text-muted); font-size: 1.15rem;" title="Notifications">
                     <i class="fas fa-bell"></i>
                     <span id="navNotificationBadge"
                           th:style="${unreadNotificationsCount != null and unreadNotificationsCount > 0 ? 'display: inline-flex;' : 'display: none;'}"
-                          style="position: absolute; top: -6px; right: -8px; background: #ef4444; color: #fff; font-size: 0.65rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; align-items: center; justify-content: center;"
+                          style="position: absolute; top: -5px; right: -7px; background: #F07878; color: #0B0D0C; font-size: 0.65rem; font-weight: 700; width: 17px; height: 17px; border-radius: 50%; align-items: center; justify-content: center;"
                           th:text="${unreadNotificationsCount != null ? unreadNotificationsCount : 0}">0</span>
                 </a>
 
                 <!-- User Profile pill -->
-                <a th:href="@{/profile}" class="btn btn-secondary btn-sm" style="display: flex; align-items: center; gap: 0.5rem;">
+                <a th:href="@{/profile}" href="/profile" class="btn btn-secondary btn-sm" style="display: flex; align-items: center; gap: 0.5rem;">
                     <i class="fas fa-user-circle" style="color: var(--primary);"></i>
                     <span sec:authentication="name">User</span>
                 </a>
@@ -119,64 +135,66 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <div class="brand-logo" style="margin-bottom: 1rem;">
-                    <div class="brand-icon"><i class="fas fa-shield-halved"></i></div>
-                    <span>CryptoVault</span>
+                    <div class="brand-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#79E6A0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/>
+                            <circle cx="17" cy="14" r="1" fill="#79E6A0"/>
+                        </svg>
+                    </div>
+                    <span>CryptoWallet</span>
                 </div>
-                <p style="font-size: 0.88rem; margin-bottom: 1rem;">
-                    A full-stack, server-rendered cryptocurrency wallet platform built with Spring Boot, Thymeleaf, MySQL, and minimal reactive islands.
+                <p style="font-size: 0.88rem; margin-bottom: 1rem; color: var(--text-muted); line-height: 1.6;">
+                    Intelligent money management, real-time expense analytics, and personal wealth custody designed for students, salaried professionals, and conscious savers.
                 </p>
-                <div style="font-size: 0.8rem; color: var(--text-muted); background: rgba(255,255,255,0.04); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                    <strong>Designed & Engineered by:</strong><br>
-                    Adabala Pushkaran • Roll No: <strong>24EG105R65</strong>
+                <div style="font-size: 0.8rem; color: var(--text-muted); background: #161B18; padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid var(--border-subtle);">
+                    <div style="color: var(--text-dim); text-transform: uppercase; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.2rem;">Architect & Lead Engineer</div>
+                    <strong style="color: #F5F7F5;">Adabala Pushkaran</strong> • Roll No: <strong style="color: #79E6A0;">24EG105R65</strong>
                 </div>
             </div>
             <div class="footer-col">
-                <h4>Product & Architecture</h4>
+                <h4>Product & Tracking</h4>
                 <ul>
-                    <li><a th:href="@{/dashboard}">Vault Dashboard</a></li>
-                    <li><a th:href="@{/wallets}">Multi-Asset Wallets</a></li>
-                    <li><a th:href="@{/transactions/send}">Instant Transfer</a></li>
-                    <li><a th:href="@{/about}">System Architecture</a></li>
+                    <li><a th:href="@{/dashboard}" href="/dashboard.html">Private Reserve</a></li>
+                    <li><a th:href="@{/wallets}" href="/wallets">Asset Enclaves</a></li>
+                    <li><a th:href="@{/transactions/send}" href="/transactions/send">Instant Transfer</a></li>
+                    <li><a th:href="@{/about}" href="/about">System Architecture</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Security & Specs</h4>
+                <h4>Privacy & Compliance</h4>
                 <ul>
-                    <li><a th:href="@{/about}">BCrypt & CSRF Model</a></li>
-                    <li><a th:href="@{/faq}">FAQ & Help Center</a></li>
-                    <li><a th:href="@{/terms}">Terms of Service</a></li>
-                    <li><a th:href="@{/privacy}">Privacy Policy</a></li>
+                    <li><a th:href="@{/about}" href="/about">DPDP Act & BCrypt Model</a></li>
+                    <li><a th:href="@{/faq}" href="/faq">Help & FAQ</a></li>
+                    <li><a th:href="@{/terms}" href="/terms">Terms of Service</a></li>
+                    <li><a th:href="@{/privacy}" href="/privacy">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Core Tech Stack</h4>
+                <h4>Fintech Stack</h4>
                 <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem;">
-                    <span style="background: rgba(16,185,129,0.1); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Spring Boot 3</span>
-                    <span style="background: rgba(6,182,212,0.1); color: #06b6d4; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Thymeleaf</span>
-                    <span style="background: rgba(139,92,246,0.1); color: #8b5cf6; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">MySQL 8.0</span>
-                    <span style="background: rgba(245,158,11,0.1); color: #f59e0b; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Spring Security</span>
-                    <span style="background: rgba(255,255,255,0.08); color: #e2e8f0; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Vanilla CSS</span>
+                    <span style="background: rgba(121,230,160,0.1); color: #79E6A0; padding: 0.25rem 0.55rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">Spring Boot 3</span>
+                    <span style="background: rgba(255,255,255,0.06); color: #F5F7F5; padding: 0.25rem 0.55rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">Thymeleaf</span>
+                    <span style="background: rgba(255,255,255,0.06); color: #F5F7F5; padding: 0.25rem 0.55rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">MySQL 8.0</span>
+                    <span style="background: rgba(121,230,160,0.1); color: #79E6A0; padding: 0.25rem 0.55rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">Spring Security</span>
+                    <span style="background: rgba(255,255,255,0.06); color: #A0AAA3; padding: 0.25rem 0.55rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">Tailwind + CSS</span>
                 </div>
             </div>
         </div>
 
         <div class="footer-bottom">
             <div>
-                © 2026 CryptoVault Platform. All rights reserved. Built for academic viva and production deployment.
+                © 2026 CryptoWallet Platform. All rights reserved. Precision personal finance.
             </div>
             <div style="display: flex; gap: 1.5rem;">
-                <a th:href="@{/sitemap.xml}">sitemap.xml</a>
-                <a th:href="@{/robots.txt}">robots.txt</a>
-                <a th:href="@{/faq}">Help & Support</a>
+                <a th:href="@{/faq}" href="/faq">Support</a>
+                <a th:href="@{/privacy}" href="/privacy">Privacy</a>
+                <a th:href="@{/terms}" href="/terms">Terms</a>
             </div>
         </div>
     </div>
 </footer>
 
-<!-- Firebase SDK Initialization -->
-<script type="module" th:src="@{/js/firebase-init.js}"></script>
-
 <!-- Shared JavaScript -->
-<script th:src="@{/js/app.js}"></script>
+<script th:src="@{/js/app.js}" src="/js/app.js"></script>
 </body>
 </html>

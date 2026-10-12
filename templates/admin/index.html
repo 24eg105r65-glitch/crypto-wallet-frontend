@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
-<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description='CryptoVault Administrator Command Center')}"></head>
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle != null ? pageTitle : 'Admin Command Center — CryptoWallet'}, description='CryptoWallet Administrator Command Center')}"></head>
 <body>
 
 <div th:replace="~{fragments/layout :: ticker-ribbon}"></div>
@@ -13,7 +13,7 @@
         <!-- Header -->
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
             <div>
-                <div style="font-size: 0.85rem; color: #06b6d4; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">
+                <div style="font-size: 0.8rem; color: #79E6A0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">
                     Master Control Plane
                 </div>
                 <h1 style="font-size: 1.85rem;">Admin Command Center</h1>

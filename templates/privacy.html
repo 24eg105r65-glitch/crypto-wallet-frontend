@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       lang="en">
-<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description='Privacy Policy for CryptoVault Platform')}"></head>
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle != null ? pageTitle : 'Privacy Policy — CryptoWallet'}, description='Privacy Policy and data protection standards for CryptoWallet')}"></head>
 <body>
 <div th:replace="~{fragments/layout :: navbar}"></div>
 
 <main class="main-content">
     <div class="container" style="max-width: 800px;">
         <div class="glass-card" style="padding: 2.5rem;">
-            <h1 style="margin-bottom: 1.5rem;">Privacy Policy</h1>
-            <p style="margin-bottom: 1rem;">Your privacy and cryptographic data integrity are fundamental to CryptoVault's design.</p>
-            <h3 style="margin: 1.5rem 0 0.5rem; color: #10b981;">1. Information We Collect</h3>
-            <p style="margin-bottom: 1rem;">We collect account registration data (username, email, encrypted passwords) and cryptographic wallet addresses to facilitate transactions.</p>
-            <h3 style="margin: 1.5rem 0 0.5rem; color: #06b6d4;">2. Password Protection</h3>
-            <p style="margin-bottom: 1rem;">All passwords are hashed with strong, salted BCrypt cryptography prior to persistence in MySQL. Plaintext credentials never touch persistent disks.</p>
-            <h3 style="margin: 1.5rem 0 0.5rem; color: #8b5cf6;">3. Session Security</h3>
-            <p>Active login sessions are monitored for suspicious IP changes and can be revoked by the user at any time from their security profile.</p>
+            <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(121, 230, 160, 0.1); border: 1px solid rgba(121, 230, 160, 0.25); padding: 0.3rem 0.85rem; border-radius: 9999px; margin-bottom: 1rem;">
+                <span style="font-size: 0.72rem; font-weight: 700; color: #79E6A0; text-transform: uppercase;">DPDP Act 2023 Compliant</span>
+            </div>
+            <h1 style="margin-bottom: 1.5rem; font-family: 'Manrope', sans-serif;">Privacy Policy</h1>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 1rem;">Your privacy and data sovereignty are fundamental pillars of the CryptoWallet financial architecture.</p>
+            
+            <h3 style="margin: 1.5rem 0 0.5rem; color: #79E6A0; font-family: 'Manrope', sans-serif;">1. Information We Collect</h3>
+            <p style="margin-bottom: 1rem; color: var(--text-muted);">We collect account registration data (username, email, salted hashed passwords) and financial tracking inputs to calculate your budgets and expense metrics. We do not sell your personal financial records.</p>
+            
+            <h3 style="margin: 1.5rem 0 0.5rem; color: #79E6A0; font-family: 'Manrope', sans-serif;">2. Cryptographic Security & Passwords</h3>
+            <p style="margin-bottom: 1rem; color: var(--text-muted);">All passwords and sensitive tokens are hashed using salted BCrypt cryptography prior to persistence. Plaintext credentials never touch disk or logs.</p>
+            
+            <h3 style="margin: 1.5rem 0 0.5rem; color: #79E6A0; font-family: 'Manrope', sans-serif;">3. Session Control</h3>
+            <p style="color: var(--text-muted);">Active login sessions are monitored for suspicious anomalies and can be terminated at any time from your account profile settings.</p>
         </div>
     </div>
 </main>

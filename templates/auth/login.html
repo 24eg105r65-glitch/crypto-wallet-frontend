@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       lang="en">
-<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description='Sign in to your CryptoVault account')}"></head>
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle != null ? pageTitle : 'Sign In — CryptoWallet'}, description='Sign in to your CryptoWallet personal finance and wealth account')}"></head>
 <body>
 
 <div th:replace="~{fragments/layout :: navbar}"></div>
 
 <main class="main-content" style="display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 250px);">
-    <div class="container" style="max-width: 480px;">
+    <div class="container" style="max-width: 460px;">
         <div class="glass-card" style="padding: 2.5rem 2rem;">
             <!-- Header -->
             <div style="text-align: center; margin-bottom: 2rem;">
-                <div class="brand-icon" style="margin: 0 auto 1rem; width: 48px; height: 48px; font-size: 1.4rem;">
-                    <i class="fas fa-lock"></i>
+                <div class="brand-icon" style="margin: 0 auto 1.25rem; width: 50px; height: 50px; font-size: 1.25rem;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#79E6A0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/>
+                        <circle cx="17" cy="14" r="1" fill="#79E6A0"/>
+                    </svg>
                 </div>
-                <h2 style="font-size: 1.6rem; margin-bottom: 0.35rem;">Sign In to CryptoVault</h2>
-                <p style="font-size: 0.9rem;">Access your multi-currency vaults and portfolio</p>
+                <h2 style="font-size: 1.65rem; margin-bottom: 0.35rem; font-family: 'Manrope', sans-serif;">Sign In to CryptoWallet</h2>
+                <p style="font-size: 0.88rem; color: var(--text-muted);">Access your expenses, budgets, and reserve vaults</p>
             </div>
 
             <!-- Alerts -->
@@ -38,48 +41,48 @@
                 </div>
 
                 <div class="form-group">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
                         <label class="form-label" for="passwordInput" style="margin-bottom: 0;">Password</label>
                     </div>
                     <input type="password" id="passwordInput" name="password" class="form-control" placeholder="Enter your password" required>
                 </div>
 
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--text-muted); cursor: pointer;">
                         <input type="checkbox" name="remember-me" style="accent-color: var(--primary);"> Remember this device
                     </label>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">
-                    <i class="fas fa-arrow-right-to-bracket"></i> Sign In to Vault
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 0.95rem;">
+                    <i class="fas fa-arrow-right-to-bracket"></i> Sign In to Account
                 </button>
             </form>
 
             <!-- Demo Quick Fill Helpers -->
             <div style="margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle);">
-                <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.75rem; text-align: center;">
-                    ⚡ Quick-Fill Demo Credentials
+                <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); margin-bottom: 0.75rem; text-align: center;">
+                    ⚡ Demo Quick-Fill Credentials
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <button type="button" class="btn btn-secondary btn-sm" onclick="quickFill('pushkaran', 'Password123!')" style="justify-content: space-between;">
-                        <span><i class="fas fa-user-check" style="color: #10b981;"></i> <strong>Pushkaran (Author Demo)</strong></span>
-                        <span style="font-size: 0.75rem; color: var(--text-dim);">4 Wallets • Funded</span>
+                        <span><i class="fas fa-user-check" style="color: #79E6A0;"></i> <strong>Pushkaran (Author Demo)</strong></span>
+                        <span style="font-size: 0.72rem; color: var(--text-dim);">4 Wallets • ₹84k Bal</span>
                     </button>
                     <button type="button" class="btn btn-secondary btn-sm" onclick="quickFill('admin', 'AdminSecret123!')" style="justify-content: space-between;">
-                        <span><i class="fas fa-shield-halved" style="color: #06b6d4;"></i> <strong>Admin Center</strong></span>
-                        <span style="font-size: 0.75rem; color: var(--text-dim);">Full Privileges</span>
+                        <span><i class="fas fa-shield-halved" style="color: #79E6A0;"></i> <strong>Admin Center</strong></span>
+                        <span style="font-size: 0.72rem; color: var(--text-dim);">Full Privileges</span>
                     </button>
                     <button type="button" class="btn btn-secondary btn-sm" onclick="quickFill('alice', 'Password123!')" style="justify-content: space-between;">
-                        <span><i class="fas fa-user" style="color: #8b5cf6;"></i> <strong>Alice Vance (Peer User)</strong></span>
-                        <span style="font-size: 0.75rem; color: var(--text-dim);">For P2P testing</span>
+                        <span><i class="fas fa-user" style="color: #A0AAA3;"></i> <strong>Alice Vance (Peer User)</strong></span>
+                        <span style="font-size: 0.72rem; color: var(--text-dim);">P2P Testing</span>
                     </button>
                 </div>
             </div>
 
             <!-- Register Link -->
-            <div style="margin-top: 1.5rem; text-align: center; font-size: 0.88rem; color: var(--text-muted);">
+            <div style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--text-muted);">
                 Don't have an account yet? 
-                <a th:href="@{/register}" style="color: var(--primary); font-weight: 600;">Create Vault</a>
+                <a th:href="@{/register}" href="/register" style="color: var(--primary); font-weight: 600;">Create Account</a>
             </div>
         </div>
     </div>

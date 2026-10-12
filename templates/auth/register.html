@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       lang="en">
-<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description='Register a new CryptoVault account')}"></head>
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle != null ? pageTitle : 'Open Account — CryptoWallet'}, description='Register for CryptoWallet personal finance and money tracking')}"></head>
 <body>
 
 <div th:replace="~{fragments/layout :: navbar}"></div>
 
 <main class="main-content" style="display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 250px);">
-    <div class="container" style="max-width: 520px;">
+    <div class="container" style="max-width: 500px;">
         <div class="glass-card" style="padding: 2.5rem 2rem;">
             <!-- Header -->
             <div style="text-align: center; margin-bottom: 2rem;">
-                <div class="brand-icon" style="margin: 0 auto 1rem; width: 48px; height: 48px; font-size: 1.4rem;">
-                    <i class="fas fa-user-plus"></i>
+                <div class="brand-icon" style="margin: 0 auto 1.25rem; width: 50px; height: 50px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#79E6A0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/>
+                        <circle cx="17" cy="14" r="1" fill="#79E6A0"/>
+                    </svg>
                 </div>
-                <h2 style="font-size: 1.6rem; margin-bottom: 0.35rem;">Create Your Vault</h2>
-                <p style="font-size: 0.9rem;">Instantly spin up multi-currency crypto wallets</p>
+                <h2 style="font-size: 1.65rem; margin-bottom: 0.35rem; font-family: 'Manrope', sans-serif;">Open CryptoWallet Account</h2>
+                <p style="font-size: 0.88rem; color: var(--text-muted);">Know where your money goes with intelligent tracking</p>
             </div>
 
             <!-- Alerts -->
@@ -30,14 +33,14 @@
 
                 <div class="form-group">
                     <label class="form-label" for="fullName">Full Name</label>
-                    <input type="text" id="fullName" th:field="*{fullName}" class="form-control" placeholder="e.g. John Doe" required>
+                    <input type="text" id="fullName" th:field="*{fullName}" class="form-control" placeholder="e.g. Adabala Pushkaran" required>
                     <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="form-text-error"></div>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div class="form-group">
                         <label class="form-label" for="username">Username</label>
-                        <input type="text" id="username" th:field="*{username}" class="form-control" placeholder="e.g. jdoe" required>
+                        <input type="text" id="username" th:field="*{username}" class="form-control" placeholder="e.g. pushkaran" required>
                         <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="form-text-error"></div>
                     </div>
 
@@ -49,7 +52,7 @@
 
                 <div class="form-group">
                     <label class="form-label" for="email">Email Address</label>
-                    <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="john@example.com" required>
+                    <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="pushkaran@example.com" required>
                     <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="form-text-error"></div>
                 </div>
 
@@ -70,19 +73,19 @@
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.82rem; color: var(--text-muted); cursor: pointer;">
                         <input type="checkbox" required style="accent-color: var(--primary); margin-top: 3px;">
-                        <span>I understand that CryptoVault uses cryptographic address verification and agree to the Terms of Service.</span>
+                        <span>I understand that CryptoWallet uses client-side encryption and I agree to the <a th:href="@{/terms}" href="/terms" style="color: var(--primary);">Terms of Service</a>.</span>
                     </label>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">
-                    <i class="fas fa-shield-halved"></i> Generate Cryptographic Vault
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 0.95rem;">
+                    <i class="fas fa-arrow-right"></i> Start Tracking Money
                 </button>
             </form>
 
             <!-- Sign In Link -->
-            <div style="margin-top: 1.5rem; text-align: center; font-size: 0.88rem; color: var(--text-muted);">
-                Already have a vault? 
-                <a th:href="@{/login}" style="color: var(--primary); font-weight: 600;">Sign In</a>
+            <div style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--text-muted);">
+                Already have an account? 
+                <a th:href="@{/login}" href="/login" style="color: var(--primary); font-weight: 600;">Sign In</a>
             </div>
         </div>
     </div>

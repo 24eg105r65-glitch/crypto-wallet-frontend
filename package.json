@@ -5,7 +5,9 @@
   "author": "Adabala Pushkaran (24EG105R65)",
   "scripts": {
     "dev": "echo \"Frontend templates and assets are served directly through Spring Boot Thymeleaf on http://localhost:8085/\"",
-    "build": "echo \"Production assets packaged via Maven in backend/src/main/resources/\""
+    "build": "echo \"Production assets packaged via Maven in backend/src/main/resources/\"",
+    "test:visual:desktop": "npx playwright screenshot --channel chrome --viewport-size \"1440,900\" index.html visual-desktop.png",
+    "test:visual:mobile": "npx playwright screenshot --channel chrome --viewport-size \"375,812\" index.html visual-mobile.png"
   },
   "keywords": [
     "cryptocurrency",
