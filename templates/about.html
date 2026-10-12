@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description=${metaDescription})}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="main-content">
+    <div class="container" style="max-width: 960px;">
+        <!-- Header -->
+        <div style="margin-bottom: 3rem; text-align: center;">
+            <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); padding: 0.35rem 1rem; border-radius: 9999px; margin-bottom: 1rem;">
+                <span style="font-size: 0.8rem; font-weight: 600; color: #06b6d4; text-transform: uppercase;">Technical Specification & Architecture</span>
+            </div>
+            <h1>CryptoVault System Architecture</h1>
+            <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 650px; margin: 0 auto;">
+                A disciplined, 5-layer server-rendered cryptocurrency platform designed and developed by <strong>Adabala Pushkaran (24EG105R65)</strong>.
+            </p>
+        </div>
+
+        <!-- 5 Layer Architecture Explanation -->
+        <section class="glass-card" style="margin-bottom: 2.5rem;">
+            <h2 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                <i class="fas fa-layer-group" style="color: var(--primary);"></i> 1. Five-Layer Separation of Concerns
+            </h2>
+            <p style="margin-bottom: 1.5rem;">
+                CryptoVault strictly isolates concerns so each layer only communicates with its immediate neighbour. This maintains unambiguous security boundaries and clean testability.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 1.25rem; border-radius: 12px;">
+                    <div style="font-weight: 700; color: #10b981; margin-bottom: 0.25rem;">Layer 1: Presentation (Thymeleaf & Minimal React/Vanilla Islands)</div>
+                    <div style="font-size: 0.88rem; color: var(--text-muted);">
+                        Full server-side rendering for instant First Contentful Paint, SEO crawlability, and small JS payload for live ticker and interactive charts.
+                    </div>
+                </div>
+
+                <div style="background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); padding: 1.25rem; border-radius: 12px;">
+                    <div style="font-weight: 700; color: #06b6d4; margin-bottom: 0.25rem;">Layer 2: Security & Routing (Spring Security 6)</div>
+                    <div style="font-size: 0.88rem; color: var(--text-muted);">
+                        Intercepts requests, enforces authentication, verifies CSRF tokens on all POST requests, and restricts admin routes via <code>ROLE_ADMIN</code>.
+                    </div>
+                </div>
+
+                <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); padding: 1.25rem; border-radius: 12px;">
+                    <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 0.25rem;">Layer 3: Controller Layer (Spring MVC & REST)</div>
+                    <div style="font-size: 0.88rem; color: var(--text-muted);">
+                        Handles HTTP request parameters, DTO validation, model binding, and delegates business workflows to the service layer.
+                    </div>
+                </div>
+
+                <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); padding: 1.25rem; border-radius: 12px;">
+                    <div style="font-weight: 700; color: #f59e0b; margin-bottom: 0.25rem;">Layer 4: Business & Service Layer (@Transactional)</div>
+                    <div style="font-size: 0.88rem; color: var(--text-muted);">
+                        Contains business rules: address generation, atomic debit-credit balance updates, fee calculations, and notification triggers.
+                    </div>
+                </div>
+
+                <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); padding: 1.25rem; border-radius: 12px;">
+                    <div style="font-weight: 700; color: #ef4444; margin-bottom: 0.25rem;">Layer 5: Data Access & Relational Persistence (Spring Data JPA + MySQL)</div>
+                    <div style="font-size: 0.88rem; color: var(--text-muted);">
+                        Normalized schema mapping 6 entities (User, Wallet, Currency, Transaction, AuthSession, Notification) with ACID consistency.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Stack Table -->
+        <section class="glass-card" style="margin-bottom: 2.5rem;">
+            <h2 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                <i class="fas fa-microchip" style="color: var(--cyan);"></i> 2. Technology Stack & Module Specifications
+            </h2>
+
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Layer / Component</th>
+                            <th>Technology</th>
+                            <th>Purpose in CryptoVault</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Build Tool</strong></td>
+                            <td><code>Maven 3.9+</code></td>
+                            <td>Single reproducible module and dependency lifecycle</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Backend Core</strong></td>
+                            <td><code>Spring Boot 3.3.4</code></td>
+                            <td>Dependency injection, REST/MVC controllers, Auto-configuration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>View Engine</strong></td>
+                            <td><code>Thymeleaf 3</code></td>
+                            <td>Server-side HTML rendering with zero client-side build step</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security</strong></td>
+                            <td><code>Spring Security 6</code></td>
+                            <td>BCrypt password hashing, session auditing, CSRF tokens</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ORM & Persistence</strong></td>
+                            <td><code>Spring Data JPA / Hibernate</code></td>
+                            <td>Entity mappings, transactional execution, and repository queries</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database</strong></td>
+                            <td><code>MySQL 8.0 / H2</code></td>
+                            <td>Normalized relational database with foreign-key constraints</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Styling & UI</strong></td>
+                            <td><code>Vanilla CSS (Custom Tokens)</code></td>
+                            <td>Lightweight, device-first responsive grid and glassmorphic UI</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Student Attribution -->
+        <section class="glass-card" style="border-color: rgba(16, 185, 129, 0.4); text-align: center; padding: 2.5rem;">
+            <h3 style="margin-bottom: 0.75rem; color: #10b981;">Project Academic Identification</h3>
+            <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">
+                This project was created for academic viva examination and demonstration of enterprise full-stack Java architecture.
+            </p>
+            <div style="display: inline-block; background: rgba(0,0,0,0.4); padding: 1rem 2rem; border-radius: 12px; border: 1px solid var(--border-subtle); text-align: left;">
+                <div><strong>Lead Engineer & Author:</strong> Adabala Pushkaran</div>
+                <div><strong>Roll / Registration ID:</strong> 24EG105R65</div>
+                <div><strong>Project Title:</strong> CryptoVault Full-Stack Platform</div>
+                <div><strong>Module:</strong> Server-Rendered Multi-Asset Wallet Architecture</div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

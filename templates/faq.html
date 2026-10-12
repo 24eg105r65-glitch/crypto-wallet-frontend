@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description=${metaDescription})}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="main-content">
+    <div class="container" style="max-width: 860px;">
+        <div style="margin-bottom: 2.5rem; text-align: center;">
+            <h1>Frequently Asked Questions</h1>
+            <p>Everything you need to know about CryptoVault's security, wallets, and transfers.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="glass-card">
+                <h3 style="margin-bottom: 0.5rem; color: #10b981;">How are crypto balances stored and verified?</h3>
+                <p>
+                    Every wallet balance is denominated in a specific cryptocurrency and tracked with high precision (8 decimal places) in the relational MySQL schema. When a user sends funds, an atomic database transaction deducts the sender's balance and credits the receiver's balance simultaneously.
+                </p>
+            </div>
+
+            <div class="glass-card">
+                <h3 style="margin-bottom: 0.5rem; color: #06b6d4;">What are the network fees for transactions?</h3>
+                <p>
+                    Network fees are calculated based on the respective blockchain network rules (e.g. 0.00005 BTC, 0.0008 ETH, 0.00002 SOL). The fee is clearly displayed and deducted at confirmation time.
+                </p>
+            </div>
+
+            <div class="glass-card">
+                <h3 style="margin-bottom: 0.5rem; color: #8b5cf6;">Can I claim free testnet cryptocurrency?</h3>
+                <p>
+                    Yes! Each wallet has a built-in Developer Faucet button. Simply visit your wallet details page and click <strong>Claim Faucet Airdrop</strong> to receive instant testnet crypto for testing transfers.
+                </p>
+            </div>
+
+            <div class="glass-card">
+                <h3 style="margin-bottom: 0.5rem; color: #f59e0b;">How is user authentication secured?</h3>
+                <p>
+                    Passwords are never stored in plaintext. They are salted and hashed using BCrypt at write time. Spring Security filter chains validate every protected route and enforce CSRF token verification on all form submissions.
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

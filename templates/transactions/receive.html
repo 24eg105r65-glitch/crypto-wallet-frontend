@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description='Receive cryptocurrency with QR Code and public vault address')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: ticker-ribbon}"></div>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="main-content">
+    <div class="container" style="max-width: 640px;">
+        <div class="glass-card" style="padding: 2.5rem 2rem; text-align: center;">
+            <!-- Header -->
+            <div style="margin-bottom: 2rem;">
+                <div class="brand-icon" style="margin: 0 auto 1rem; width: 48px; height: 48px; font-size: 1.4rem; background: var(--cyan-gradient);">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <h1 style="font-size: 1.6rem; margin-bottom: 0.35rem;">Receive Cryptocurrency</h1>
+                <p style="font-size: 0.88rem;">Share your public vault address or QR code to receive funds.</p>
+            </div>
+
+            <div th:if="${selectedWallet != null}">
+                <!-- Wallet Picker -->
+                <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
+                    <label class="form-label">Select Receiving Vault</label>
+                    <select class="form-select" onchange="window.location.href='/transactions/receive?walletId=' + this.value">
+                        <option th:each="w : ${wallets}"
+                                th:value="${w.id}"
+                                th:selected="${w.id == selectedWallet.id}"
+                                th:text="|${w.walletName} (${w.currency.code}) - Bal: ${w.balance}|">
+                            Pushkaran BTC Vault
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Canvas QR Island -->
+                <div style="background: #ffffff; padding: 16px; border-radius: 16px; display: inline-block; box-shadow: 0 15px 35px rgba(0,0,0,0.5); margin-bottom: 1.5rem;">
+                    <canvas id="receiveQrCanvas" th:data-qr-content="${selectedWallet.walletAddress}" width="220" height="220"></canvas>
+                </div>
+
+                <!-- Address Display -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label class="form-label" style="text-align: left;">Your Public <span th:text="${selectedWallet.currency.code}">BTC</span> Address</label>
+                    <div class="wallet-address-bar" style="padding: 0.75rem 1rem;">
+                        <span class="font-mono" th:text="${selectedWallet.walletAddress}" style="max-width: 400px;">0x1234567890abcdef</span>
+                        <button type="button" class="btn btn-sm btn-primary" th:data-copy="${selectedWallet.walletAddress}">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Security Note -->
+                <div style="background: rgba(6, 9, 17, 0.7); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1rem; text-align: left; font-size: 0.82rem; color: var(--text-muted);">
+                    <div style="color: var(--primary); font-weight: 700; margin-bottom: 0.35rem;">
+                        <i class="fas fa-circle-info"></i> Important Network Notice
+                    </div>
+                    Only send <strong th:text="${selectedWallet.currency.name}">Bitcoin</strong> (<strong th:text="${selectedWallet.currency.code}">BTC</strong>) to this address. Sending unsupported tokens or assets on incorrect chains may result in irreversible loss.
+                </div>
+            </div>
+
+            <div th:if="${selectedWallet == null}" style="padding: 2rem;">
+                <p>No active wallet found. Please create a wallet first.</p>
+                <a th:href="@{/wallets}" class="btn btn-primary" style="margin-top: 1rem;">Create Vault</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

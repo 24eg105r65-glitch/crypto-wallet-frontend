@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description='Terms of Service for CryptoVault Platform')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="main-content">
+    <div class="container" style="max-width: 800px;">
+        <div class="glass-card" style="padding: 2.5rem;">
+            <h1 style="margin-bottom: 1.5rem;">Terms of Service</h1>
+            <p style="margin-bottom: 1rem;">Welcome to CryptoVault. By accessing our platform, you agree to comply with and be bound by the following terms.</p>
+            <h3 style="margin: 1.5rem 0 0.5rem; color: #10b981;">1. Use of Wallet Services</h3>
+            <p style="margin-bottom: 1rem;">CryptoVault provides a self-sovereign multi-currency digital asset platform. Users are responsible for maintaining the confidentiality of their credentials.</p>
+            <h3 style="margin: 1.5rem 0 0.5rem; color: #06b6d4;">2. Transaction Finality</h3>
+            <p style="margin-bottom: 1rem;">Transfers executed across the cryptographic ledger are irreversible once confirmed. Please verify recipient addresses before broadcasting transactions.</p>
+            <h3 style="margin: 1.5rem 0 0.5rem; color: #8b5cf6;">3. Academic & Demo Usage</h3>
+            <p>This deployment is designed by Adabala Pushkaran (24EG105R65) for demonstrations and testnet cryptographic interactions.</p>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

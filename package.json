@@ -1,0 +1,19 @@
+{
+  "name": "cryptovault-frontend",
+  "version": "1.0.0",
+  "description": "CryptoVault Frontend — Server-Rendered UI, Vanilla CSS Design System, Dynamic JavaScript Islands",
+  "author": "Adabala Pushkaran (24EG105R65)",
+  "scripts": {
+    "dev": "echo \"Frontend templates and assets are served directly through Spring Boot Thymeleaf on http://localhost:8085/\"",
+    "build": "echo \"Production assets packaged via Maven in backend/src/main/resources/\""
+  },
+  "keywords": [
+    "cryptocurrency",
+    "wallet",
+    "vanilla-css",
+    "javascript",
+    "thymeleaf",
+    "responsive"
+  ],
+  "license": "MIT"
+}

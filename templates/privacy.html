@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description='Privacy Policy for CryptoVault Platform')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="main-content">
+    <div class="container" style="max-width: 800px;">
+        <div class="glass-card" style="padding: 2.5rem;">
+            <h1 style="margin-bottom: 1.5rem;">Privacy Policy</h1>
+            <p style="margin-bottom: 1rem;">Your privacy and cryptographic data integrity are fundamental to CryptoVault's design.</p>
+            <h3 style="margin: 1.5rem 0 0.5rem; color: #10b981;">1. Information We Collect</h3>
+            <p style="margin-bottom: 1rem;">We collect account registration data (username, email, encrypted passwords) and cryptographic wallet addresses to facilitate transactions.</p>
+            <h3 style="margin: 1.5rem 0 0.5rem; color: #06b6d4;">2. Password Protection</h3>
+            <p style="margin-bottom: 1rem;">All passwords are hashed with strong, salted BCrypt cryptography prior to persistence in MySQL. Plaintext credentials never touch persistent disks.</p>
+            <h3 style="margin: 1.5rem 0 0.5rem; color: #8b5cf6;">3. Session Security</h3>
+            <p>Active login sessions are monitored for suspicious IP changes and can be revoked by the user at any time from their security profile.</p>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description='Cryptographic ledger transaction explorer')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: ticker-ribbon}"></div>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="main-content">
+    <div class="container">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+            <div>
+                <h1 style="font-size: 1.85rem;">Transaction Ledger & Explorer</h1>
+                <p>Auditable, immutable cryptographic transfer records with instant verification.</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem;">
+                <a th:href="@{/transactions/send}" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Send Crypto
+                </a>
+                <a th:href="@{/transactions/receive}" class="btn btn-cyan">
+                    <i class="fas fa-qrcode"></i> Receive
+                </a>
+            </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+            <form th:action="@{/transactions}" method="get" style="display: grid; grid-template-columns: 2fr 1fr auto; gap: 1rem; align-items: center;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <input type="text" name="search" th:value="${searchQuery}" class="form-control" placeholder="Search by Tx Hash, description, or notes...">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <select name="currency" class="form-select" onchange="this.form.submit()">
+                        <option value="ALL">All Currencies</option>
+                        <option th:each="c : ${currencies}" th:value="${c.code}" th:text="|${c.name} (${c.code})|" th:selected="${selectedCurrency == c.code}">Bitcoin (BTC)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-secondary">
+                    <i class="fas fa-filter"></i> Filter
+                </button>
+            </form>
+        </div>
+
+        <!-- Transactions Table -->
+        <div class="glass-card" style="padding: 0;">
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Tx Hash</th>
+                            <th>Asset Amount</th>
+                            <th>Fiat Equivalent</th>
+                            <th>Fee</th>
+                            <th>Status</th>
+                            <th>Timestamp</th>
+                            <th>Proof</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(transactions)}">
+                            <td colspan="8" style="text-align: center; color: var(--text-dim); padding: 3rem;">
+                                No transaction records found matching your filters.
+                            </td>
+                        </tr>
+                        <tr th:each="tx : ${transactions}">
+                            <td>
+                                <span style="font-size: 0.8rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 6px;"
+                                      th:style="${tx.txType.name() == 'TRANSFER' ? 'background: rgba(6,182,212,0.15); color: #06b6d4;' : 'background: rgba(16,185,129,0.15); color: #10b981;'}"
+                                      th:text="${tx.txType}">TRANSFER</span>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <span class="font-mono" style="font-size: 0.82rem; color: var(--text-muted);"
+                                          th:text="|${#strings.substring(tx.txHash, 0, 10)}...${#strings.substring(tx.txHash, tx.txHash.length() - 6)}|">0x8f2d...0b1c</span>
+                                    <button class="btn btn-sm" th:data-copy="${tx.txHash}" style="background: transparent; color: var(--text-dim); padding: 0;" title="Copy Tx Hash">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="font-mono" style="font-weight: 700;" th:text="|${tx.amount} ${tx.currency.code}|">1.50000000 BTC</div>
+                            </td>
+                            <td>
+                                <div class="font-mono" style="font-size: 0.88rem; color: var(--text-main);" th:text="|₹${#numbers.formatDecimal(tx.fiatEquivalentInr, 1, 'COMMA', 2, 'POINT')}|">₹98,25,000.00</div>
+                                <div class="font-mono" style="font-size: 0.75rem; color: var(--text-dim);" th:text="|$${#numbers.formatDecimal(tx.fiatEquivalentUsd, 1, 'COMMA', 2, 'POINT')}|">$117,750.00</div>
+                            </td>
+                            <td class="font-mono" style="font-size: 0.82rem; color: var(--text-dim);" th:text="|${tx.fee} ${tx.currency.code}|">0.00005 BTC</td>
+                            <td>
+                                <span class="badge-status confirmed" th:text="${tx.status}">CONFIRMED</span>
+                            </td>
+                            <td style="font-size: 0.82rem; color: var(--text-dim);" th:text="${#temporals.format(tx.createdAt, 'dd MMM yyyy HH:mm:ss')}">06 Oct 2026 21:00:00</td>
+                            <td>
+                                <a th:href="@{'/transactions/' + ${tx.id} + '/receipt'}" class="btn btn-secondary btn-sm" style="padding: 0.3rem 0.75rem; font-size: 0.8rem;">
+                                    <i class="fas fa-receipt"></i> Receipt
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

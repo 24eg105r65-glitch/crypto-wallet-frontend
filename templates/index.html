@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description=${metaDescription})}"></head>
+<body>
+
+<!-- Ticker ribbon -->
+<div th:replace="~{fragments/layout :: ticker-ribbon}"></div>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="main-content">
+    <!-- Hero Section -->
+    <section style="padding: 4rem 0 5rem; text-align: center; position: relative;">
+        <div class="container">
+            <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.35rem 1rem; border-radius: 9999px; margin-bottom: 1.5rem;">
+                <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981;"></span>
+                <span style="font-size: 0.82rem; font-weight: 600; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em;">Institutional-Grade Multi-Asset Vault</span>
+            </div>
+
+            <h1 style="max-width: 900px; margin: 0 auto 1.5rem; font-weight: 900;">
+                The Sovereign, Server-Rendered <br>
+                <span style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    Cryptocurrency Wallet Platform
+                </span>
+            </h1>
+
+            <p style="font-size: 1.2rem; max-width: 720px; margin: 0 auto 2.5rem; color: var(--text-muted);">
+                Engineered with Spring Boot, normalized MySQL persistence, and lightweight reactive islands. Fast first paint on every device, zero bloat, total transparency.
+            </p>
+
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3.5rem;">
+                <a th:href="@{/register}" sec:authorize="!isAuthenticated()" class="btn btn-primary btn-lg">
+                    <i class="fas fa-rocket"></i> Launch Free Vault
+                </a>
+                <a th:href="@{/dashboard}" sec:authorize="isAuthenticated()" class="btn btn-primary btn-lg">
+                    <i class="fas fa-gauge-high"></i> Go to Dashboard
+                </a>
+                <a th:href="@{/about}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-sitemap"></i> View 5-Layer Architecture
+                </a>
+            </div>
+
+            <!-- Fast Metrics Banner -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 950px; margin: 0 auto;">
+                <div class="glass-card" style="padding: 1.25rem;">
+                    <div style="font-size: 1.85rem; font-weight: 800; color: #10b981; font-family: 'JetBrains Mono', monospace;">100%</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">Server-Rendered HTML</div>
+                </div>
+                <div class="glass-card" style="padding: 1.25rem;">
+                    <div style="font-size: 1.85rem; font-weight: 800; color: #06b6d4; font-family: 'JetBrains Mono', monospace;">&lt; 50ms</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">First Contentful Paint</div>
+                </div>
+                <div class="glass-card" style="padding: 1.25rem;">
+                    <div style="font-size: 1.85rem; font-weight: 800; color: #8b5cf6; font-family: 'JetBrains Mono', monospace;">BCrypt</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">Salted Password Security</div>
+                </div>
+                <div class="glass-card" style="padding: 1.25rem;">
+                    <div style="font-size: 1.85rem; font-weight: 800; color: #f59e0b; font-family: 'JetBrains Mono', monospace;">6 Entities</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">Normalized Relational DB</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Live Converter Island & Market Overview -->
+    <section style="padding: 3rem 0; background: rgba(10, 15, 29, 0.4); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; align-items: center;">
+                <!-- Live Converter Island Widget -->
+                <div class="glass-card" style="border-color: rgba(16, 185, 129, 0.3);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+                        <h3 style="font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-calculator" style="color: var(--primary);"></i> Live Currency Calculator
+                        </h3>
+                        <span style="font-size: 0.72rem; color: var(--primary); background: rgba(16,185,129,0.1); padding: 0.2rem 0.6rem; border-radius: 9999px;">
+                            Auto-Syncing Island
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Select Cryptocurrency</label>
+                        <select id="converterCryptoSelect" class="form-select">
+                            <option th:each="c : ${currencies}" th:value="${c.code}" th:text="|${c.name} (${c.code}) - ${c.symbol}|">Bitcoin (BTC)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Crypto Quantity</label>
+                        <input type="number" id="converterCryptoAmount" class="form-control" value="1.0" step="0.001" min="0.000001">
+                    </div>
+
+                    <div style="background: rgba(6, 9, 17, 0.8); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1rem; margin-top: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="color: var(--text-dim); font-size: 0.85rem;">Indian Rupee Equivalent (₹):</span>
+                            <span id="converterInrResult" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #10b981; font-size: 1.1rem;">₹ 65,50,000.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-dim); font-size: 0.85rem;">US Dollar Equivalent ($):</span>
+                            <span id="converterUsdResult" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #06b6d4; font-size: 1.1rem;">$ 78,500.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Rates Table Preview -->
+                <div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <h2 style="margin-bottom: 0.5rem;">Live Market Valuations</h2>
+                        <p>Server-rendered real-time crypto prices with live 24h market movement.</p>
+                    </div>
+
+                    <div class="table-responsive glass-card" style="padding: 0;">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>Price (INR)</th>
+                                    <th>Price (USD)</th>
+                                    <th>24h Change</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="c : ${currencies}">
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 0.65rem;">
+                                            <i th:class="${c.iconClass}" th:style="|color: ${c.badgeColor}; font-size: 1.2rem;|"></i>
+                                            <div>
+                                                <div style="font-weight: 700;" th:text="${c.name}">Bitcoin</div>
+                                                <div style="font-size: 0.75rem; color: var(--text-dim);" th:text="${c.code}">BTC</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="font-mono" th:text="|₹${#numbers.formatDecimal(c.exchangeRateInr, 1, 'COMMA', 2, 'POINT')}|">₹65,50,000.00</td>
+                                    <td class="font-mono" th:text="|$${#numbers.formatDecimal(c.exchangeRateUsd, 1, 'COMMA', 2, 'POINT')}|">$78,500.00</td>
+                                    <td>
+                                        <span class="ticker-change"
+                                              th:classappend="${c.change24h != null and c.change24h >= 0 ? 'up' : 'down'}"
+                                              th:text="|${c.change24h != null and c.change24h >= 0 ? '+' : ''}${c.change24h}%|">+2.45%</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features & Architecture Highlights -->
+    <section style="padding: 5rem 0;">
+        <div class="container">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto 3.5rem;">
+                <h2 style="margin-bottom: 1rem;">Architectural Excellence by Design</h2>
+                <p>Built strictly following clean 5-layer separation of concerns to provide auditability and speed.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="glass-card">
+                    <div style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 1.3rem; margin-bottom: 1.25rem;">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3 style="margin-bottom: 0.75rem;">5-Layer Clean Architecture</h3>
+                    <p style="font-size: 0.92rem;">
+                        Thymeleaf presentation layer talks strictly to Spring MVC Controllers, Business Services, and JPA Repositories down to MySQL.
+                    </p>
+                </div>
+
+                <div class="glass-card">
+                    <div style="width: 48px; height: 48px; background: rgba(6, 182, 212, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #06b6d4; font-size: 1.3rem; margin-bottom: 1.25rem;">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 style="margin-bottom: 0.75rem;">Spring Security 6 Defense</h3>
+                    <p style="font-size: 0.92rem;">
+                        Zero plaintext passwords. Salted BCrypt hashing, synchronized CSRF token verification, and session lifecycle monitoring.
+                    </p>
+                </div>
+
+                <div class="glass-card">
+                    <div style="width: 48px; height: 48px; background: rgba(139, 92, 246, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #8b5cf6; font-size: 1.3rem; margin-bottom: 1.25rem;">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 style="margin-bottom: 0.75rem;">ACID Atomic Transfers</h3>
+                    <p style="font-size: 0.92rem;">
+                        Every send/receive operation runs inside an isolated Spring <code>@Transactional</code> boundary, guaranteeing zero balance discrepancies.
+                    </p>
+                </div>
+
+                <div class="glass-card">
+                    <div style="width: 48px; height: 48px; background: rgba(245, 158, 11, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #f59e0b; font-size: 1.3rem; margin-bottom: 1.25rem;">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3 style="margin-bottom: 0.75rem;">Instant QR & Faucets</h3>
+                    <p style="font-size: 0.92rem;">
+                        Interactive HTML5 Canvas QR generator for instant address sharing and built-in developer faucets for rapid testing.
+                    </p>
+                </div>
+
+                <div class="glass-card">
+                    <div style="width: 48px; height: 48px; background: rgba(239, 68, 68, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #ef4444; font-size: 1.3rem; margin-bottom: 1.25rem;">
+                        <i class="fas fa-magnifying-glass-chart"></i>
+                    </div>
+                    <h3 style="margin-bottom: 0.75rem;">Full SEO & Crawlability</h3>
+                    <p style="font-size: 0.92rem;">
+                        Server-rendered HTML tags, dynamic XML sitemaps, robots.txt, and OpenGraph metadata ready for top Google rankings.
+                    </p>
+                </div>
+
+                <div class="glass-card">
+                    <div style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 1.3rem; margin-bottom: 1.25rem;">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <h3 style="margin-bottom: 0.75rem;">Blockchain Receipts</h3>
+                    <p style="font-size: 0.92rem;">
+                        Detailed cryptographic transaction explorer with block confirmation counts, gas estimation, and shareable proof of transfer.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Attribution & Viva Ready Banner -->
+    <section style="padding: 4rem 0; background: linear-gradient(180deg, transparent 0%, rgba(16, 185, 129, 0.05) 100%);">
+        <div class="container">
+            <div class="glass-card" style="border-color: rgba(16, 185, 129, 0.4); text-align: center; padding: 3rem 2rem;">
+                <h2 style="margin-bottom: 1rem;">Experience the Next Generation of Crypto Wallets</h2>
+                <p style="max-width: 600px; margin: 0 auto 2rem;">
+                    Created by <strong>Adabala Pushkaran</strong> (Roll: <strong>24EG105R65</strong>). Test with pre-funded accounts or create your own custom vaults in seconds.
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a th:href="@{/login}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-arrow-right-to-bracket"></i> Sign In to Demo Account
+                    </a>
+                    <a th:href="@{/register}" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-plus"></i> Create New Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

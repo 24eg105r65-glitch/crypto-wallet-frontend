@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description='Send cryptocurrency instantly across decentralized networks')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: ticker-ribbon}"></div>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="main-content">
+    <div class="container" style="max-width: 640px;">
+        <div class="glass-card" style="padding: 2.5rem 2rem;">
+            <!-- Header -->
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div class="brand-icon" style="margin: 0 auto 1rem; width: 48px; height: 48px; font-size: 1.4rem; background: var(--primary-gradient);">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
+                <h1 style="font-size: 1.6rem; margin-bottom: 0.35rem;">Send Cryptocurrency</h1>
+                <p style="font-size: 0.88rem;">Zero-latency, atomic cryptographic ledger transfer</p>
+            </div>
+
+            <!-- Alerts -->
+            <div th:if="${errorMessage}" class="alert alert-danger">
+                <i class="fas fa-triangle-exclamation"></i>
+                <span th:text="${errorMessage}">Error message</span>
+            </div>
+
+            <!-- Send Form -->
+            <form th:action="@{/transactions/send}" th:object="${sendDto}" method="post" id="sendCryptoForm">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <!-- Source Wallet -->
+                <div class="form-group">
+                    <label class="form-label">Select Source Vault</label>
+                    <select th:field="*{senderWalletId}" id="senderWalletSelect" class="form-select" required>
+                        <option th:each="w : ${wallets}"
+                                th:value="${w.id}"
+                                th:data-currency="${w.currency.code}"
+                                th:data-balance="${w.balance}"
+                                th:data-rate-inr="${w.currency.exchangeRateInr}"
+                                th:data-rate-usd="${w.currency.exchangeRateUsd}"
+                                th:text="|${w.walletName} (${w.currency.code}) - Balance: ${w.balance} ${w.currency.symbol}|">
+                            Pushkaran BTC Vault (1.45 BTC)
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Recipient Address with Live Validator Island -->
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <label class="form-label" style="margin-bottom: 0;">Recipient Wallet Address</label>
+                        <span style="font-size: 0.75rem; color: var(--primary);"><i class="fas fa-shield-check"></i> Real-time Validator</span>
+                    </div>
+                    <input type="text" th:field="*{receiverAddress}" id="receiverAddressInput" class="form-control font-mono" placeholder="e.g. 0x... or bc1q..." required>
+                    <div id="addressValidationFeedback" style="display: none; font-size: 0.8rem; margin-top: 0.4rem; font-weight: 600;"></div>
+                    <div th:if="${#fields.hasErrors('receiverAddress')}" th:errors="*{receiverAddress}" class="form-text-error"></div>
+                </div>
+
+                <!-- Quick Contacts helper -->
+                <div style="margin-bottom: 1.25rem; background: rgba(6, 9, 17, 0.6); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.4rem; font-weight: 600;">
+                        <i class="fas fa-address-book"></i> Test Contacts Shortcut:
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.75rem; padding: 0.2rem 0.6rem;"
+                                onclick="fillRecipient('bc1q8f7e6d5c4b3a2a1f0e9d8c7b6a5f4e3d2c1b0a')">
+                            Alice (BTC)
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.75rem; padding: 0.2rem 0.6rem;"
+                                onclick="fillRecipient('0x9F8E7D6C5B4A3A2F1E0D9C8B7A6F5E4D3C2B1A0F')">
+                            Alice (ETH)
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.75rem; padding: 0.2rem 0.6rem;"
+                                onclick="fillRecipient('0x3B8e7F2a9D1c0E4B5A6f7C8D9E0f1A2B3C4D5E6F')">
+                            Internal Vault
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Amount -->
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <label class="form-label" style="margin-bottom: 0;">Transfer Amount</label>
+                        <button type="button" id="maxAmountBtn" class="btn btn-secondary btn-sm" style="padding: 0.15rem 0.5rem; font-size: 0.75rem;">
+                            MAX
+                        </button>
+                    </div>
+                    <input type="number" th:field="*{amount}" id="sendAmountInput" class="form-control font-mono" step="0.00000001" min="0.00000001" placeholder="0.00000000" required>
+                    <div th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="form-text-error"></div>
+                </div>
+
+                <!-- Live Fiat Conversion Breakdown -->
+                <div style="background: rgba(13, 20, 36, 0.9); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem; font-size: 0.85rem;">
+                        <span style="color: var(--text-dim);">Estimated Fiat (INR):</span>
+                        <span id="sendInrEstimate" class="font-mono" style="font-weight: 700; color: #10b981;">₹ 0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem; font-size: 0.85rem;">
+                        <span style="color: var(--text-dim);">Estimated Fiat (USD):</span>
+                        <span id="sendUsdEstimate" class="font-mono" style="font-weight: 700; color: #06b6d4;">$ 0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; border-top: 1px solid var(--border-subtle); padding-top: 0.4rem;">
+                        <span style="color: var(--text-dim);">Network Execution Fee:</span>
+                        <span class="font-mono" style="color: var(--text-muted);">Dynamic Network Gas</span>
+                    </div>
+                </div>
+
+                <!-- Note -->
+                <div class="form-group">
+                    <label class="form-label">Transaction Reference / Memo (Optional)</label>
+                    <input type="text" th:field="*{note}" class="form-control" placeholder="e.g. Payment for Services">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.9rem; font-size: 1rem;">
+                    <i class="fas fa-lock"></i> Authorize & Broadcast Transaction
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+<script>
+function fillRecipient(addr) {
+    const input = document.getElementById('receiverAddressInput');
+    input.value = addr;
+    input.dispatchEvent(new Event('input'));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const walletSelect = document.getElementById('senderWalletSelect');
+    const amountInput = document.getElementById('sendAmountInput');
+    const maxBtn = document.getElementById('maxAmountBtn');
+    const inrElem = document.getElementById('sendInrEstimate');
+    const usdElem = document.getElementById('sendUsdEstimate');
+
+    function updateFiatEstimates() {
+        const option = walletSelect.options[walletSelect.selectedIndex];
+        if (!option) return;
+        const rateInr = parseFloat(option.getAttribute('data-rate-inr')) || 0;
+        const rateUsd = parseFloat(option.getAttribute('data-rate-usd')) || 0;
+        const amount = parseFloat(amountInput.value) || 0;
+
+        if (inrElem) inrElem.innerText = '₹ ' + (amount * rateInr).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+        if (usdElem) usdElem.innerText = '$ ' + (amount * rateUsd).toLocaleString('en-US', { maximumFractionDigits: 2 });
+    }
+
+    if (maxBtn) {
+        maxBtn.addEventListener('click', () => {
+            const option = walletSelect.options[walletSelect.selectedIndex];
+            if (option) {
+                const bal = parseFloat(option.getAttribute('data-balance')) || 0;
+                // leave tiny gas
+                amountInput.value = Math.max(0, bal * 0.99).toFixed(8);
+                updateFiatEstimates();
+            }
+        });
+    }
+
+    if (walletSelect) walletSelect.addEventListener('change', updateFiatEstimates);
+    if (amountInput) amountInput.addEventListener('input', updateFiatEstimates);
+});
+</script>
+
+</body>
+</html>

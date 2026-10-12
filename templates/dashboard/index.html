@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description='CryptoVault User Dashboard Overview')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: ticker-ribbon}"></div>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="main-content">
+    <div class="container">
+        <!-- Dashboard Welcome Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+            <div>
+                <div style="font-size: 0.85rem; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">
+                    Sovereign Vault Active • 256-bit Secured
+                </div>
+                <h1 style="font-size: 1.85rem;" th:text="|Welcome back, ${user.fullName}|">Welcome back, User</h1>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <a th:href="@{/transactions/send}" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Send Crypto
+                </a>
+                <a th:href="@{/transactions/receive}" class="btn btn-cyan">
+                    <i class="fas fa-qrcode"></i> Receive
+                </a>
+                <a th:href="@{/wallets}" class="btn btn-secondary">
+                    <i class="fas fa-wallet"></i> Manage Wallets
+                </a>
+            </div>
+        </div>
+
+        <!-- Portfolio Metric Summary Grid -->
+        <div class="metric-grid">
+            <div class="metric-card">
+                <div class="metric-title">
+                    <span>Total Portfolio Value (INR)</span>
+                    <i class="fas fa-indian-rupee-sign" style="color: var(--primary);"></i>
+                </div>
+                <div class="metric-value font-mono" th:text="|₹${#numbers.formatDecimal(summary.totalBalanceInr, 1, 'COMMA', 2, 'POINT')}|">₹94,97,500.00</div>
+                <div class="metric-sub" style="color: #10b981;">
+                    <i class="fas fa-arrow-trend-up"></i> +2.48% (24h portfolio gain)
+                </div>
+            </div>
+
+            <div class="metric-card cyan">
+                <div class="metric-title">
+                    <span>Total Net Worth (USD)</span>
+                    <i class="fas fa-dollar-sign" style="color: #06b6d4;"></i>
+                </div>
+                <div class="metric-value font-mono" th:text="|$${#numbers.formatDecimal(summary.totalBalanceUsd, 1, 'COMMA', 2, 'POINT')}|">$1,14,250.00</div>
+                <div class="metric-sub">
+                    Institutional Benchmark Rate
+                </div>
+            </div>
+
+            <div class="metric-card purple">
+                <div class="metric-title">
+                    <span>Active Vaults</span>
+                    <i class="fas fa-vault" style="color: #8b5cf6;"></i>
+                </div>
+                <div class="metric-value font-mono" th:text="${summary.walletCount}">4</div>
+                <div class="metric-sub">
+                    Multi-Chain Addresses
+                </div>
+            </div>
+
+            <div class="metric-card amber">
+                <div class="metric-title">
+                    <span>Total Transactions</span>
+                    <i class="fas fa-receipt" style="color: #f59e0b;"></i>
+                </div>
+                <div class="metric-value font-mono" th:text="${summary.transactionCount}">12</div>
+                <div class="metric-sub">
+                    Ledger Confirmations
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Dynamic Chart Island & Asset Quick View -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem;">
+            <!-- Live Interactive Canvas Chart Island -->
+            <div class="glass-card">
+                <div class="card-header-flex">
+                    <div>
+                        <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem;">Market Trend Analysis</h3>
+                        <p style="font-size: 0.82rem;">Real-time valuation movements across major assets</p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-secondary btn-sm btn-primary" data-timeframe="7D">7D</button>
+                        <button class="btn btn-secondary btn-sm" data-timeframe="1M">1M</button>
+                        <button class="btn btn-secondary btn-sm" data-timeframe="1Y">1Y</button>
+                    </div>
+                </div>
+
+                <!-- Asset Tabs -->
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
+                    <button class="btn btn-secondary btn-sm active" data-chart-asset="BTC" style="border-radius: 8px;">
+                        <i class="fab fa-bitcoin" style="color: #F7931A;"></i> BTC
+                    </button>
+                    <button class="btn btn-secondary btn-sm" data-chart-asset="ETH" style="border-radius: 8px;">
+                        <i class="fab fa-ethereum" style="color: #627EEA;"></i> ETH
+                    </button>
+                    <button class="btn btn-secondary btn-sm" data-chart-asset="SOL" style="border-radius: 8px;">
+                        <i class="fas fa-sun" style="color: #14F195;"></i> SOL
+                    </button>
+                    <button class="btn btn-secondary btn-sm" data-chart-asset="USDT" style="border-radius: 8px;">
+                        <i class="fas fa-dollar-sign" style="color: #26A17B;"></i> USDT
+                    </button>
+                </div>
+
+                <!-- Chart Canvas -->
+                <div style="width: 100%; height: 280px; position: relative;">
+                    <canvas id="cryptoTrendChart" data-default-currency="BTC"></canvas>
+                </div>
+            </div>
+
+            <!-- Quick Action & Asset Allocation Island -->
+            <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">Vault Distribution</h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.9rem;">
+                        <div th:each="w : ${wallets}" style="background: rgba(6, 9, 17, 0.6); padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 0.65rem;">
+                                <i th:class="${w.currency.iconClass}" th:style="|color: ${w.currency.badgeColor}; font-size: 1.1rem;|"></i>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 0.88rem;" th:text="${w.currency.code}">BTC</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-dim);" th:text="|₹${#numbers.formatDecimal(w.currency.exchangeRateInr, 1, 'COMMA', 2, 'POINT')}|">₹65,50,000</div>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="font-mono" style="font-weight: 700; font-size: 0.92rem;" th:text="|${w.balance} ${w.currency.symbol}|">1.45 ₿</div>
+                                <div class="font-mono" style="font-size: 0.75rem; color: var(--text-muted);" th:text="|₹${#numbers.formatDecimal(w.getFiatValueInr(), 1, 'COMMA', 2, 'POINT')}|">₹94,97,500</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
+                    <a th:href="@{/wallets}" class="btn btn-secondary btn-sm" style="width: 100%;">
+                        <i class="fas fa-layer-group"></i> View All Wallets
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Wallets Grid -->
+        <div style="margin-bottom: 2.5rem;">
+            <div class="card-header-flex">
+                <div>
+                    <h2 style="font-size: 1.4rem; margin-bottom: 0.25rem;">My Active Cryptocurrency Vaults</h2>
+                    <p style="font-size: 0.88rem;">Sovereign multi-currency wallets with instant transfer capability</p>
+                </div>
+                <a th:href="@{/wallets}" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-plus"></i> Add New Currency Vault
+                </a>
+            </div>
+
+            <div class="wallet-grid">
+                <div th:each="w : ${wallets}" class="wallet-card">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;"
+                                     th:style="|background: ${w.currency.badgeColor}22;|">
+                                    <i th:class="${w.currency.iconClass}" th:style="|color: ${w.currency.badgeColor};|"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 1.05rem;" th:text="${w.currency.name}">Bitcoin</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-dim);" th:text="${w.walletName}">Pushkaran BTC Vault</div>
+                                </div>
+                            </div>
+                            <span class="wallet-badge-pill" th:style="|color: ${w.currency.badgeColor}; border: 1px solid ${w.currency.badgeColor}44;|" th:text="${w.currency.code}">BTC</span>
+                        </div>
+
+                        <div class="wallet-balance" th:text="${#numbers.formatDecimal(w.balance, 1, 8)}">1.45000000</div>
+                        <div class="wallet-fiat" th:text="|≈ ₹${#numbers.formatDecimal(w.getFiatValueInr(), 1, 'COMMA', 2, 'POINT')} / $${#numbers.formatDecimal(w.getFiatValueUsd(), 1, 'COMMA', 2, 'POINT')}|">
+                            ≈ ₹94,97,500.00
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="wallet-address-bar">
+                            <span th:text="${w.walletAddress}">0x123...456</span>
+                            <button type="button" class="btn btn-sm" th:data-copy="${w.walletAddress}" style="background: transparent; color: var(--primary); padding: 0;" title="Copy Address">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+
+                        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                            <a th:href="@{'/wallets/' + ${w.id}}" class="btn btn-secondary btn-sm" style="flex: 1;">
+                                <i class="fas fa-eye"></i> Details
+                            </a>
+                            <a th:href="@{'/transactions/send?walletId=' + ${w.id}}" class="btn btn-primary btn-sm" style="flex: 1;">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Transactions Table -->
+        <div class="glass-card" style="padding: 1.5rem 0;">
+            <div style="padding: 0 1.5rem 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle);">
+                <div>
+                    <h3 style="font-size: 1.2rem;">Recent Ledger Activity</h3>
+                    <p style="font-size: 0.82rem;">Real-time transaction log with blockchain hashes</p>
+                </div>
+                <a th:href="@{/transactions}" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-list"></i> Full Ledger History
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Tx Hash</th>
+                            <th>Asset Amount</th>
+                            <th>Fiat Equivalent (INR)</th>
+                            <th>Status</th>
+                            <th>Date & Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(recentTransactions)}">
+                            <td colspan="7" style="text-align: center; color: var(--text-dim); padding: 2.5rem;">
+                                No recent transactions recorded yet. Use the Faucet or Deposit to fund your vault.
+                            </td>
+                        </tr>
+                        <tr th:each="tx : ${recentTransactions}">
+                            <td>
+                                <span style="font-size: 0.82rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 6px;"
+                                      th:style="${tx.txType.name() == 'TRANSFER' ? 'background: rgba(6,182,212,0.15); color: #06b6d4;' : 'background: rgba(16,185,129,0.15); color: #10b981;'}"
+                                      th:text="${tx.txType}">TRANSFER</span>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <span class="font-mono" style="font-size: 0.82rem; color: var(--text-muted);"
+                                          th:text="|${#strings.substring(tx.txHash, 0, 10)}...${#strings.substring(tx.txHash, tx.txHash.length() - 6)}|">0x8f2d...0b1c</span>
+                                    <button class="btn btn-sm" th:data-copy="${tx.txHash}" style="background: transparent; color: var(--text-dim); padding: 0;" title="Copy Tx Hash">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="font-mono" style="font-weight: 700;" th:text="|${tx.amount} ${tx.currency.code}|">1.50000000 BTC</div>
+                            </td>
+                            <td class="font-mono" style="color: var(--text-muted);" th:text="|₹${#numbers.formatDecimal(tx.fiatEquivalentInr, 1, 'COMMA', 2, 'POINT')}|">₹98,25,000.00</td>
+                            <td>
+                                <span class="badge-status confirmed" th:text="${tx.status}">CONFIRMED</span>
+                            </td>
+                            <td style="font-size: 0.82rem; color: var(--text-dim);" th:text="${#temporals.format(tx.createdAt, 'dd MMM yyyy HH:mm')}">06 Oct 2026 21:00</td>
+                            <td>
+                                <a th:href="@{'/transactions/' + ${tx.id} + '/receipt'}" class="btn btn-secondary btn-sm" style="padding: 0.25rem 0.6rem; font-size: 0.78rem;">
+                                    <i class="fas fa-receipt"></i> Receipt
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>
