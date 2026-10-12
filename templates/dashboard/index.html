@@ -1,275 +1,572 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      lang="en">
-<head th:replace="~{fragments/layout :: html-head(title=${pageTitle}, description='CryptoVault User Dashboard Overview')}"></head>
-<body>
+<html class="dark" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="web_dashboard" name="shell-type"/>
+    <title>CryptoVault — Sovereign Custody & Private Reserve</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    
+    <style>
+        @layer base {
+            html, body { margin:0; padding:0; }
+            body { overscroll-behavior:none; }
+            main > :first-child { margin-top:0!important; }
+            main > :last-child { margin-bottom:0!important; }
+        }
+        ::-webkit-scrollbar { display:none; }
+    </style>
+    
+    <!-- Tailwind CSS with Luxury Dark Swiss Vault Palette -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "primary-fixed-dim": "#e0c298",
+              "tertiary-container": "#30b8f3",
+              "on-primary-fixed": "#281800",
+              "on-secondary-fixed-variant": "#3f4756",
+              "on-surface-variant": "#d1c5b8",
+              "inverse-surface": "#dfe2eb",
+              "on-secondary-fixed": "#141c29",
+              "surface-bright": "#353940",
+              "tertiary-fixed": "#c4e7ff",
+              "surface-container-lowest": "#0a0e14",
+              "on-primary-fixed-variant": "#584323",
+              "inverse-on-surface": "#2d3137",
+              "on-secondary-container": "#b1b8cb",
+              "inverse-primary": "#725b38",
+              "on-surface": "#dfe2eb",
+              "on-secondary": "#29313f",
+              "on-tertiary-container": "#004660",
+              "secondary-container": "#414959",
+              "surface-dim": "#10141a",
+              "tertiary": "#7fd1ff",
+              "outline-variant": "#4d463c",
+              "primary": "#e2c399",
+              "surface-container": "#1c2026",
+              "surface-variant": "#31353c",
+              "on-error-container": "#ffdad6",
+              "on-tertiary": "#00354a",
+              "surface-container-high": "#262a31",
+              "error": "#ffb4ab",
+              "outline": "#998f83",
+              "on-error": "#690005",
+              "primary-container": "#c5a880",
+              "secondary-fixed": "#dbe2f6",
+              "on-tertiary-fixed-variant": "#004c69",
+              "on-tertiary-fixed": "#001e2c",
+              "background": "#10141a",
+              "on-primary-container": "#513d1d",
+              "on-primary": "#402d0f",
+              "secondary-fixed-dim": "#bfc7d9",
+              "error-container": "#93000a",
+              "primary-fixed": "#fedeb2",
+              "surface-tint": "#e0c298",
+              "surface-container-low": "#181c22",
+              "tertiary-fixed-dim": "#7bd0ff",
+              "secondary": "#bfc7d9",
+              "surface": "#10141a",
+              "on-background": "#dfe2eb",
+              "surface-container-highest": "#31353c"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.125rem",
+              "lg": "0.25rem",
+              "xl": "0.5rem",
+              "full": "0.75rem"
+            },
+            "spacing": {
+              "gutter-sm": "1rem",
+              "margin-lg": "4rem",
+              "space-sm": "0.5rem",
+              "gutter-lg": "2rem",
+              "gutter": "1.5rem",
+              "margin": "2.5rem",
+              "space-xl": "2.5rem",
+              "space-md": "1rem",
+              "margin-sm": "1.25rem",
+              "space-xs": "0.25rem",
+              "space-lg": "1.5rem"
+            },
+            "fontFamily": {
+              "headline-lg-mobile": ["Newsreader", "serif"],
+              "headline-md": ["Newsreader", "serif"],
+              "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+              "label-md": ["Plus Jakarta Sans", "sans-serif"],
+              "body-md": ["Plus Jakarta Sans", "sans-serif"],
+              "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+              "title-lg": ["Plus Jakarta Sans", "sans-serif"],
+              "headline-sm": ["Newsreader", "serif"],
+              "headline-lg": ["Newsreader", "serif"],
+              "title-md": ["Plus Jakarta Sans", "sans-serif"],
+              "display-lg-mobile": ["Newsreader", "serif"],
+              "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+              "display-lg": ["Newsreader", "serif"]
+            },
+            "fontSize": {
+              "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+              "headline-md": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+              "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+              "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+              "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+              "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+              "title-lg": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+              "headline-sm": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.005em", "fontWeight": "500" }],
+              "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.015em", "fontWeight": "400" }],
+              "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" }],
+              "display-lg-mobile": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.015em", "fontWeight": "400" }],
+              "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }],
+              "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "400" }]
+            }
+          }
+        }
+    }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container">
 
-<div th:replace="~{fragments/layout :: ticker-ribbon}"></div>
-<div th:replace="~{fragments/layout :: navbar}"></div>
-
-<main class="main-content">
-    <div class="container">
-        <!-- Dashboard Welcome Header -->
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
-            <div>
-                <div style="font-size: 0.85rem; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">
-                    Sovereign Vault Active • 256-bit Secured
-                </div>
-                <h1 style="font-size: 1.85rem;" th:text="|Welcome back, ${user.fullName}|">Welcome back, User</h1>
+    <!-- Fixed Left Sidebar -->
+    <aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest z-50 flex flex-col justify-between py-space-xl px-space-lg border-r border-surface-container-high/40 shadow-[0_1px_16px_rgba(0,0,0,0.25)]">
+        <div class="flex flex-col gap-space-xl">
+            <!-- Brand & Jurisdiction Monogram -->
+            <div class="flex flex-col gap-space-xs">
+                <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">GENÈVE • ZÜRICH • BENGALURU</span>
+                <a th:href="@{/dashboard}" class="flex items-center gap-space-xs group">
+                    <span class="material-symbols-outlined text-primary text-[28px] transition-transform group-hover:rotate-12">shield</span>
+                    <h1 class="font-headline-sm text-headline-sm text-primary tracking-tight font-serif">CRYPTOVAULT</h1>
+                </a>
+                <span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest uppercase">SOVEREIGN CUSTODY PLATFORM</span>
             </div>
 
-            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                <a th:href="@{/transactions/send}" class="btn btn-primary">
-                    <i class="fas fa-paper-plane"></i> Send Crypto
+            <!-- Main Enclave Navigation -->
+            <nav class="flex flex-col gap-space-xs">
+                <a th:href="@{/dashboard}" aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-surface-container-high text-primary font-bold shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">account_balance</span>
+                    <span>Private Reserve</span>
                 </a>
-                <a th:href="@{/transactions/receive}" class="btn btn-cyan">
-                    <i class="fas fa-qrcode"></i> Receive
+                <a th:href="@{/wallets}" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">lock_clock</span>
+                    <span>Time-Lock Depository</span>
                 </a>
-                <a th:href="@{/wallets}" class="btn btn-secondary">
-                    <i class="fas fa-wallet"></i> Manage Wallets
+                <a th:href="@{/transactions}" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">hub</span>
+                    <span>Multi-Sig Quorum</span>
                 </a>
-            </div>
+                <a th:href="@{/transactions/send}" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">send</span>
+                    <span>Capital Dispatch</span>
+                </a>
+                <a th:href="@{/transactions/receive}" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">qr_code_2</span>
+                    <span>Inflow Depository</span>
+                </a>
+                <a th:href="@{/notifications}" class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-colors">
+                    <div class="flex items-center gap-space-sm">
+                        <span class="material-symbols-outlined text-[18px]">verified</span>
+                        <span>Institutional Audit</span>
+                    </div>
+                    <span th:if="${unreadNotificationsCount > 0}" class="bg-tertiary-container text-on-tertiary-container text-[11px] font-bold px-1.5 py-0.5 rounded-full" th:text="${unreadNotificationsCount}">3</span>
+                </a>
+                <a th:href="@{/admin}" sec:authorize="hasRole('ADMIN')" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-primary hover:bg-surface-container font-title-md text-title-md transition-colors border border-primary/20">
+                    <span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
+                    <span>Admin Citadel</span>
+                </a>
+            </nav>
         </div>
 
-        <!-- Portfolio Metric Summary Grid -->
-        <div class="metric-grid">
-            <div class="metric-card">
-                <div class="metric-title">
-                    <span>Total Portfolio Value (INR)</span>
-                    <i class="fas fa-indian-rupee-sign" style="color: var(--primary);"></i>
-                </div>
-                <div class="metric-value font-mono" th:text="|₹${#numbers.formatDecimal(summary.totalBalanceInr, 1, 'COMMA', 2, 'POINT')}|">₹94,97,500.00</div>
-                <div class="metric-sub" style="color: #10b981;">
-                    <i class="fas fa-arrow-trend-up"></i> +2.48% (24h portfolio gain)
-                </div>
+        <!-- Enclave Telemetry Badge -->
+        <div class="flex flex-col gap-space-sm bg-surface-container-low p-space-md rounded-lg border border-surface-container-high/60">
+            <div class="flex items-center gap-space-xs">
+                <span class="w-2 h-2 rounded-full bg-tertiary-container animate-ping"></span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Enclave Status</span>
             </div>
-
-            <div class="metric-card cyan">
-                <div class="metric-title">
-                    <span>Total Net Worth (USD)</span>
-                    <i class="fas fa-dollar-sign" style="color: #06b6d4;"></i>
-                </div>
-                <div class="metric-value font-mono" th:text="|$${#numbers.formatDecimal(summary.totalBalanceUsd, 1, 'COMMA', 2, 'POINT')}|">$1,14,250.00</div>
-                <div class="metric-sub">
-                    Institutional Benchmark Rate
-                </div>
-            </div>
-
-            <div class="metric-card purple">
-                <div class="metric-title">
-                    <span>Active Vaults</span>
-                    <i class="fas fa-vault" style="color: #8b5cf6;"></i>
-                </div>
-                <div class="metric-value font-mono" th:text="${summary.walletCount}">4</div>
-                <div class="metric-sub">
-                    Multi-Chain Addresses
-                </div>
-            </div>
-
-            <div class="metric-card amber">
-                <div class="metric-title">
-                    <span>Total Transactions</span>
-                    <i class="fas fa-receipt" style="color: #f59e0b;"></i>
-                </div>
-                <div class="metric-value font-mono" th:text="${summary.transactionCount}">12</div>
-                <div class="metric-sub">
-                    Ledger Confirmations
-                </div>
+            <p class="font-body-sm text-body-sm text-on-surface">Alpine Fort Knox Node VII Active</p>
+            <div class="flex items-center justify-between font-label-sm text-label-sm text-outline font-mono">
+                <span>Attestation: Hex-982F</span>
+                <span class="text-tertiary">FIPS 140-3</span>
             </div>
         </div>
+    </aside>
 
-        <!-- Interactive Dynamic Chart Island & Asset Quick View -->
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem;">
-            <!-- Live Interactive Canvas Chart Island -->
-            <div class="glass-card">
-                <div class="card-header-flex">
-                    <div>
-                        <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem;">Market Trend Analysis</h3>
-                        <p style="font-size: 0.82rem;">Real-time valuation movements across major assets</p>
-                    </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-secondary btn-sm btn-primary" data-timeframe="7D">7D</button>
-                        <button class="btn btn-secondary btn-sm" data-timeframe="1M">1M</button>
-                        <button class="btn btn-secondary btn-sm" data-timeframe="1Y">1Y</button>
-                    </div>
+    <!-- Main Content Area with Pl-72 Offset -->
+    <div class="pl-72">
+        <!-- Fixed Header Bar -->
+        <header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/85 backdrop-blur-xl z-40 flex items-center justify-between px-space-xl border-b border-surface-container-high/40 shadow-[0_1px_8px_rgba(0,0,0,0.1)]">
+            <div class="flex items-center gap-space-lg">
+                <div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-space-xs rounded-lg border border-surface-container-high/50">
+                    <span class="material-symbols-outlined text-tertiary text-[16px]">shield</span>
+                    <span class="font-label-sm text-label-sm text-on-surface tracking-wider uppercase">HSM Partition Verified</span>
                 </div>
-
-                <!-- Asset Tabs -->
-                <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
-                    <button class="btn btn-secondary btn-sm active" data-chart-asset="BTC" style="border-radius: 8px;">
-                        <i class="fab fa-bitcoin" style="color: #F7931A;"></i> BTC
-                    </button>
-                    <button class="btn btn-secondary btn-sm" data-chart-asset="ETH" style="border-radius: 8px;">
-                        <i class="fab fa-ethereum" style="color: #627EEA;"></i> ETH
-                    </button>
-                    <button class="btn btn-secondary btn-sm" data-chart-asset="SOL" style="border-radius: 8px;">
-                        <i class="fas fa-sun" style="color: #14F195;"></i> SOL
-                    </button>
-                    <button class="btn btn-secondary btn-sm" data-chart-asset="USDT" style="border-radius: 8px;">
-                        <i class="fas fa-dollar-sign" style="color: #26A17B;"></i> USDT
-                    </button>
-                </div>
-
-                <!-- Chart Canvas -->
-                <div style="width: 100%; height: 280px; position: relative;">
-                    <canvas id="cryptoTrendChart" data-default-currency="BTC"></canvas>
+                <div class="hidden lg:flex items-center gap-space-xs">
+                    <span class="font-label-sm text-label-sm text-outline uppercase">Tier:</span>
+                    <span class="font-label-md text-label-md text-primary tracking-wide">Private Banking Client Tier 1</span>
                 </div>
             </div>
 
-            <!-- Quick Action & Asset Allocation Island -->
-            <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">Vault Distribution</h3>
-                    <div style="display: flex; flex-direction: column; gap: 0.9rem;">
-                        <div th:each="w : ${wallets}" style="background: rgba(6, 9, 17, 0.6); padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
-                            <div style="display: flex; align-items: center; gap: 0.65rem;">
-                                <i th:class="${w.currency.iconClass}" th:style="|color: ${w.currency.badgeColor}; font-size: 1.1rem;|"></i>
-                                <div>
-                                    <div style="font-weight: 700; font-size: 0.88rem;" th:text="${w.currency.code}">BTC</div>
-                                    <div style="font-size: 0.75rem; color: var(--text-dim);" th:text="|₹${#numbers.formatDecimal(w.currency.exchangeRateInr, 1, 'COMMA', 2, 'POINT')}|">₹65,50,000</div>
-                                </div>
-                            </div>
-                            <div style="text-align: right;">
-                                <div class="font-mono" style="font-weight: 700; font-size: 0.92rem;" th:text="|${w.balance} ${w.currency.symbol}|">1.45 ₿</div>
-                                <div class="font-mono" style="font-size: 0.75rem; color: var(--text-muted);" th:text="|₹${#numbers.formatDecimal(w.getFiatValueInr(), 1, 'COMMA', 2, 'POINT')}|">₹94,97,500</div>
-                            </div>
+            <!-- Aggregated Valuation & User Profile Action -->
+            <div class="flex items-center gap-space-xl">
+                <div class="flex items-baseline gap-space-xs text-right">
+                    <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Aggregated Valuation:</span>
+                    <span class="font-headline-sm text-headline-sm text-on-surface tabular-nums font-mono" th:text="|₹${#numbers.formatDecimal(summary.totalBalanceInr, 1, 'COMMA', 2, 'POINT')}|">₹94,97,500.00</span>
+                </div>
+                <div class="flex items-center gap-space-sm">
+                    <a th:href="@{/profile}" class="flex items-center gap-space-xs group" title="Account Settings">
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xs shadow-md group-hover:scale-105 transition-transform">
+                            <span th:text="${#strings.substring(user.fullName, 0, 1)}">P</span>
                         </div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
-                    <a th:href="@{/wallets}" class="btn btn-secondary btn-sm" style="width: 100%;">
-                        <i class="fas fa-layer-group"></i> View All Wallets
+                    </a>
+                    <a th:href="@{/logout}" class="text-outline hover:text-on-surface p-1 transition-colors" title="Secure Logout">
+                        <span class="material-symbols-outlined text-[20px]">logout</span>
                     </a>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <!-- User Wallets Grid -->
-        <div style="margin-bottom: 2.5rem;">
-            <div class="card-header-flex">
-                <div>
-                    <h2 style="font-size: 1.4rem; margin-bottom: 0.25rem;">My Active Cryptocurrency Vaults</h2>
-                    <p style="font-size: 0.88rem;">Sovereign multi-currency wallets with instant transfer capability</p>
-                </div>
-                <a th:href="@{/wallets}" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-plus"></i> Add New Currency Vault
-                </a>
-            </div>
+        <!-- Main Workspace -->
+        <main class="w-full pt-16 px-space-xl bg-background min-h-screen">
+            <div class="flex flex-col w-full py-space-lg">
+                <!-- Ambient Illumination Accent -->
+                <div class="relative w-full pb-space-xl">
+                    <div class="absolute -top-12 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
 
-            <div class="wallet-grid">
-                <div th:each="w : ${wallets}" class="wallet-card">
-                    <div>
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;"
-                                     th:style="|background: ${w.currency.badgeColor}22;|">
-                                    <i th:class="${w.currency.iconClass}" th:style="|color: ${w.currency.badgeColor};|"></i>
+                    <!-- Contextual Breadcrumb & Monogram Overline -->
+                    <div class="flex items-center justify-between pb-space-lg">
+                        <div class="flex items-center gap-space-sm">
+                            <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">VAULT PROTOCOL 09 // SECTOR ZURICH-CENTRAL</span>
+                            <span class="w-1 h-1 rounded-full bg-outline"></span>
+                            <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">ATTESTATION ACTIVE (GEN-IV)</span>
+                        </div>
+                        <div class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-outline text-[15px]">lock</span>
+                            <span class="font-mono">COLD ISOLATION: 99.988% UP-AIRGAP</span>
+                        </div>
+                    </div>
+
+                    <!-- Valuation Ledger Main Frame (Editorial Hero) -->
+                    <div class="grid grid-cols-12 gap-gutter bg-surface-container-low rounded-xl p-space-xl shadow-2xl relative overflow-hidden border border-surface-container-high/60">
+                        <div class="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+                        <!-- Primary Valuation Column (8 cols) -->
+                        <div class="col-span-12 lg:col-span-8 flex flex-col justify-between">
+                            <div class="flex flex-col gap-space-sm">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">PORTFOLIO VALUATION BASELINE</span>
+                                    <div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-xs rounded border border-surface-container-high/40">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-tertiary-container animate-pulse"></span>
+                                        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-mono">ORACLE SYNCHRONIZED</span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div style="font-weight: 700; font-size: 1.05rem;" th:text="${w.currency.name}">Bitcoin</div>
-                                    <div style="font-size: 0.75rem; color: var(--text-dim);" th:text="${w.walletName}">Pushkaran BTC Vault</div>
+                                <div class="flex flex-col pt-space-xs">
+                                    <div class="flex items-baseline gap-space-sm">
+                                        <span class="font-headline-lg text-headline-lg text-primary tabular-nums tracking-tight font-serif" th:text="|$${#numbers.formatDecimal(summary.totalBalanceUsd, 1, 'COMMA', 2, 'POINT')}|">$1,14,250.00</span>
+                                        <span class="font-title-md text-title-md text-outline uppercase font-mono">USD</span>
+                                    </div>
+                                    <div class="flex items-center gap-space-md pt-space-xs flex-wrap">
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">Eqv. <span class="font-title-md text-title-md text-on-surface tabular-nums font-mono" th:text="|₹${#numbers.formatDecimal(summary.totalBalanceInr, 1, 'COMMA', 2, 'POINT')}|">₹94,97,500.00</span> INR</span>
+                                        <span class="text-outline text-body-sm">•</span>
+                                        <span class="font-label-sm text-label-sm text-tertiary tabular-nums tracking-wide font-mono" th:text="|${summary.change24hPercentage >= 0 ? '+' : ''}${summary.change24hPercentage}% 24-HOUR WEIGHTED GAIN|">+2.48% 24-HOUR WEIGHTED GAIN</span>
+                                    </div>
                                 </div>
                             </div>
-                            <span class="wallet-badge-pill" th:style="|color: ${w.currency.badgeColor}; border: 1px solid ${w.currency.badgeColor}44;|" th:text="${w.currency.code}">BTC</span>
-                        </div>
 
-                        <div class="wallet-balance" th:text="${#numbers.formatDecimal(w.balance, 1, 8)}">1.45000000</div>
-                        <div class="wallet-fiat" th:text="|≈ ₹${#numbers.formatDecimal(w.getFiatValueInr(), 1, 'COMMA', 2, 'POINT')} / $${#numbers.formatDecimal(w.getFiatValueUsd(), 1, 'COMMA', 2, 'POINT')}|">
-                            ≈ ₹94,97,500.00
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="wallet-address-bar">
-                            <span th:text="${w.walletAddress}">0x123...456</span>
-                            <button type="button" class="btn btn-sm" th:data-copy="${w.walletAddress}" style="background: transparent; color: var(--primary); padding: 0;" title="Copy Address">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-
-                        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                            <a th:href="@{'/wallets/' + ${w.id}}" class="btn btn-secondary btn-sm" style="flex: 1;">
-                                <i class="fas fa-eye"></i> Details
-                            </a>
-                            <a th:href="@{'/transactions/send?walletId=' + ${w.id}}" class="btn btn-primary btn-sm" style="flex: 1;">
-                                <i class="fas fa-paper-plane"></i> Send
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recent Transactions Table -->
-        <div class="glass-card" style="padding: 1.5rem 0;">
-            <div style="padding: 0 1.5rem 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle);">
-                <div>
-                    <h3 style="font-size: 1.2rem;">Recent Ledger Activity</h3>
-                    <p style="font-size: 0.82rem;">Real-time transaction log with blockchain hashes</p>
-                </div>
-                <a th:href="@{/transactions}" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-list"></i> Full Ledger History
-                </a>
-            </div>
-
-            <div class="table-responsive">
-                <table class="custom-table">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Tx Hash</th>
-                            <th>Asset Amount</th>
-                            <th>Fiat Equivalent (INR)</th>
-                            <th>Status</th>
-                            <th>Date & Time</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:if="${#lists.isEmpty(recentTransactions)}">
-                            <td colspan="7" style="text-align: center; color: var(--text-dim); padding: 2.5rem;">
-                                No recent transactions recorded yet. Use the Faucet or Deposit to fund your vault.
-                            </td>
-                        </tr>
-                        <tr th:each="tx : ${recentTransactions}">
-                            <td>
-                                <span style="font-size: 0.82rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 6px;"
-                                      th:style="${tx.txType.name() == 'TRANSFER' ? 'background: rgba(6,182,212,0.15); color: #06b6d4;' : 'background: rgba(16,185,129,0.15); color: #10b981;'}"
-                                      th:text="${tx.txType}">TRANSFER</span>
-                            </td>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <span class="font-mono" style="font-size: 0.82rem; color: var(--text-muted);"
-                                          th:text="|${#strings.substring(tx.txHash, 0, 10)}...${#strings.substring(tx.txHash, tx.txHash.length() - 6)}|">0x8f2d...0b1c</span>
-                                    <button class="btn btn-sm" th:data-copy="${tx.txHash}" style="background: transparent; color: var(--text-dim); padding: 0;" title="Copy Tx Hash">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
+                            <!-- Hairline Partition Allocation Visualizer -->
+                            <div class="flex flex-col gap-space-md pt-space-xl">
+                                <div class="flex items-center justify-between font-label-sm text-label-sm">
+                                    <span class="text-outline uppercase tracking-wider">CUSTODIAL DISTRIBUTION TOPOLOGY</span>
+                                    <span class="text-on-surface-variant font-mono">HASH: 8F2A..C39E</span>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="font-mono" style="font-weight: 700;" th:text="|${tx.amount} ${tx.currency.code}|">1.50000000 BTC</div>
-                            </td>
-                            <td class="font-mono" style="color: var(--text-muted);" th:text="|₹${#numbers.formatDecimal(tx.fiatEquivalentInr, 1, 'COMMA', 2, 'POINT')}|">₹98,25,000.00</td>
-                            <td>
-                                <span class="badge-status confirmed" th:text="${tx.status}">CONFIRMED</span>
-                            </td>
-                            <td style="font-size: 0.82rem; color: var(--text-dim);" th:text="${#temporals.format(tx.createdAt, 'dd MMM yyyy HH:mm')}">06 Oct 2026 21:00</td>
-                            <td>
-                                <a th:href="@{'/transactions/' + ${tx.id} + '/receipt'}" class="btn btn-secondary btn-sm" style="padding: 0.25rem 0.6rem; font-size: 0.78rem;">
-                                    <i class="fas fa-receipt"></i> Receipt
+                                <!-- Micro Allocation Bar -->
+                                <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden flex gap-[2px] p-[1px]">
+                                    <div class="h-full bg-primary-container rounded-l-full transition-all duration-700 ease-out" style="width: 82.4%;" title="Swiss Alpine Cold Depository"></div>
+                                    <div class="h-full bg-tertiary-container rounded-r-full transition-all duration-700 ease-out" style="width: 17.6%;" title="Liquid Rebalance Buffer"></div>
+                                </div>
+                                <!-- Allocation Metric Details -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter pt-space-xs">
+                                    <div class="flex flex-col gap-space-xs bg-surface-container/60 p-space-md rounded-lg border border-surface-container-high/40">
+                                        <div class="flex items-center gap-space-xs">
+                                            <span class="w-2 h-2 rounded-full bg-primary-container"></span>
+                                            <span class="font-label-sm text-label-sm text-on-surface tracking-wider uppercase">Deep-Rock Cold Vaults</span>
+                                        </div>
+                                        <div class="flex items-baseline justify-between pt-space-xs">
+                                            <span class="font-headline-sm text-headline-sm text-on-surface tabular-nums font-mono">82.4%</span>
+                                            <span class="font-body-sm text-body-sm text-outline tabular-nums font-mono" th:text="|$${#numbers.formatDecimal(summary.totalBalanceUsd * 0.824, 1, 'COMMA', 2, 'POINT')}|">$94,142.00</span>
+                                        </div>
+                                        <span class="font-label-sm text-label-sm text-outline">Class 4 Hardware Enclave Tier</span>
+                                    </div>
+                                    <div class="flex flex-col gap-space-xs bg-surface-container/60 p-space-md rounded-lg border border-surface-container-high/40">
+                                        <div class="flex items-center gap-space-xs">
+                                            <span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
+                                            <span class="font-label-sm text-label-sm text-on-surface tracking-wider uppercase">Liquid Instant Settlement</span>
+                                        </div>
+                                        <div class="flex items-baseline justify-between pt-space-xs">
+                                            <span class="font-headline-sm text-headline-sm text-on-surface tabular-nums font-mono">17.6%</span>
+                                            <span class="font-body-sm text-body-sm text-outline tabular-nums font-mono" th:text="|$${#numbers.formatDecimal(summary.totalBalanceUsd * 0.176, 1, 'COMMA', 2, 'POINT')}|">$20,108.00</span>
+                                        </div>
+                                        <span class="font-label-sm text-label-sm text-outline">Zero-Latency Hot Settlement Quorum</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Facility Vignette & Cryptographic Proof Pane (4 cols) -->
+                        <div class="col-span-12 lg:col-span-4 flex flex-col justify-between bg-surface-container p-space-lg rounded-xl shadow-inner mt-space-lg lg:mt-0 border border-surface-container-high/60">
+                            <div class="flex flex-col gap-space-md">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FACILITY IDENTIFIER</span>
+                                    <span class="font-label-sm text-label-sm text-outline tabular-nums font-mono">ZUR-04</span>
+                                </div>
+                                <div class="relative w-full h-36 rounded-lg overflow-hidden shadow-md">
+                                    <img class="w-full h-full object-cover" alt="Subterranean alpine granite vault terminal" src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80"/>
+                                    <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-surface-container/30 to-transparent"></div>
+                                    <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between">
+                                        <span class="font-label-sm text-label-sm text-on-surface font-semibold tracking-wider uppercase">Gotthard Subterranean Depository</span>
+                                        <span class="material-symbols-outlined text-tertiary text-[16px]">verified_user</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-space-xs pt-space-xs">
+                                    <div class="flex justify-between font-body-sm text-body-sm">
+                                        <span class="text-outline">Physical Shard Layer:</span>
+                                        <span class="text-on-surface font-mono">BIP-39 Pure Platinum Plate</span>
+                                    </div>
+                                    <div class="flex justify-between font-body-sm text-body-sm">
+                                        <span class="text-outline">Consensus Threshold:</span>
+                                        <span class="text-on-surface font-mono">4 of 7 Trustees</span>
+                                    </div>
+                                    <div class="flex justify-between font-body-sm text-body-sm">
+                                        <span class="text-outline">Active Vaults:</span>
+                                        <span class="text-on-surface font-mono" th:text="|${summary.walletCount} Sovereign Units|">4 Units</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tactile Audit Dispatch Actions -->
+                            <div class="flex flex-col gap-space-sm pt-space-lg">
+                                <a th:href="@{/transactions/send}" class="w-full bg-primary-container text-on-primary-container hover:bg-primary font-title-md text-title-md py-space-sm px-space-md rounded-lg flex items-center justify-center gap-space-xs transition-all shadow-md active:translate-y-px" id="btn-dispatch">
+                                    <span class="material-symbols-outlined text-[18px]">key</span>
+                                    <span>Initiate Capital Dispatch</span>
                                 </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                <button type="button" class="w-full bg-surface-container-high hover:bg-surface-variant text-on-surface font-title-md text-title-md py-space-sm px-space-md rounded-lg flex items-center justify-center gap-space-xs transition-all shadow-sm active:translate-y-px" id="btn-cert">
+                                    <span class="material-symbols-outlined text-outline text-[18px]">assignment_turned_in</span>
+                                    <span>Request Physical Audit Certificate</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security & Telemetry Strip -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter pt-space-xl">
+                        <!-- Telemetry Unit 1 -->
+                        <div class="bg-surface-container-low p-space-lg rounded-xl shadow-sm flex flex-col gap-space-xs border border-surface-container-high/40">
+                            <div class="flex items-center justify-between">
+                                <span class="font-label-sm text-label-sm text-outline tracking-wider uppercase">HSM Hardware Partition</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+                            </div>
+                            <div class="flex items-baseline gap-space-xs pt-space-xs">
+                                <span class="font-headline-sm text-headline-sm text-on-surface font-serif">FIPS 140-3 Level 4</span>
+                            </div>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant pt-space-xs">Physical tamper envelope active with micro-pyrotechnic silicon purge protocol armed.</p>
+                        </div>
+                        <!-- Telemetry Unit 2 -->
+                        <div class="bg-surface-container-low p-space-lg rounded-xl shadow-sm flex flex-col gap-space-xs border border-surface-container-high/40">
+                            <div class="flex items-center justify-between">
+                                <span class="font-label-sm text-label-sm text-outline tracking-wider uppercase">ZK-Shard Integrity</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                            </div>
+                            <div class="flex items-baseline gap-space-xs pt-space-xs">
+                                <span class="font-headline-sm text-headline-sm text-on-surface font-serif" th:text="|${summary.walletCount} / ${summary.walletCount} Vaults Synced|">4 / 4 Vaults Synced</span>
+                            </div>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant pt-space-xs">Cryptographic zero-knowledge verification completed across 3 distinct geolocations.</p>
+                        </div>
+                        <!-- Telemetry Unit 3 -->
+                        <div class="bg-surface-container-low p-space-lg rounded-xl shadow-sm flex flex-col gap-space-xs border border-surface-container-high/40">
+                            <div class="flex items-center justify-between">
+                                <span class="font-label-sm text-label-sm text-outline tracking-wider uppercase">Multi-Region Quorum</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                            </div>
+                            <div class="flex items-baseline gap-space-xs pt-space-xs">
+                                <span class="font-headline-sm text-headline-sm text-on-surface font-serif" th:text="|${summary.transactionCount} Confirmed Blocks|">12 Confirmed Blocks</span>
+                            </div>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant pt-space-xs">Zurich, Vaduz, and Geneva signer enclaves operational with optical fiber interconnects.</p>
+                        </div>
+                    </div>
+
+                    <!-- Curated Sovereign Holdings Ledger Section -->
+                    <div class="flex flex-col gap-space-md pt-space-xl">
+                        <div class="flex items-end justify-between">
+                            <div class="flex flex-col gap-space-xs">
+                                <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">SOVEREIGN ASSET INVENTORY</span>
+                                <h2 class="font-headline-md text-headline-md text-on-surface font-serif">Curated Reserve Ledger</h2>
+                            </div>
+                            <div class="flex items-center gap-space-sm">
+                                <a th:href="@{/wallets}" class="bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-space-md py-space-xs rounded uppercase tracking-wider transition-colors border border-surface-container-high">
+                                    + Add New Vault
+                                </a>
+                                <a th:href="@{/transactions}" class="bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-space-md py-space-xs rounded uppercase tracking-wider transition-colors border border-surface-container-high">
+                                    Audit Ledger (.CSV)
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Ledger Table Architecture -->
+                        <div class="bg-surface-container-low rounded-xl overflow-hidden shadow-xl border border-surface-container-high/60">
+                            <!-- Table Header -->
+                            <div class="grid grid-cols-12 px-space-lg py-space-md bg-surface-container font-label-sm text-label-sm text-outline tracking-wider uppercase border-b border-surface-container-high/50">
+                                <div class="col-span-4 sm:col-span-3">Asset &amp; Standard</div>
+                                <div class="col-span-3 sm:col-span-2 text-right">Holdings</div>
+                                <div class="col-span-3 sm:col-span-3 text-right">Valuation (USD / INR)</div>
+                                <div class="hidden sm:block sm:col-span-2 text-right">24H Market Pulse</div>
+                                <div class="col-span-2 text-right">Custody Status</div>
+                            </div>
+
+                            <!-- Dynamic Wallet Rows -->
+                            <div th:each="w : ${wallets}" class="grid grid-cols-12 px-space-lg py-space-lg items-center hover:bg-surface-container/70 transition-colors group cursor-pointer border-b border-surface-container-high/30 last:border-0"
+                                 th:onclick="|window.location.href='/wallets/' + ${w.id}|">
+                                <div class="col-span-4 sm:col-span-3 flex items-center gap-space-md">
+                                    <div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-105 transition-transform border border-surface-container-high">
+                                        <i th:class="${w.currency.iconClass != null ? w.currency.iconClass : 'fas fa-coins'}" th:style="|color: ${w.currency.badgeColor}|" class="text-[20px]"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="flex items-center gap-space-xs">
+                                            <span class="font-title-md text-title-md text-on-surface font-semibold" th:text="${w.currency.name}">Bitcoin</span>
+                                            <span class="font-label-sm text-label-sm text-outline font-mono" th:text="${w.currency.code}">BTC</span>
+                                        </div>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant truncate max-w-[180px]" th:text="${w.walletName}">Primary Vault</span>
+                                    </div>
+                                </div>
+                                <div class="col-span-3 sm:col-span-2 text-right flex flex-col">
+                                    <span class="font-title-md text-title-md text-on-surface tabular-nums font-mono font-semibold" th:text="|${w.balance} ${w.currency.symbol}|">1.45000000 ₿</span>
+                                    <span class="font-label-sm text-label-sm text-outline">Tier-1 Cold Vault</span>
+                                </div>
+                                <div class="col-span-3 sm:col-span-3 text-right flex flex-col">
+                                    <span class="font-title-md text-title-md text-on-surface tabular-nums font-mono font-semibold" th:text="|$${#numbers.formatDecimal(w.fiatValueUsd, 1, 'COMMA', 2, 'POINT')}|">$1,13,825.00</span>
+                                    <span class="font-body-sm text-body-sm text-on-surface-variant tabular-nums font-mono" th:text="|₹${#numbers.formatDecimal(w.fiatValueInr, 1, 'COMMA', 2, 'POINT')}|">₹94,97,500.00</span>
+                                </div>
+                                <div class="hidden sm:flex sm:col-span-2 flex-col items-end">
+                                    <span class="font-body-sm text-body-sm font-mono"
+                                          th:classappend="${w.currency.change24h != null and w.currency.change24h >= 0 ? 'text-tertiary' : 'text-error'}"
+                                          th:text="|${w.currency.change24h != null and w.currency.change24h >= 0 ? '+' : ''}${w.currency.change24h}% 24H|">+2.45% 24H</span>
+                                    <span class="font-label-sm text-label-sm text-outline font-mono" th:text="|₹${w.currency.exchangeRateInr} / unit|">₹65,50,000 / unit</span>
+                                </div>
+                                <div class="col-span-2 flex flex-col items-end gap-space-xs">
+                                    <div class="flex items-center gap-space-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                        <span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Air-Gapped</span>
+                                    </div>
+                                    <span class="font-label-sm text-label-sm text-outline hidden md:inline font-mono" th:text="|${#strings.substring(w.walletAddress, 0, 8)}...|">bc1q9x4a...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Depository Attestation & Cryptographic Manifest Footer Strip -->
+                    <div class="grid grid-cols-12 gap-gutter pt-space-xl items-center">
+                        <div class="col-span-12 lg:col-span-8 flex flex-col sm:flex-row items-start sm:items-center gap-space-lg bg-surface-container-low p-space-lg rounded-xl border border-surface-container-high/40">
+                            <div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center shrink-0 border border-surface-container-high/60">
+                                <span class="material-symbols-outlined text-primary text-[28px]">policy</span>
+                            </div>
+                            <div class="flex flex-col gap-space-xs">
+                                <div class="flex items-center gap-space-xs">
+                                    <span class="font-title-md text-title-md text-on-surface font-semibold">Independent Notarial Proof of Reserves</span>
+                                    <span class="font-label-sm text-label-sm text-outline font-mono">#901-ZH-2026</span>
+                                </div>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">Validated under FINMA Circular 2018/3 digital asset custody compliance standards by PricewaterhouseCoopers AG (Zurich) &amp; Adabala Pushkaran (24EG105R65).</p>
+                            </div>
+                        </div>
+                        <div class="col-span-12 lg:col-span-4 flex flex-col justify-center bg-surface-container-low p-space-lg rounded-xl border border-surface-container-high/40">
+                            <div class="flex items-center justify-between">
+                                <span class="font-label-sm text-label-sm text-outline tracking-wider uppercase">Next Scheduled Roll-Audit</span>
+                                <span class="font-label-sm text-label-sm text-tertiary font-mono">IN 18 HOURS</span>
+                            </div>
+                            <div class="flex items-center justify-between pt-space-sm">
+                                <span class="font-headline-sm text-headline-sm text-on-surface tabular-nums font-mono font-serif">04:00:00 CEST</span>
+                                <span class="material-symbols-outlined text-outline">schedule</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <!-- Interactive Feedback Dialog (Micro-Interaction Modal) -->
+            <div class="fixed inset-0 z-50 bg-surface-container-lowest/80 backdrop-blur-md hidden items-center justify-center p-space-md" id="modal-container">
+                <div class="bg-surface-container max-w-md w-full p-space-xl rounded-xl shadow-2xl flex flex-col gap-space-md relative border border-surface-container-high">
+                    <div class="flex items-center justify-between">
+                        <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-mono">TRANSACTION ESCROW</span>
+                        <button type="button" class="text-outline hover:text-on-surface" id="modal-close"><span class="material-symbols-outlined text-[20px]">close</span></button>
+                    </div>
+                    <div class="flex flex-col gap-space-xs">
+                        <h3 class="font-headline-sm text-headline-sm text-on-surface font-serif" id="modal-title">Dual-Custody Key Authorization</h3>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant" id="modal-desc">You are requesting a cryptographic verification sequence. Please connect your hardware security module or present physical trustee YubiKey.</p>
+                    </div>
+                    <div class="bg-surface-container-low p-space-md rounded-lg flex items-center justify-between font-mono text-body-sm text-outline border border-surface-container-high/50">
+                        <span>SESSION CHOP:</span>
+                        <span class="text-tertiary font-bold">91FA-28B0-EE1A-774C</span>
+                    </div>
+                    <div class="flex gap-space-sm pt-space-sm">
+                        <button type="button" class="w-full bg-primary-container text-on-primary-container font-title-md text-title-md py-space-sm rounded-lg hover:bg-primary transition-colors font-semibold" id="modal-confirm">Authenticate Shard</button>
+                        <button type="button" class="w-full bg-surface-container-high text-on-surface font-title-md text-title-md py-space-sm rounded-lg hover:bg-surface-variant transition-colors" id="modal-cancel">Abort</button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+              (function() {
+                const modal = document.getElementById('modal-container');
+                const btnCert = document.getElementById('btn-cert');
+                const modalClose = document.getElementById('modal-close');
+                const modalCancel = document.getElementById('modal-cancel');
+                const modalConfirm = document.getElementById('modal-confirm');
+                const modalTitle = document.getElementById('modal-title');
+                const modalDesc = document.getElementById('modal-desc');
+
+                function openModal(title, desc) {
+                  if (!modal) return;
+                  modalTitle.innerText = title;
+                  modalDesc.innerText = desc;
+                  modal.classList.remove('hidden');
+                  modal.classList.add('flex');
+                }
+
+                function closeModal() {
+                  if (!modal) return;
+                  modal.classList.add('hidden');
+                  modal.classList.remove('flex');
+                }
+
+                if (btnCert) {
+                  btnCert.addEventListener('click', function() {
+                    openModal('Physical Audit Certificate', 'Generates a tamper-evident cryptographically signed attestation backed by Alpine Cold Storage Node VII hardware proof for user: ' + document.querySelector('header span.tabular-nums').innerText);
+                  });
+                }
+
+                if (modalClose) modalClose.addEventListener('click', closeModal);
+                if (modalCancel) modalCancel.addEventListener('click', closeModal);
+                if (modalConfirm) {
+                  modalConfirm.addEventListener('click', function() {
+                    modalConfirm.innerText = 'Signature Verified ✓';
+                    modalConfirm.classList.remove('bg-primary-container');
+                    modalConfirm.classList.add('bg-tertiary-container', 'text-on-tertiary-container');
+                    setTimeout(function() {
+                      closeModal();
+                      modalConfirm.innerText = 'Authenticate Shard';
+                      modalConfirm.classList.add('bg-primary-container');
+                      modalConfirm.classList.remove('bg-tertiary-container', 'text-on-tertiary-container');
+                    }, 1000);
+                  });
+                }
+              })();
+            </script>
+        </main>
     </div>
-</main>
 
-<div th:replace="~{fragments/layout :: footer}"></div>
-
+    <!-- Firebase SDK Initialization -->
+    <script type="module" th:src="@{/js/firebase-init.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
 </body>
 </html>

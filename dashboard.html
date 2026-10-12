@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="web_dashboard" name="shell-type"/>
+    <title>AURAVAULT — Sovereign Custody & Private Reserve</title>
+    
+    <!-- Google Fonts & Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+        @layer base {
+            html, body { margin:0; padding:0; }
+            body { overscroll-behavior:none; }
+            main > :first-child { margin-top:0!important; }
+            main > :last-child { margin-bottom:0!important; }
+        }
+        ::-webkit-scrollbar { display:none; }
+        .font-serif-luxury { font-family: 'Newsreader', Georgia, serif; }
+        .font-sans-luxury { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    </style>
+
+    <!-- Tailwind CSS with Curated Swiss Vault Palette -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "primary-fixed-dim": "#e0c298",
+              "tertiary-container": "#30b8f3",
+              "on-primary-fixed": "#281800",
+              "on-secondary-fixed-variant": "#3f4756",
+              "on-surface-variant": "#d1c5b8",
+              "inverse-surface": "#dfe2eb",
+              "on-secondary-fixed": "#141c29",
+              "surface-bright": "#353940",
+              "tertiary-fixed": "#c4e7ff",
+              "surface-container-lowest": "#0a0e14",
+              "on-primary-fixed-variant": "#584323",
+              "inverse-on-surface": "#2d3137",
+              "on-secondary-container": "#b1b8cb",
+              "inverse-primary": "#725b38",
+              "on-surface": "#dfe2eb",
+              "on-secondary": "#29313f",
+              "on-tertiary-container": "#004660",
+              "secondary-container": "#414959",
+              "surface-dim": "#10141a",
+              "tertiary": "#7fd1ff",
+              "outline-variant": "#4d463c",
+              "primary": "#e2c399",
+              "surface-container": "#1c2026",
+              "surface-variant": "#31353c",
+              "on-error-container": "#ffdad6",
+              "on-tertiary": "#00354a",
+              "surface-container-high": "#262a31",
+              "error": "#ffb4ab",
+              "outline": "#998f83",
+              "on-error": "#690005",
+              "primary-container": "#c5a880",
+              "secondary-fixed": "#dbe2f6",
+              "on-tertiary-fixed-variant": "#004c69",
+              "on-tertiary-fixed": "#001e2c",
+              "background": "#10141a",
+              "on-primary-container": "#513d1d",
+              "on-primary": "#402d0f",
+              "secondary-fixed-dim": "#bfc7d9",
+              "error-container": "#93000a",
+              "primary-fixed": "#fedeb2",
+              "surface-tint": "#e0c298",
+              "surface-container-low": "#181c22",
+              "tertiary-fixed-dim": "#7bd0ff",
+              "secondary": "#bfc7d9",
+              "surface": "#10141a",
+              "on-background": "#dfe2eb",
+              "surface-container-highest": "#31353c"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.125rem",
+              "lg": "0.25rem",
+              "xl": "0.5rem",
+              "full": "0.75rem"
+            },
+            "spacing": {
+              "gutter-sm": "1rem",
+              "margin-lg": "4rem",
+              "space-sm": "0.5rem",
+              "gutter-lg": "2rem",
+              "gutter": "1.5rem",
+              "margin": "2.5rem",
+              "space-xl": "2.5rem",
+              "space-md": "1rem",
+              "margin-sm": "1.25rem",
+              "space-xs": "0.25rem",
+              "space-lg": "1.5rem"
+            },
+            "fontFamily": {
+              "headline-lg-mobile": ["Newsreader", "serif"],
+              "headline-md": ["Newsreader", "serif"],
+              "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+              "label-md": ["Plus Jakarta Sans", "sans-serif"],
+              "body-md": ["Plus Jakarta Sans", "sans-serif"],
+              "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+              "title-lg": ["Plus Jakarta Sans", "sans-serif"],
+              "headline-sm": ["Newsreader", "serif"],
+              "headline-lg": ["Newsreader", "serif"],
+              "title-md": ["Plus Jakarta Sans", "sans-serif"],
+              "display-lg-mobile": ["Newsreader", "serif"],
+              "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+              "display-lg": ["Newsreader", "serif"]
+            },
+            "fontSize": {
+              "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+              "headline-md": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+              "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+              "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+              "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+              "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+              "title-lg": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+              "headline-sm": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.005em", "fontWeight": "500" }],
+              "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.015em", "fontWeight": "400" }],
+              "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" }],
+              "display-lg-mobile": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.015em", "fontWeight": "400" }],
+              "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }],
+              "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "400" }]
+            }
+          }
+        }
+    };
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container">
+
+    <!-- Fixed Left Lateral Navigation Drawer (Swiss Sovereign Bank Spec) -->
+    <aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest z-50 flex flex-col justify-between py-space-xl px-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.3)] border-r border-surface-container-high/40">
+        <div class="flex flex-col gap-space-xl">
+            <!-- Brand Crest -->
+            <div class="flex flex-col gap-space-xs">
+                <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">GENÈVE • ZÜRICH</span>
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <h1 class="font-headline-sm text-headline-sm text-primary tracking-tight font-serif group-hover:text-primary-fixed transition-colors">AURAVAULT</h1>
+                </a>
+                <span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest uppercase">SOVEREIGN CUSTODY</span>
+            </div>
+
+            <!-- Vault Section Navigation -->
+            <nav class="flex flex-col gap-space-xs" id="nav-tabs">
+                <a href="#private-reserve" class="nav-item px-space-md py-space-sm rounded-lg transition-colors bg-surface-container-high text-primary font-bold flex items-center justify-between" data-tab="reserve">
+                    <span class="flex items-center gap-space-sm">
+                        <span class="material-symbols-outlined text-[18px]">account_balance</span>
+                        <span>Private Reserve</span>
+                    </span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                </a>
+                <a href="#time-lock" class="nav-item px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-colors flex items-center justify-between" data-tab="timelock">
+                    <span class="flex items-center gap-space-sm">
+                        <span class="material-symbols-outlined text-[18px]">timelapse</span>
+                        <span>Time-Lock Depository</span>
+                    </span>
+                    <span class="text-xs text-outline font-mono">14D</span>
+                </a>
+                <a href="#multi-sig" class="nav-item px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-colors flex items-center justify-between" data-tab="multisig">
+                    <span class="flex items-center gap-space-sm">
+                        <span class="material-symbols-outlined text-[18px]">group_work</span>
+                        <span>Multi-Sig Quorum</span>
+                    </span>
+                    <span class="text-xs text-tertiary font-mono">4/7</span>
+                </a>
+                <a href="#audit" class="nav-item px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-md text-title-md transition-colors flex items-center justify-between" data-tab="audit">
+                    <span class="flex items-center gap-space-sm">
+                        <span class="material-symbols-outlined text-[18px]">verified</span>
+                        <span>Institutional Audit</span>
+                    </span>
+                    <span class="text-xs text-primary font-mono">FINMA</span>
+                </a>
+            </nav>
+
+            <!-- External Navigation Quick Links -->
+            <div class="flex flex-col gap-space-xs pt-space-md border-t border-surface-container-high/40">
+                <a href="index.html" class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-body-sm text-body-sm transition-colors flex items-center gap-space-sm">
+                    <span class="material-symbols-outlined text-[16px]">home</span>
+                    <span>Platform Overview</span>
+                </a>
+                <a href="https://github.com/24eg105r65-glitch/crypto-wallet" target="_blank" class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-body-sm text-body-sm transition-colors flex items-center gap-space-sm">
+                    <i class="fab fa-github text-[14px]"></i>
+                    <span>Backend Repo (Spring)</span>
+                </a>
+                <a href="https://github.com/24eg105r65-glitch/crypto-wallet-frontend" target="_blank" class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-body-sm text-body-sm transition-colors flex items-center gap-space-sm">
+                    <i class="fab fa-github text-[14px]"></i>
+                    <span>Frontend Repo</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Enclave Hardware Health Strip -->
+        <div class="flex flex-col gap-space-sm bg-surface-container-low p-space-md rounded-lg border border-surface-container-high/40">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-space-xs">
+                    <span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-mono">Enclave Status</span>
+                </div>
+                <span class="text-[10px] text-tertiary font-mono bg-surface-container px-1 rounded">LIVE</span>
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface">Alpine Fort Knox Node VII Active</p>
+            <div class="flex items-center justify-between font-label-sm text-label-sm text-outline font-mono">
+                <span>Attestation: Hex-982F</span>
+                <span class="text-tertiary">FIPS 140-3</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area with Pl-72 Offset -->
+    <div class="pl-72">
+        <!-- Fixed Header Bar -->
+        <header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/85 backdrop-blur-xl z-40 flex items-center justify-between px-space-xl border-b border-surface-container-high/40 shadow-[0_1px_8px_rgba(0,0,0,0.1)]">
+            <div class="flex items-center gap-space-lg">
+                <div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-space-xs rounded-lg border border-surface-container-high/50">
+                    <span class="material-symbols-outlined text-tertiary text-[16px]">shield</span>
+                    <span class="font-label-sm text-label-sm text-on-surface tracking-wider uppercase">HSM Partition Verified</span>
+                </div>
+                <div class="hidden lg:flex items-center gap-space-xs">
+                    <span class="font-label-sm text-label-sm text-outline uppercase">Tier:</span>
+                    <span class="font-label-md text-label-md text-primary tracking-wide">Private Banking Client Tier 1</span>
+                </div>
+            </div>
+
+            <!-- Aggregated Valuation & User Profile Action -->
+            <div class="flex items-center gap-space-xl">
+                <div class="flex items-baseline gap-space-xs text-right">
+                    <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Aggregated Valuation:</span>
+                    <span class="font-headline-sm text-headline-sm text-on-surface tabular-nums font-mono" id="header-val">CHF 184,920,400.00</span>
+                </div>
+                <div class="flex items-center gap-space-sm">
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xs shadow-md" title="Adabala Pushkaran (24EG105R65)">
+                        <span>AP</span>
+                    </div>
+                    <span class="text-outline font-label-sm hidden md:inline">24EG105R65</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="w-full pt-16 px-space-xl bg-background min-h-screen">
+            <div class="flex flex-col w-full py-space-lg">
+                <!-- Ambient Illumination Accent -->
+                <div class="relative w-full pb-space-xl">
+                    <div class="absolute -top-12 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <!-- Contextual Breadcrumb & Monogram Overline -->
+                    <div class="flex items-center justify-between pb-space-lg">
+                        <div class="flex items-center gap-space-sm">
+                            <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">VAULT PROTOCOL 09 // SECTOR ZURICH-CENTRAL</span>
+                            <span class="w-1 h-1 rounded-full bg-outline"></span>
+                            <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">ATTESTATION ACTIVE (GEN-IV)</span>
+                        </div>
+                        <div class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-outline text-[15px]">lock</span>
+                            <span class="font-mono">COLD ISOLATION: 99.988% UP-AIRGAP</span>
+                        </div>
+                    </div>
+
+                    <!-- Valuation Ledger Main Frame (Editorial Hero) -->
+                    <div class="grid grid-cols-12 gap-gutter bg-surface-container-low rounded-xl p-space-xl shadow-2xl relative overflow-hidden border border-surface-container-high/60">
+                        <div class="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+                        <!-- Primary Valuation Column (8 cols) -->
+                        <div class="col-span-12 lg:col-span-8 flex flex-col justify-between">
+                            <div class="flex flex-col gap-space-sm">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">PORTFOLIO VALUATION BASELINE</span>
+                                    <div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-xs rounded border border-surface-container-high/40">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-tertiary-container animate-pulse"></span>
+                                        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-mono">ORACLE SYNCHRONIZED</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col pt-space-xs">
+                                    <div class="flex items-baseline gap-space-sm">
+                                        <span class="font-headline-lg text-headline-lg text-primary tabular-nums tracking-tight font-serif" id="hero-val-usd">$4,892,120.45</span>
+                                        <span class="font-title-md text-title-md text-outline uppercase font-mono">USD</span>
+                                    </div>
+                                    <div class="flex items-center gap-space-md pt-space-xs flex-wrap">
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">Eqv. <span class="font-title-md text-title-md text-on-surface tabular-nums font-mono" id="hero-val-chf">CHF 4,378,546.80</span></span>
+                                        <span class="text-outline text-body-sm">•</span>
+                                        <span class="font-label-sm text-label-sm text-tertiary tabular-nums tracking-wide font-mono">+3.42% 30-DAY WEIGHTED DELTA</span>
+                                        <span class="text-outline text-body-sm">•</span>
+                                        <span class="font-label-sm text-label-sm text-outline font-mono">Eqv. ₹40,84,92,057 INR</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hairline Partition Allocation Visualizer -->
+                            <div class="flex flex-col gap-space-md pt-space-xl">
+                                <div class="flex items-center justify-between font-label-sm text-label-sm">
+                                    <span class="text-outline uppercase tracking-wider">CUSTODIAL DISTRIBUTION TOPOLOGY</span>
+                                    <span class="text-on-surface-variant font-mono">HASH: 8F2A..C39E</span>
+                                </div>
+                                <!-- Micro Allocation Bar -->
+                                <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden flex gap-[2px] p-[1px]">
+                                    <div class="h-full bg-primary-container rounded-l-full transition-all duration-700 ease-out" style="width: 92.4%;" title="Swiss Alpine Bunkers (92.4%)"></div>
+                                    <div class="h-full bg-tertiary-container rounded-r-full transition-all duration-700 ease-out" style="width: 7.6%;" title="Liquid Rebalance Buffer (7.6%)"></div>
+                                </div>
+                                <!-- Allocation Metric Details -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter pt-space-xs">
+                                    <div class="flex flex-col gap-space-xs bg-surface-container/60 p-space-md rounded-lg border border-surface-container-high/40">
+                                        <div class="flex items-center gap-space-xs">
+                                            <span class="w-2 h-2 rounded-full bg-primary-container"></span>
+                                            <span class="font-label-sm text-label-sm text-on-surface tracking-wider uppercase">Swiss Alpine Bunkers</span>
+                                        </div>
+                                        <div class="flex items-baseline justify-between pt-space-xs">
+                                            <span class="font-headline-sm text-headline-sm text-on-surface tabular-nums font-mono">92.4%</span>
+                                            <span class="font-body-sm text-body-sm text-outline tabular-nums font-mono">$4,520,319.30</span>
+                                        </div>
+                                        <span class="font-label-sm text-label-sm text-outline">Class 4 Deep-Rock HSM Tier</span>
+                                    </div>
+                                    <div class="flex flex-col gap-space-xs bg-surface-container/60 p-space-md rounded-lg border border-surface-container-high/40">
+                                        <div class="flex items-center gap-space-xs">
+                                            <span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
+                                            <span class="font-label-sm text-label-sm text-on-surface tracking-wider uppercase">Liquid Rebalance Buffer</span>
+                                        </div>
+                                        <div class="flex items-baseline justify-between pt-space-xs">
+                                            <span class="font-headline-sm text-headline-sm text-on-surface tabular-nums font-mono">7.6%</span>
+                                            <span class="font-body-sm text-body-sm text-outline tabular-nums font-mono">$371,801.15</span>
+                                        </div>
+                                        <span class="font-label-sm text-label-sm text-outline">Multi-Sig MPC Quorum Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Editorial Facility Vignette & Cryptographic Proof Pane (4 cols) -->
+                        <div class="col-span-12 lg:col-span-4 flex flex-col justify-between bg-surface-container p-space-lg rounded-xl shadow-inner mt-space-lg lg:mt-0 border border-surface-container-high/60">
+                            <div class="flex flex-col gap-space-md">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-mono">FACILITY IDENTIFIER</span>
+                                    <span class="font-label-sm text-label-sm text-outline tabular-nums font-mono">ZUR-04</span>
+                                </div>
+                                <div class="relative w-full h-36 rounded-lg overflow-hidden shadow-md group">
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Swiss Alpine Granite Vault Airgapped Terminal" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80"/>
+                                    <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-surface-container/40 to-transparent"></div>
+                                    <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between">
+                                        <span class="font-label-sm text-label-sm text-on-surface font-semibold tracking-wider uppercase">Gotthard Subterranean Depository</span>
+                                        <span class="material-symbols-outlined text-tertiary text-[16px]">verified_user</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-space-xs pt-space-xs">
+                                    <div class="flex justify-between font-body-sm text-body-sm">
+                                        <span class="text-outline">Physical Shard Layer:</span>
+                                        <span class="text-on-surface font-mono text-xs">BIP-39 Tier-4 Pure Platinum</span>
+                                    </div>
+                                    <div class="flex justify-between font-body-sm text-body-sm">
+                                        <span class="text-outline">Consensus Threshold:</span>
+                                        <span class="text-on-surface font-mono text-xs">4 of 7 Trustees</span>
+                                    </div>
+                                    <div class="flex justify-between font-body-sm text-body-sm">
+                                        <span class="text-outline">Last External Attestation:</span>
+                                        <span class="text-on-surface tabular-nums font-mono text-xs">Today, 04:12 UTC</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tactile Audit Dispatch Actions -->
+                            <div class="flex flex-col gap-space-sm pt-space-lg">
+                                <button type="button" class="w-full bg-primary-container text-on-primary-container hover:bg-primary font-title-md text-title-md py-space-sm px-space-md rounded-lg flex items-center justify-center gap-space-xs transition-all shadow-md active:translate-y-px font-semibold" id="btn-dispatch">
+                                    <span class="material-symbols-outlined text-[18px]">key</span>
+                                    <span>Initiate Capital Dispatch</span>
+                                </button>
+                                <button type="button" class="w-full bg-surface-container-high hover:bg-surface-variant text-on-surface font-title-md text-title-md py-space-sm px-space-md rounded-lg flex items-center justify-center gap-space-xs transition-all shadow-sm active:translate-y-px" id="btn-cert">
+                                    <span class="material-symbols-outlined text-outline text-[18px]">assignment_turned_in</span>
+                                    <span>Request Physical Audit Certificate</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security & Telemetry Strip -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter pt-space-xl">
+                        <!-- Telemetry Unit 1 -->
+                        <div class="bg-surface-container-low p-space-lg rounded-xl shadow-sm flex flex-col gap-space-xs border border-surface-container-high/40">
+                            <div class="flex items-center justify-between">
+                                <span class="font-label-sm text-label-sm text-outline tracking-wider uppercase">HSM Hardware Partition</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+                            </div>
+                            <div class="flex items-baseline gap-space-xs pt-space-xs">
+                                <span class="font-headline-sm text-headline-sm text-on-surface font-serif">FIPS 140-3 Level 4</span>
+                            </div>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant pt-space-xs">Physical tamper envelope active with micro-pyrotechnic silicon purge protocol armed.</p>
+                        </div>
+                        <!-- Telemetry Unit 2 -->
+                        <div class="bg-surface-container-low p-space-lg rounded-xl shadow-sm flex flex-col gap-space-xs border border-surface-container-high/40">
+                            <div class="flex items-center justify-between">
+                                <span class="font-label-sm text-label-sm text-outline tracking-wider uppercase">ZK-Shard Integrity</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                            </div>
+                            <div class="flex items-baseline gap-space-xs pt-space-xs">
+                                <span class="font-headline-sm text-headline-sm text-on-surface font-serif">7 / 7 Shards Verified</span>
+                            </div>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant pt-space-xs">Cryptographic zero-knowledge verification completed across 3 distinct geolocations.</p>
+                        </div>
+                        <!-- Telemetry Unit 3 -->
+                        <div class="bg-surface-container-low p-space-lg rounded-xl shadow-sm flex flex-col gap-space-xs border border-surface-container-high/40">
+                            <div class="flex items-center justify-between">
+                                <span class="font-label-sm text-label-sm text-outline tracking-wider uppercase">Multi-Region Quorum</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                            </div>
+                            <div class="flex items-baseline gap-space-xs pt-space-xs">
+                                <span class="font-headline-sm text-headline-sm text-on-surface font-serif">Synchronous Consensus</span>
+                            </div>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant pt-space-xs">Zurich, Vaduz, and Geneva signer enclaves operational with optical fiber interconnects.</p>
+                        </div>
+                    </div>
+
+                    <!-- Curated Sovereign Holdings Ledger Section -->
+                    <div class="flex flex-col gap-space-md pt-space-xl">
+                        <div class="flex items-end justify-between">
+                            <div class="flex flex-col gap-space-xs">
+                                <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">SOVEREIGN ASSET INVENTORY</span>
+                                <h2 class="font-headline-md text-headline-md text-on-surface font-serif">Curated Reserve Ledger</h2>
+                            </div>
+                            <div class="hidden sm:flex items-center gap-space-sm">
+                                <button type="button" onclick="alert('Exporting cryptographically signed CSV audit manifest...')" class="bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-space-md py-space-xs rounded uppercase tracking-wider transition-colors border border-surface-container-high">
+                                    Audit Export (.CSV)
+                                </button>
+                                <button type="button" onclick="alert('Merkle Tree Root Hash: 0x8f2ac39e8841ba2094df83a2c091f82b7371')" class="bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-space-md py-space-xs rounded uppercase tracking-wider transition-colors border border-surface-container-high">
+                                    Merkle Proof
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Ledger Table Architecture -->
+                        <div class="bg-surface-container-low rounded-xl overflow-hidden shadow-xl border border-surface-container-high/60">
+                            <!-- Table Header -->
+                            <div class="grid grid-cols-12 px-space-lg py-space-md bg-surface-container font-label-sm text-label-sm text-outline tracking-wider uppercase border-b border-surface-container-high/50">
+                                <div class="col-span-4 sm:col-span-3">Asset &amp; Standard</div>
+                                <div class="col-span-3 sm:col-span-2 text-right">Holdings</div>
+                                <div class="col-span-3 sm:col-span-3 text-right">Valuation (USD)</div>
+                                <div class="hidden sm:block sm:col-span-2 text-right">Yield &amp; Performance</div>
+                                <div class="col-span-2 text-right">Custody Status</div>
+                            </div>
+
+                            <!-- Row 1: BTC Native SegWit -->
+                            <div class="grid grid-cols-12 px-space-lg py-space-lg items-center hover:bg-surface-container/70 transition-colors group cursor-pointer border-b border-surface-container-high/30">
+                                <div class="col-span-4 sm:col-span-3 flex items-center gap-space-md">
+                                    <div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-105 transition-transform border border-surface-container-high">
+                                        <i class="fab fa-bitcoin text-[22px]" style="color: #F7931A;"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="flex items-center gap-space-xs">
+                                            <span class="font-title-md text-title-md text-on-surface font-semibold">Bitcoin</span>
+                                            <span class="font-label-sm text-label-sm text-outline font-mono">BTC</span>
+                                        </div>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">Native SegWit (P2WPKH)</span>
+                                    </div>
+                                </div>
+                                <div class="col-span-3 sm:col-span-2 text-right flex flex-col">
+                                    <span class="font-title-md text-title-md text-on-surface tabular-nums font-mono font-semibold">48.25000000</span>
+                                    <span class="font-label-sm text-label-sm text-outline">Tier-1 Cold Vault</span>
+                                </div>
+                                <div class="col-span-3 sm:col-span-3 text-right flex flex-col">
+                                    <span class="font-title-md text-title-md text-on-surface tabular-nums font-mono font-semibold">$3,184,500.00</span>
+                                    <span class="font-body-sm text-body-sm text-on-surface-variant tabular-nums font-mono">@ $66,000.00 / BTC</span>
+                                </div>
+                                <div class="hidden sm:flex sm:col-span-2 flex-col items-end">
+                                    <span class="font-body-sm text-body-sm text-outline font-mono">Non-Yield Asset</span>
+                                    <span class="font-label-sm text-label-sm text-tertiary tabular-nums font-mono">+4.10% 7D</span>
+                                </div>
+                                <div class="col-span-2 flex flex-col items-end gap-space-xs">
+                                    <div class="flex items-center gap-space-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                        <span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Air-Gapped</span>
+                                    </div>
+                                    <span class="font-label-sm text-label-sm text-outline hidden md:inline font-mono">SIG-B94A</span>
+                                </div>
+                            </div>
+
+                            <!-- Row 2: Staked ETH -->
+                            <div class="grid grid-cols-12 px-space-lg py-space-lg items-center hover:bg-surface-container/70 transition-colors group cursor-pointer bg-surface-container-low/40 border-b border-surface-container-high/30">
+                                <div class="col-span-4 sm:col-span-3 flex items-center gap-space-md">
+                                    <div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-tertiary group-hover:scale-105 transition-transform border border-surface-container-high">
+                                        <i class="fab fa-ethereum text-[22px]" style="color: #627EEA;"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="flex items-center gap-space-xs">
+                                            <span class="font-title-md text-title-md text-on-surface font-semibold">Ethereum</span>
+                                            <span class="font-label-sm text-label-sm text-outline font-mono">stETH</span>
+                                        </div>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">Institutional Validator Quorum</span>
+                                    </div>
+                                </div>
+                                <div class="col-span-3 sm:col-span-2 text-right flex flex-col">
+                                    <span class="font-title-md text-title-md text-on-surface tabular-nums font-mono font-semibold">394.12000000</span>
+                                    <span class="font-label-sm text-label-sm text-outline">Dedicated Node 04</span>
+                                </div>
+                                <div class="col-span-3 sm:col-span-3 text-right flex flex-col">
+                                    <span class="font-title-md text-title-md text-on-surface tabular-nums font-mono font-semibold">$1,379,420.00</span>
+                                    <span class="font-body-sm text-body-sm text-on-surface-variant tabular-nums font-mono">@ $3,500.00 / ETH</span>
+                                </div>
+                                <div class="hidden sm:flex sm:col-span-2 flex-col items-end">
+                                    <span class="font-body-sm text-body-sm text-primary tabular-nums font-semibold font-mono">+3.85% APY</span>
+                                    <span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums font-mono">CHF 53,100 / yr</span>
+                                </div>
+                                <div class="col-span-2 flex flex-col items-end gap-space-xs">
+                                    <div class="flex items-center gap-space-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                                        <span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Compounding</span>
+                                    </div>
+                                    <span class="font-label-sm text-label-sm text-outline hidden md:inline font-mono">VAL-8812</span>
+                                </div>
+                            </div>
+
+                            <!-- Row 3: Institutional SOL -->
+                            <div class="grid grid-cols-12 px-space-lg py-space-lg items-center hover:bg-surface-container/70 transition-colors group cursor-pointer border-b border-surface-container-high/30">
+                                <div class="col-span-4 sm:col-span-3 flex items-center gap-space-md">
+                                    <div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-fixed group-hover:scale-105 transition-transform border border-surface-container-high">
+                                        <i class="fas fa-sun text-[22px]" style="color: #14F195;"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="flex items-center gap-space-xs">
+                                            <span class="font-title-md text-title-md text-on-surface font-semibold">Solana</span>
+                                            <span class="font-label-sm text-label-sm text-outline font-mono">SOL</span>
+                                        </div>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant">Institutional Timelock Stake</span>
+                                    </div>
+                                </div>
+                                <div class="col-span-3 sm:col-span-2 text-right flex flex-col">
+                                    <span class="font-title-md text-title-md text-on-surface tabular-nums font-mono font-semibold">2,285.00000000</span>
+                                    <span class="font-label-sm text-label-sm text-outline">Warm Custody Safe</span>
+                                </div>
+                                <div class="col-span-3 sm:col-span-3 text-right flex flex-col">
+                                    <span class="font-title-md text-title-md text-on-surface tabular-nums font-mono font-semibold">$328,200.45</span>
+                                    <span class="font-body-sm text-body-sm text-on-surface-variant tabular-nums font-mono">@ $143.63 / SOL</span>
+                                </div>
+                                <div class="hidden sm:flex sm:col-span-2 flex-col items-end">
+                                    <span class="font-body-sm text-body-sm text-primary tabular-nums font-semibold font-mono">+6.72% APY</span>
+                                    <span class="font-label-sm text-label-sm text-tertiary tabular-nums font-mono">+1.20% 7D</span>
+                                </div>
+                                <div class="col-span-2 flex flex-col items-end gap-space-xs">
+                                    <div class="flex items-center gap-space-xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                                        <span class="font-label-sm text-label-sm text-primary-container uppercase tracking-wider">Locked 14D</span>
+                                    </div>
+                                    <span class="font-label-sm text-label-sm text-outline hidden md:inline font-mono">EPOCH-692</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Depository Attestation & Cryptographic Manifest Footer Strip -->
+                    <div class="grid grid-cols-12 gap-gutter pt-space-xl items-center">
+                        <div class="col-span-12 lg:col-span-8 flex flex-col sm:flex-row items-start sm:items-center gap-space-lg bg-surface-container-low p-space-lg rounded-xl border border-surface-container-high/40">
+                            <div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center shrink-0 border border-surface-container-high/60">
+                                <span class="material-symbols-outlined text-primary text-[28px]">policy</span>
+                            </div>
+                            <div class="flex flex-col gap-space-xs">
+                                <div class="flex items-center gap-space-xs">
+                                    <span class="font-title-md text-title-md text-on-surface font-semibold">Independent Notarial Proof of Reserves</span>
+                                    <span class="font-label-sm text-label-sm text-outline font-mono">#901-ZH-2026</span>
+                                </div>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">Validated under FINMA Circular 2018/3 digital asset custody compliance standards by PricewaterhouseCoopers AG (Zurich) &amp; Adabala Pushkaran (24EG105R65).</p>
+                            </div>
+                        </div>
+                        <div class="col-span-12 lg:col-span-4 flex flex-col justify-center bg-surface-container-low p-space-lg rounded-xl border border-surface-container-high/40">
+                            <div class="flex items-center justify-between">
+                                <span class="font-label-sm text-label-sm text-outline tracking-wider uppercase">Next Scheduled Roll-Audit</span>
+                                <span class="font-label-sm text-label-sm text-tertiary font-mono">IN 18 HOURS</span>
+                            </div>
+                            <div class="flex items-center justify-between pt-space-sm">
+                                <span class="font-headline-sm text-headline-sm text-on-surface tabular-nums font-mono font-serif">04:00:00 CEST</span>
+                                <span class="material-symbols-outlined text-outline">schedule</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Dual-Custody Feedback Dialog -->
+            <div class="fixed inset-0 z-50 bg-surface-container-lowest/80 backdrop-blur-md hidden items-center justify-center p-space-md" id="modal-container">
+                <div class="bg-surface-container max-w-md w-full p-space-xl rounded-xl shadow-2xl flex flex-col gap-space-md relative border border-surface-container-high">
+                    <div class="flex items-center justify-between">
+                        <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-mono">TRANSACTION ESCROW</span>
+                        <button type="button" class="text-outline hover:text-on-surface" id="modal-close"><span class="material-symbols-outlined text-[20px]">close</span></button>
+                    </div>
+                    <div class="flex flex-col gap-space-xs">
+                        <h3 class="font-headline-sm text-headline-sm text-on-surface font-serif" id="modal-title">Dual-Custody Key Authorization</h3>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant" id="modal-desc">You are requesting a cryptographic verification sequence. Please connect your hardware security module or present physical trustee YubiKey.</p>
+                    </div>
+                    <div class="bg-surface-container-low p-space-md rounded-lg flex items-center justify-between font-mono text-body-sm text-outline border border-surface-container-high/50">
+                        <span>SESSION CHOP:</span>
+                        <span class="text-tertiary font-bold">91FA-28B0-EE1A-774C</span>
+                    </div>
+                    <div class="flex gap-space-sm pt-space-sm">
+                        <button type="button" class="w-full bg-primary-container text-on-primary-container font-title-md text-title-md py-space-sm rounded-lg hover:bg-primary transition-colors font-semibold" id="modal-confirm">Authenticate Shard</button>
+                        <button type="button" class="w-full bg-surface-container-high text-on-surface font-title-md text-title-md py-space-sm rounded-lg hover:bg-surface-variant transition-colors" id="modal-cancel">Abort</button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+              (function() {
+                const modal = document.getElementById('modal-container');
+                const btnDispatch = document.getElementById('btn-dispatch');
+                const btnCert = document.getElementById('btn-cert');
+                const modalClose = document.getElementById('modal-close');
+                const modalCancel = document.getElementById('modal-cancel');
+                const modalConfirm = document.getElementById('modal-confirm');
+                const modalTitle = document.getElementById('modal-title');
+                const modalDesc = document.getElementById('modal-desc');
+
+                function openModal(title, desc) {
+                  if (!modal) return;
+                  modalTitle.innerText = title;
+                  modalDesc.innerText = desc;
+                  modal.classList.remove('hidden');
+                  modal.classList.add('flex');
+                }
+
+                function closeModal() {
+                  if (!modal) return;
+                  modal.classList.add('hidden');
+                  modal.classList.remove('flex');
+                }
+
+                if (btnDispatch) {
+                  btnDispatch.addEventListener('click', function() {
+                    openModal('Capital Dispatch Challenge', 'Sovereign transfer initiation requires synchronous approval from 4 of 7 multi-sig trustees. A cryptographic challenge packet has been formulated for Gotthard HSM Node VII.');
+                  });
+                }
+
+                if (btnCert) {
+                  btnCert.addEventListener('click', function() {
+                    openModal('Physical Audit Certificate', 'Generates a tamper-evident cryptographically signed attestation backed by Alpine Cold Storage Node VII hardware proof for Adabala Pushkaran (24EG105R65).');
+                  });
+                }
+
+                if (modalClose) modalClose.addEventListener('click', closeModal);
+                if (modalCancel) modalCancel.addEventListener('click', closeModal);
+                if (modalConfirm) {
+                  modalConfirm.addEventListener('click', function() {
+                    modalConfirm.innerText = 'Signature Verified ✓';
+                    modalConfirm.classList.remove('bg-primary-container');
+                    modalConfirm.classList.add('bg-tertiary-container', 'text-on-tertiary-container');
+                    setTimeout(function() {
+                      closeModal();
+                      modalConfirm.innerText = 'Authenticate Shard';
+                      modalConfirm.classList.add('bg-primary-container');
+                      modalConfirm.classList.remove('bg-tertiary-container', 'text-on-tertiary-container');
+                    }, 1000);
+                  });
+                }
+              })();
+            </script>
+        </main>
+    </div>
+
+    <!-- Firebase SDK Initialization -->
+    <script type="module" src="js/firebase-init.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
