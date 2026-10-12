@@ -138,13 +138,13 @@
             </nav>
 
             <!-- Actions & Sovereign Vault Link -->
-            <div class="hidden md:flex items-center gap-4">
+            <div class="hidden md:flex items-center gap-3" id="nav-auth-actions">
                 <a href="dashboard.html" class="text-xs font-mono text-text-muted hover:text-accent transition-colors flex items-center gap-1.5 px-2.5 py-1 rounded bg-bg-surface border border-border">
                     <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
                     <span>Sovereign Vault UI</span>
                 </a>
-                <a href="#get-started" class="text-sm font-semibold text-text-primary hover:text-accent transition-colors">Log in</a>
-                <a href="#get-started" class="text-xs font-semibold uppercase tracking-wider bg-accent text-bg-main px-4 py-2 rounded-lg hover:bg-accent-dim transition-all shadow-sm font-display">
+                <a href="login.html" class="text-sm font-semibold text-text-primary hover:text-accent transition-colors px-2">Log in</a>
+                <a href="register.html" class="text-xs font-semibold uppercase tracking-wider bg-accent text-bg-main px-4 py-2 rounded-lg hover:bg-accent-dim transition-all shadow-sm font-display">
                     Start tracking
                 </a>
             </div>
@@ -159,7 +159,7 @@
 
         <!-- Mobile Drawer -->
         <div id="mobile-menu" class="hidden md:hidden pt-4 pb-6 px-4 bg-bg-secondary border-t border-border mt-3 rounded-b-2xl">
-            <div class="flex flex-col gap-4 text-sm font-medium text-text-secondary">
+            <div class="flex flex-col gap-3 text-sm font-medium text-text-secondary">
                 <a href="#product" class="hover:text-text-primary py-1">Product</a>
                 <a href="#features" class="hover:text-text-primary py-1">Features</a>
                 <a href="#simulator" class="hover:text-text-primary py-1">Savings Simulator</a>
@@ -168,7 +168,8 @@
                 <a href="#faq" class="hover:text-text-primary py-1">FAQ</a>
                 <a href="dashboard.html" class="text-accent py-1">Sovereign Vault Depository →</a>
                 <div class="pt-2 flex flex-col gap-2">
-                    <a href="#get-started" class="w-full text-center bg-accent text-bg-main py-2.5 rounded-lg font-semibold font-display">Start tracking free</a>
+                    <a href="login.html" class="w-full text-center bg-bg-surface border border-border py-2.5 rounded-lg font-semibold font-display text-text-primary">Sign in to Account</a>
+                    <a href="register.html" class="w-full text-center bg-accent text-bg-main py-2.5 rounded-lg font-semibold font-display">Start tracking free</a>
                 </div>
             </div>
         </div>
@@ -197,12 +198,12 @@
 
                     <!-- CTAs -->
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-                        <a href="#get-started" class="inline-flex items-center justify-center gap-2 bg-accent text-bg-main font-display font-bold text-base px-6 py-3.5 rounded-xl hover:bg-accent-dim transition-all shadow-[0_4px_24px_rgba(121,230,160,0.25)] active:translate-y-px">
+                        <a href="register.html" class="inline-flex items-center justify-center gap-2 bg-accent text-bg-main font-display font-bold text-base px-6 py-3.5 rounded-xl hover:bg-accent-dim transition-all shadow-[0_4px_24px_rgba(121,230,160,0.25)] active:translate-y-px">
                             <span>Start tracking free</span>
                             <i class="fas fa-arrow-right text-xs"></i>
                         </a>
-                        <a href="#features" class="inline-flex items-center justify-center gap-2 bg-bg-surface hover:bg-bg-elevated text-text-primary font-display font-semibold text-base px-6 py-3.5 rounded-xl border border-border transition-all">
-                            <span>Explore features</span>
+                        <a href="#simulator" class="inline-flex items-center justify-center gap-2 bg-bg-surface hover:bg-bg-elevated text-text-primary font-display font-semibold text-base px-6 py-3.5 rounded-xl border border-border transition-all">
+                            <span>See how it works</span>
                         </a>
                     </div>
 
@@ -879,13 +880,35 @@
             });
         });
 
-        // 5. CTA Form Feedback
+        // 5. CTA Form Redirect to Register
         function handleCtaSubmit(e) {
             e.preventDefault();
-            const email = document.getElementById('cta-email').value;
-            alert(`Welcome to CryptoWallet! An invite has been dispatched to ${email}. Redirecting to live tracking workspace...`);
-            window.location.href = 'dashboard.html';
+            const email = document.getElementById('cta-email').value.trim();
+            window.location.href = `register.html?email=${encodeURIComponent(email)}`;
         }
+
+        // 6. Check Active Session
+        window.addEventListener('DOMContentLoaded', () => {
+            const sessionStr = localStorage.getItem('cryptowallet_session');
+            if (sessionStr) {
+                try {
+                    const session = JSON.parse(sessionStr);
+                    const navActions = document.getElementById('nav-auth-actions');
+                    if (navActions) {
+                        navActions.innerHTML = `
+                            <a href="dashboard.html" class="text-xs font-mono text-accent hover:text-white transition-colors flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg-surface border border-accent/30 shadow-sm">
+                                <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                                <span class="font-semibold">${session.fullName || session.username}</span>
+                                <span class="text-text-muted">→</span>
+                            </a>
+                            <a href="logout.html" class="text-xs text-text-muted hover:text-negative transition-colors ml-1" title="Sign out">
+                                <i class="fas fa-arrow-right-from-bracket"></i>
+                            </a>
+                        `;
+                    }
+                } catch(err) {}
+            }
+        });
     </script>
 </body>
 </html>

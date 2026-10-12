@@ -293,13 +293,13 @@
                 </div>
                 <div class="flex items-center gap-space-sm">
                     <a th:href="@{/profile}" href="#profile" onclick="showToast('Lead Engineer: Adabala Pushkaran (24EG105R65) — Session Active')" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xs shadow-md cursor-pointer hover:scale-105 transition-transform" title="Account Settings">
-                        <span th:text="${user != null ? #strings.substring(user.fullName, 0, 1) : 'AP'}">AP</span>
+                        <span id="user-display-initials" th:text="${user != null ? #strings.substring(user.fullName, 0, 1) : 'AP'}">AP</span>
                     </a>
                     <div class="flex flex-col text-left">
-                        <span class="font-label-sm text-on-surface font-semibold leading-tight" th:text="${user != null ? user.fullName : 'Pushkaran'}">Pushkaran</span>
-                        <span class="text-[10px] text-outline font-mono">24EG105R65</span>
+                        <span id="user-display-name" class="font-label-sm text-on-surface font-semibold leading-tight" th:text="${user != null ? user.fullName : 'Pushkaran'}">Pushkaran</span>
+                        <span id="user-display-role" class="text-[10px] text-outline font-mono">24EG105R65</span>
                     </div>
-                    <a th:href="@{/logout}" href="javascript:void(0)" onclick="showToast('Session invalidated securely.')" class="text-outline hover:text-on-surface p-1 transition-colors ml-2" title="Secure Logout">
+                    <a href="javascript:void(0)" onclick="performLogout()" class="text-outline hover:text-error p-1 transition-colors ml-2 cursor-pointer" title="Secure Logout">
                         <span class="material-symbols-outlined text-[20px]">logout</span>
                     </a>
                 </div>
@@ -1439,10 +1439,35 @@
             showToast("Downloaded auravault_audit_manifest.csv", "teal");
         }
 
+        function performLogout() {
+            localStorage.removeItem('cryptowallet_session');
+            showToast("Session invalidated securely. Redirecting to sign in...", "teal");
+            setTimeout(() => {
+                window.location.href = 'logout.html';
+            }, 600);
+        }
+
         // Auto initialize on load
         window.addEventListener('DOMContentLoaded', () => {
             loadState();
             renderAll();
+
+            // Check active session
+            const sessionStr = localStorage.getItem('cryptowallet_session');
+            if (sessionStr) {
+                try {
+                    const session = JSON.parse(sessionStr);
+                    const nameEl = document.getElementById('user-display-name');
+                    const roleEl = document.getElementById('user-display-role');
+                    const initialsEl = document.getElementById('user-display-initials');
+                    if (nameEl && session.fullName) nameEl.innerText = session.fullName;
+                    if (roleEl && session.role) roleEl.innerText = session.role === 'ROLE_ADMIN' ? 'CITADEL ROOT' : 'CLIENT TIER 1';
+                    if (initialsEl && session.fullName) {
+                        const parts = session.fullName.trim().split(' ');
+                        initialsEl.innerText = parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].substring(0, 2).toUpperCase();
+                    }
+                } catch(e) {}
+            }
         });
     </script>
 </body>
