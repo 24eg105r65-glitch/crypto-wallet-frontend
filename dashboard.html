@@ -254,7 +254,7 @@
                 <!-- Prominent Sidebar Logout Button -->
                 <a href="logout.html" onclick="performLogout(event)" id="sidebar-logout-btn" class="px-space-md py-2.5 rounded-lg bg-error/15 hover:bg-error/25 text-error font-body-sm transition-all flex items-center justify-between border border-error/30 cursor-pointer mt-1 group shadow-sm active:translate-y-px" title="Secure Exit / Logout">
                     <span class="flex items-center gap-space-sm font-semibold">
-                        <span class="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 transition-transform">logout</span>
+                        <span class="material-symbols-outlined text-[20px] group-hover:translate-x-0.5 transition-transform">logout</span>
                         <span>Sign Out / Log Out</span>
                     </span>
                     <span class="text-[10px] bg-error/20 text-error px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">EXIT</span>
@@ -335,7 +335,7 @@
                             </button>
                             <div class="border-t border-surface-container-high/60 my-1"></div>
                             <a href="logout.html" onclick="performLogout(event)" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-error/15 text-xs text-error flex items-center gap-2 cursor-pointer font-semibold">
-                                <span class="material-symbols-outlined text-[16px]">logout</span>
+                                <span class="material-symbols-outlined text-[20px]">logout</span>
                                 <span>Sign Out / Disconnect</span>
                             </a>
                         </div>
@@ -343,7 +343,7 @@
 
                     <!-- Header Direct Logout Button -->
                     <a href="logout.html" onclick="performLogout(event)" id="header-logout-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-error/15 hover:bg-error/25 text-error border border-error/30 transition-all font-mono text-xs font-bold cursor-pointer shadow-sm active:translate-y-px" title="Secure Exit / Logout">
-                        <span class="material-symbols-outlined text-[16px]">logout</span>
+                        <span class="material-symbols-outlined text-[20px]">logout</span>
                         <span class="hidden sm:inline">Log Out</span>
                     </a>
                 </div>
@@ -1606,11 +1606,21 @@
             } catch(err) {
                 console.error(err);
             }
-            showToast("Session cleared securely. Redirecting to sign in...", "teal");
-            setTimeout(() => {
-                window.location.href = 'logout.html';
-            }, 250);
+            window.location.replace('logout.html');
         }
+
+        // Global capture listener ensuring ANY click on a logout element navigates instantly
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('#header-logout-btn, #sidebar-logout-btn, [href*="logout"], [onclick*="Logout"], [onclick*="logout"]');
+            const isLogoutSpan = e.target.classList && e.target.classList.contains('material-symbols-outlined') && e.target.innerText.trim().toLowerCase() === 'logout';
+            if (btn || isLogoutSpan) {
+                try {
+                    localStorage.removeItem('cryptowallet_session');
+                    sessionStorage.clear();
+                } catch(err) {}
+                window.location.replace('logout.html');
+            }
+        }, true);
 
         function toggleUserDropdown() {
             const d = document.getElementById('user-dropdown');
